@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="logo2.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews — O Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--r2:12px;--nav-bg:#131921;}
+    html{scroll-behavior:smooth}
+    body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px}
+    #topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
+    #topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s}
+    .nav-logo:hover{border-color:#fff}
+    .nav-search{flex:1;display:flex;height:44px;margin:0 12px;border-radius:50px;overflow:hidden;min-width:0;background:#fff;border:2px solid transparent;transition:border-color .2s;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+    .nav-search:focus-within{border-color:var(--red)}
+    .search-icon-left{display:flex;align-items:center;padding:0 14px;background:#fff;color:#888;flex-shrink:0}
+    .search-input-nav{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#111;background:#fff;padding:0 8px;min-width:0}
+    .search-input-nav::placeholder{color:#999}
+    .search-go{background:#fff;border:none;padding:0 18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee}
+    .nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap}
+    .nav-item:hover{border-color:#fff}
+    .ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+    .ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+    .nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s}
+    .nav-cart-link:hover{border-color:#fff}
+    .cart-icon-wrap{position:relative;display:inline-flex}
+    #nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center}
+    .cart-label{font-size:13px;font-weight:700;color:#fff;padding-bottom:3px}
+
+    /* PAGE */
+    .rev-wrap{max-width:980px;margin:0 auto;padding:28px 48px 80px}
+    .breadcrumb{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:28px}
+    .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s}
+    .breadcrumb a:hover{color:var(--red)}
+    .breadcrumb span{color:var(--text);font-weight:500}
+
+    /* PRODUCT HERO */
+    .prod-hero{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:24px 28px;display:flex;align-items:center;gap:22px;margin-bottom:32px;text-decoration:none;color:var(--text);transition:border-color .2s;position:relative;overflow:hidden}
+    .prod-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 50%,rgba(212,13,13,.05) 0%,transparent 65%);pointer-events:none}
+    .prod-hero:hover{border-color:rgba(212,13,13,.35)}
+    .ph-emoji{font-size:64px;flex-shrink:0;filter:drop-shadow(0 4px 16px rgba(0,0,0,.4))}
+    .ph-info{flex:1}
+    .ph-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--red);margin-bottom:6px}
+    .ph-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px;line-height:1.1}
+    .ph-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+    .ph-price{font-size:22px;font-weight:700;color:var(--red)}
+    .ph-price span{font-size:12px;font-weight:400;color:var(--muted)}
+    .ph-back{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0;padding:10px 16px;border:1px solid var(--border);border-radius:50px;transition:all .2s;white-space:nowrap}
+    .prod-hero:hover .ph-back{border-color:rgba(212,13,13,.4);color:var(--red)}
+
+    /* RATING OVERVIEW */
+    .rating-panel{display:grid;grid-template-columns:180px 1fr;gap:0;background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:24px}
+    .rp-left{padding:32px 24px;text-align:center;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(212,13,13,.03)}
+    .rp-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:700;color:var(--text);line-height:1}
+    .rp-stars{font-size:20px;color:var(--gold);letter-spacing:3px;margin:8px 0}
+    .rp-count{font-size:12px;color:var(--muted)}
+    .rp-right{padding:24px 28px;display:flex;flex-direction:column;justify-content:center;gap:10px}
+    .bar-row{display:flex;align-items:center;gap:12px;font-size:12px}
+    .bar-label{color:var(--muted);min-width:28px;text-align:right;flex-shrink:0;font-weight:600}
+    .bar-track{flex:1;height:9px;background:var(--bg3);border-radius:5px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--gold),#f0c55a);transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+    .bar-pct{color:var(--muted);min-width:32px;font-size:11px;text-align:right}
+    .bar-count{color:var(--muted);font-size:11px;min-width:40px}
+
+    /* FILTER */
+    .filter-row{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+    .ftab{padding:8px 20px;border-radius:50px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;transition:all .2s;cursor:pointer}
+    .ftab:hover{border-color:var(--red);color:var(--red)}
+    .ftab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+
+    /* WRITE REVIEW */
+    .write-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:26px;margin-bottom:28px}
+    .wb-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+    .wb-stars{display:flex;gap:8px;margin-bottom:16px}
+    .wstar{font-size:30px;color:var(--muted);transition:color .12s,transform .12s;cursor:pointer;user-select:none}
+    .wstar:hover,.wstar.lit{color:var(--gold);transform:scale(1.18)}
+    .wb-textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:14px 16px;font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);resize:vertical;min-height:100px;transition:border-color .2s;margin-bottom:14px}
+    .wb-textarea:focus{outline:none;border-color:var(--red)}
+    .wb-textarea::placeholder{color:var(--muted)}
+    .wb-row{display:flex;gap:12px;align-items:center}
+    .wb-name{flex:1;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:12px 14px;font-family:'Outfit',sans-serif;font-size:13px;color:var(--text);transition:border-color .2s}
+    .wb-name:focus{outline:none;border-color:var(--red)}
+    .wb-name::placeholder{color:var(--muted)}
+    .btn-post{background:var(--red);color:#fff;border:none;border-radius:var(--r2);padding:12px 28px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;transition:all .2s;flex-shrink:0;cursor:pointer;box-shadow:0 0 20px rgba(212,13,13,.2)}
+    .btn-post:hover{background:var(--red2);transform:translateY(-1px)}
+
+    /* REVIEW CARDS */
+    .rev-list{display:flex;flex-direction:column;gap:14px}
+    .rev-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px 24px;transition:border-color .2s;animation:fadeUp .35s ease both}
+    .rev-card:hover{border-color:rgba(212,13,13,.2)}
+    .rc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap}
+    .rc-left{display:flex;align-items:center;gap:12px}
+    .rc-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(212,13,13,.2),rgba(212,13,13,.05));border:1px solid rgba(212,13,13,.2);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--red);flex-shrink:0}
+    .rc-name{font-weight:700;font-size:14px;margin-bottom:3px}
+    .rc-stars{color:var(--gold);font-size:13px;letter-spacing:1px}
+    .rc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+    .rc-date{font-size:11px;color:var(--muted)}
+    .rc-verified{font-size:10px;font-weight:600;color:#6BCF7F;background:rgba(45,106,53,.15);border:1px solid rgba(45,106,53,.25);border-radius:50px;padding:2px 9px}
+    .rc-size{font-size:11px;color:var(--muted);background:var(--bg2);border:1px solid var(--border);border-radius:50px;padding:3px 10px;display:inline-block;margin-bottom:10px}
+    .rc-body{font-size:14px;line-height:1.7;color:var(--text);opacity:.88;margin-bottom:14px}
+    .rc-foot{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+    .helpful-btn{background:var(--bg2);border:1px solid var(--border);border-radius:50px;padding:4px 14px;font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);transition:all .2s;cursor:pointer}
+    .helpful-btn:hover,.helpful-btn.voted{background:rgba(212,13,13,.1);border-color:rgba(212,13,13,.3);color:var(--red)}
+
+    /* LOAD MORE */
+    .load-more-btn{width:100%;background:var(--card);border:1px solid var(--border);border-radius:var(--r2);padding:14px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;color:var(--muted);transition:all .2s;margin-top:20px;cursor:pointer}
+    .load-more-btn:hover{border-color:var(--red);color:var(--red)}
+
+    /* EMPTY */
+    .no-reviews{text-align:center;padding:60px 20px;color:var(--muted)}
+    .no-reviews div{font-size:48px;margin-bottom:14px}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:50px;padding:13px 28px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9998;pointer-events:none;transition:transform .35s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+    #toast.show{transform:translateX(-50%) translateY(0)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+    @media(max-width:700px){
+      .rev-wrap{padding:16px 20px 60px}
+      .rating-panel{grid-template-columns:1fr}
+      .rp-left{border-right:none;border-bottom:1px solid var(--border);flex-direction:row;gap:20px;padding:20px 24px}
+      .prod-hero{flex-wrap:wrap}
+      .ph-back{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<div id="topnav-wrapper">
+  <nav id="topnav">
+    <a href="memu.html" class="nav-logo">
+      <img src="logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;"
+        onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'">
+    </a>
+    <div class="nav-search">
+      <div class="search-icon-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <input type="text" class="search-input-nav" placeholder="Search products..." autocomplete="off"/>
+      <button class="search-go">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <a href="javascript:void(0)" onclick="requireLogin('profile.html')" class="nav-item" id="nav-user-li">
+      <span class="ni-top">Hello, sign in</span>
+      <span class="ni-bot">Account &amp; Lists</span>
+    </a>
+    <a href="javascript:void(0)" onclick="requireLogin('cart.html')" class="nav-cart-link">
+      <div class="cart-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span id="nav-badge"></span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+  </nav>
+</div>
+
+<div class="rev-wrap">
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> ›
+    <a href="#" id="bc-cat">Category</a> ›
+    <a href="#" id="bc-prod">Product</a> ›
+    <span>Reviews</span>
+  </div>
+
+  <!-- PRODUCT HERO -->
+  <a href="#" id="prod-hero-link" class="prod-hero">
+    <div class="ph-emoji" id="ph-emoji">🍋</div>
+    <div class="ph-info">
+      <div class="ph-cat" id="ph-cat">Pickles</div>
+      <div class="ph-name" id="ph-name">Product Name</div>
+      <div class="ph-desc" id="ph-desc">—</div>
+      <div class="ph-price" id="ph-price">₹149 <span>onwards</span></div>
+    </div>
+    <div class="ph-back">← Back to product</div>
+  </a>
+
+  <!-- RATING OVERVIEW -->
+  <div class="rating-panel">
+    <div class="rp-left">
+      <div>
+        <div class="rp-big" id="rp-big">4.5</div>
+        <div class="rp-stars" id="rp-stars">★★★★½</div>
+        <div class="rp-count" id="rp-count">0 ratings</div>
+      </div>
+    </div>
+    <div class="rp-right" id="rp-bars"></div>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="filter-row">
+    <button class="ftab active" onclick="filterRevs('all',this)">All Reviews</button>
+    <button class="ftab" onclick="filterRevs(5,this)">★★★★★ 5 Star</button>
+    <button class="ftab" onclick="filterRevs(4,this)">★★★★☆ 4 Star</button>
+    <button class="ftab" onclick="filterRevs(3,this)">★★★☆☆ 3 Star</button>
+    <button class="ftab" onclick="filterRevs('critical',this)">Critical (1–2)</button>
+  </div>
+
+  <!-- WRITE A REVIEW -->
+  <div class="write-box">
+    <div class="wb-title">✍️ Write a Review</div>
+    <div class="wb-stars" id="wb-stars">
+      <span class="wstar" data-val="1" onclick="setRating(1)">★</span>
+      <span class="wstar" data-val="2" onclick="setRating(2)">★</span>
+      <span class="wstar" data-val="3" onclick="setRating(3)">★</span>
+      <span class="wstar" data-val="4" onclick="setRating(4)">★</span>
+      <span class="wstar" data-val="5" onclick="setRating(5)">★</span>
+    </div>
+    <textarea class="wb-textarea" id="wr-text" placeholder="Share your experience with this product..."></textarea>
+    <div class="wb-row">
+      <input type="text" class="wb-name" id="wr-name" placeholder="Your name (optional)">
+      <button class="btn-post" onclick="submitReview()">Post Review</button>
+    </div>
+  </div>
+
+  <!-- REVIEW LIST -->
+  <div class="rev-list" id="rev-list"></div>
+  <button class="load-more-btn" id="load-more-btn" onclick="loadMore()" style="display:none">Load more reviews ↓</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── ALL 49 PRODUCTS (matching menu + product pages) ──────────────────────────
+const ALL_PRODUCTS = [
+  // VEG PICKLES
+  {id:1,  name:'Tomato Pickle',               emoji:'🍅', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil.',                       badge:'Popular',    rating:4.4, sold:'5K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:2,  name:'Mango Pickle',                emoji:'🥭', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.',                 badge:'Bestseller', rating:4.5, sold:'8K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:3,  name:'Ripe Red Chilli Pickle',      emoji:'🌶️', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Bold ripe red chilli pickle with gingelly oil and mustard seeds.',                          badge:'Spicy',      rating:4.3, sold:'4K+',  sizes:[{label:'250g',price:109},{label:'500g',price:189},{label:'1kg',price:349}]},
+  {id:4,  name:'Ginger Pickle',               emoji:'🫚', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Zesty ginger pickle in a tangy tamarind and chilli base.',                                  badge:'Classic',    rating:4.2, sold:'3K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:5,  name:'Tomato & Red Chilli Pickle',  emoji:'🍅', cat:'pickles',  catLabel:'Veg Pickle',       desc:'A fiery blend of tomato and red chilli in traditional brine.',                              badge:'Spicy',      rating:4.4, sold:'5K+',  sizes:[{label:'250g',price:109},{label:'500g',price:189},{label:'1kg',price:349}]},
+  {id:6,  name:'Gongura & Red Chilli Pickle', emoji:'🌿', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Sorrel leaf and red chilli pickle — bold, sour and addictive.',                             badge:'Spicy',      rating:4.6, sold:'7K+',  sizes:[{label:'250g',price:109},{label:'500g',price:189},{label:'1kg',price:349}]},
+  {id:7,  name:'Lemon Pickle',                emoji:'🍋', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.',                            badge:'Classic',    rating:4.3, sold:'5K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:8,  name:'Amla Pickle',                 emoji:'🫒', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Indian gooseberry pickle with mustard, chilli and spices.',                                 badge:'Healthy',    rating:4.2, sold:'3K+',  sizes:[{label:'250g',price:109},{label:'500g',price:189},{label:'1kg',price:349}]},
+  {id:9,  name:'Coriander & Mint Pickle',     emoji:'🌱', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Fresh coriander and mint blended into a vibrant aromatic pickle.',                          badge:'New',        rating:4.0, sold:'2K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:10, name:'Gongura Pickle (Sorrel)',      emoji:'🍃', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Classic gongura sorrel leaf pickle with dry red chillies & sesame.',                        badge:'Bestseller', rating:4.7, sold:'12K+', sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:11, name:'Broad Beans (Chikkudukaaya)', emoji:'🫘', cat:'pickles',  catLabel:'Veg Pickle',       desc:'Fresh broad bean pickle slow-marinated with mustard and spices.',                           badge:'Seasonal',   rating:4.1, sold:'2K+',  sizes:[{label:'250g',price:129},{label:'500g',price:219},{label:'1kg',price:399}]},
+  // NON-VEG PICKLES
+  {id:12, name:'Chicken Pickle (With Bones)', emoji:'🍗', cat:'pickles',  catLabel:'Non-Veg Pickle',   desc:'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.',                   badge:'Spicy',      rating:4.6, sold:'6K+',  sizes:[{label:'250g',price:319},{label:'500g',price:549},{label:'1kg',price:999}]},
+  {id:13, name:'Chicken Pickle (Boneless)',   emoji:'🍖', cat:'pickles',  catLabel:'Non-Veg Pickle',   desc:'Tender boneless chicken chunks in a fiery red chilli & gingelly oil base.',                 badge:'Bestseller', rating:4.7, sold:'9K+',  sizes:[{label:'250g',price:379},{label:'500g',price:659},{label:'1kg',price:1199}]},
+  {id:14, name:'Prawns Pickle',               emoji:'🦐', cat:'pickles',  catLabel:'Non-Veg Pickle',   desc:'Juicy prawns marinated in coastal Andhra spices — tangy and bold.',                         badge:'Premium',    rating:4.5, sold:'4K+',  sizes:[{label:'250g',price:529},{label:'500g',price:929},{label:'1kg',price:1699}]},
+  {id:15, name:'Mutton Pickle',               emoji:'🥩', cat:'pickles',  catLabel:'Non-Veg Pickle',   desc:'Slow-cooked mutton pieces in a rich spicy pickle masala.',                                  badge:'Special',    rating:4.6, sold:'5K+',  sizes:[{label:'250g',price:679},{label:'500g',price:1199},{label:'1kg',price:2199}]},
+  // MASALA POWDERS
+  {id:30, name:'Coriander Powder',            emoji:'🟢', cat:'spices',   catLabel:'Masala Powder',    desc:'Freshly ground coriander seeds — aromatic and earthy for everyday cooking.',                badge:'Essential',  rating:4.2, sold:'5K+',  sizes:[{label:'100g',price:69},{label:'250g',price:149},{label:'500g',price:269},{label:'1kg',price:499}]},
+  {id:31, name:'Garam Masala Powder',         emoji:'✨', cat:'spices',   catLabel:'Masala Powder',    desc:'Whole spices stone-ground: cloves, cinnamon, cardamom & black pepper.',                     badge:'Bestseller', rating:4.6, sold:'10K+', sizes:[{label:'100g',price:75},{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  {id:32, name:'Sambar Masala Powder',        emoji:'🟤', cat:'spices',   catLabel:'Masala Powder',    desc:'Authentic homestyle blend with coriander, cumin, curry leaves & dry chilli.',                badge:'Classic',    rating:4.4, sold:'7K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:33, name:'Rasam Powder',                emoji:'🌿', cat:'spices',   catLabel:'Masala Powder',    desc:'Tangy, peppery rasam spice blend for authentic South Indian soup.',                         badge:'Popular',    rating:4.3, sold:'4K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:34, name:'Chicken Masala Powder',       emoji:'🍗', cat:'spices',   catLabel:'Masala Powder',    desc:'Bold aromatic masala blend crafted for chicken curries and biryanis.',                      badge:'Bestseller', rating:4.5, sold:'8K+',  sizes:[{label:'100g',price:75},{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  {id:35, name:'Mutton Masala Powder',        emoji:'🥩', cat:'spices',   catLabel:'Masala Powder',    desc:'Rich, robust mutton masala with whole dry spices for depth of flavour.',                    badge:'Premium',    rating:4.4, sold:'4K+',  sizes:[{label:'100g',price:75},{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  // KARAM POWDERS
+  {id:36, name:'Sambar Karam',                emoji:'🌶️', cat:'spices',   catLabel:'Karam Powder',     desc:'Classic Andhra-style sambar chilli powder with curry leaves & garlic.',                     badge:'Spicy',      rating:4.5, sold:'6K+',  sizes:[{label:'100g',price:79},{label:'250g',price:179},{label:'500g',price:329},{label:'1kg',price:599}]},
+  {id:37, name:'Pachi Karam',                 emoji:'🌱', cat:'spices',   catLabel:'Karam Powder',     desc:'Fresh raw green chilli powder blend — fiery and flavourful.',                               badge:'Spicy',      rating:4.3, sold:'4K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:38, name:'Karivepaku Karam',            emoji:'🍃', cat:'spices',   catLabel:'Karam Powder',     desc:'Aromatic curry leaf chilli powder — a South Indian staple.',                                badge:'Aromatic',   rating:4.4, sold:'5K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:39, name:'Kobbari Karam',               emoji:'🥥', cat:'spices',   catLabel:'Karam Powder',     desc:'Toasted coconut and red chilli powder blend, great with rice.',                             badge:'Unique',     rating:4.3, sold:'3K+',  sizes:[{label:'100g',price:75},{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  {id:40, name:'Madypu Karam',                emoji:'🟠', cat:'spices',   catLabel:'Karam Powder',     desc:'Traditional Andhra dry roasted spice powder for rice and curries.',                         badge:'Classic',    rating:4.2, sold:'3K+',  sizes:[{label:'100g',price:75},{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  {id:41, name:'Munagaku Karam',              emoji:'🌿', cat:'spices',   catLabel:'Karam Powder',     desc:'Nutritious drumstick leaf chilli powder packed with iron and vitamins.',                    badge:'Healthy',    rating:4.1, sold:'2K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:42, name:'Idly Karam',                  emoji:'🍚', cat:'spices',   catLabel:'Karam Powder',     desc:'Classic South Indian idly chilli powder — perfect with ghee on idly.',                     badge:'Essential',  rating:4.4, sold:'6K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:43, name:'Idly Chutney Podi',           emoji:'🫙', cat:'spices',   catLabel:'Karam Powder',     desc:'Urad dal chutney powder, great with idly, dosa and hot rice with oil.',                    badge:'Popular',    rating:4.5, sold:'7K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  {id:44, name:'Nuvvula Karam',               emoji:'🟡', cat:'spices',   catLabel:'Karam Powder',     desc:'Toasted sesame seed powder with chilli — nutty, rich and fragrant.',                       badge:'Unique',     rating:4.3, sold:'3K+',  sizes:[{label:'100g',price:65},{label:'250g',price:149},{label:'500g',price:275},{label:'1kg',price:499}]},
+  // CHIPS & VADIYALU
+  {id:50, name:'Biyyam Pindi Vadiyalu',       emoji:'⬜', cat:'papad',    catLabel:'Chips & Vadiyalu', desc:'Classic sun-dried rice flour wafers — crispy, light and perfect with rice.',                 badge:'Classic',    rating:4.2, sold:'4K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:51, name:'Ravva Vadiyalu',              emoji:'🟡', cat:'papad',    catLabel:'Chips & Vadiyalu', desc:'Semolina sun-dried chips with subtle spices — a South Indian staple.',                      badge:'Popular',    rating:4.3, sold:'4K+',  sizes:[{label:'250g',price:139},{label:'500g',price:249},{label:'1kg',price:449}]},
+  {id:52, name:'Tomato Vadiyalu',             emoji:'🍅', cat:'papad',    catLabel:'Chips & Vadiyalu', desc:'Tangy tomato-flavoured sun-dried chips — great with rice and dal.',                         badge:'Tangy',      rating:4.3, sold:'4K+',  sizes:[{label:'250g',price:139},{label:'500g',price:249},{label:'1kg',price:449}]},
+  {id:58, name:'Beetroot Vadiyalu',           emoji:'🟣', cat:'papad',    catLabel:'Chips & Vadiyalu', desc:'Beautiful ruby-red beetroot chips — naturally sweet and earthy.',                           badge:'New',        rating:4.1, sold:'2K+',  sizes:[{label:'250g',price:125},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:59, name:'Carrot Vadiyalu',             emoji:'🥕', cat:'papad',    catLabel:'Chips & Vadiyalu', desc:'Lightly spiced carrot sun-dried chips — wholesome and crunchy.',                           badge:'Healthy',    rating:4.2, sold:'3K+',  sizes:[{label:'250g',price:139},{label:'500g',price:249},{label:'1kg',price:449}]},
+  // SNACKS
+  {id:70, name:'Boondi Mixture',              emoji:'🟡', cat:'snacks',   catLabel:'Hot Snack',        desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.',                 badge:'Popular',    rating:4.4, sold:'5K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:71, name:'Chekkalu (Saggubiyyam)',       emoji:'⬜', cat:'snacks',   catLabel:'Hot Snack',        desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',                          badge:'Classic',    rating:4.3, sold:'4K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:72, name:'Chakoralu',                   emoji:'🟤', cat:'snacks',   catLabel:'Hot Snack',        desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',                        badge:'Traditional',rating:4.3, sold:'3K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  // SWEETS
+  {id:73, name:'Laddu',                       emoji:'🟠', cat:'snacks',   catLabel:'Sweet',            desc:'Soft round sweet made with besan or boondi — a festive favourite.',                         badge:'Sweet',      rating:4.5, sold:'6K+',  sizes:[{label:'250g',price:79},{label:'500g',price:139},{label:'1kg',price:249}]},
+  {id:74, name:'Gavvalu',                     emoji:'🐚', cat:'snacks',   catLabel:'Sweet',            desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',                      badge:'Traditional',rating:4.3, sold:'4K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:75, name:'Kajalu',                      emoji:'🌙', cat:'snacks',   catLabel:'Sweet',            desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',                          badge:'Festive',    rating:4.2, sold:'3K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:76, name:'Mithai Boondi',               emoji:'🟠', cat:'snacks',   catLabel:'Sweet',            desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',                          badge:'Sweet',      rating:4.4, sold:'5K+',  sizes:[{label:'250g',price:95},{label:'500g',price:165},{label:'1kg',price:299}]},
+  {id:77, name:'Sununda',                     emoji:'🌙', cat:'snacks',   catLabel:'Sweet',            desc:'Traditional Andhra sweet — light and delicately flavoured.',                               badge:'Festive',    rating:4.3, sold:'3K+',  sizes:[{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+  {id:78, name:'Nuvvula Laddu',               emoji:'🟠', cat:'snacks',   catLabel:'Sweet',            desc:'Traditional sesame seed laddu — nutty, sweet and nutritious.',                             badge:'Sweet',      rating:4.4, sold:'4K+',  sizes:[{label:'250g',price:125},{label:'500g',price:219},{label:'1kg',price:399}]},
+  {id:79, name:'Chalimidi',                   emoji:'🟡', cat:'snacks',   catLabel:'Sweet',            desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',                    badge:'Classic',    rating:4.3, sold:'3K+',  sizes:[{label:'250g',price:169},{label:'500g',price:299},{label:'1kg',price:549}]},
+];
+
+const CAT_PAGES = {pickles:'pickles.html', spices:'spices.html', papad:'papad.html', snacks:'snacks.html'};
+
+// ── REVIEW TEMPLATES per product ────────────────────────────────────────────
+const REV_TEMPLATES = {
+  1:[{name:'Priya S.',rating:5,text:'The tomato pickle is absolutely divine! Sun-dried tomatoes with sesame oil — tastes just like my grandmother used to make.',size:'500g',helpful:34,verified:true},{name:'Rajan M.',rating:4,text:'Really authentic tomato pickle. The red chilli and mustard balance is perfect. Goes great with curd rice.',size:'500g',helpful:22,verified:true},{name:'Anitha K.',rating:5,text:'Ordered 1kg and no regrets! Fresh, tangy and perfectly spiced. No artificial colour at all.',size:'1kg',helpful:18,verified:true},{name:'Suresh V.',rating:3,text:'Good taste but slightly more oily than I expected. Flavour is authentic though.',size:'250g',helpful:9,verified:false},{name:'Deepa R.',rating:5,text:'Best tomato pickle online. Consistent quality every order.',size:'500g',helpful:27,verified:true}],
+  2:[{name:'Kavitha R.',rating:5,text:'This mango pickle is incredible — raw mango with cold-pressed sesame oil is a game changer. 10/10.',size:'500g',helpful:67,verified:true},{name:'Murali V.',rating:5,text:'Traditional Andhra avakaya flavour, exactly as it should be. Spicy, tangy and perfectly balanced.',size:'1kg',helpful:45,verified:true},{name:'Nithya B.',rating:4,text:'Very good mango pickle. The mustard seeds give it that authentic crunch.',size:'500g',helpful:31,verified:true},{name:'Sriram D.',rating:3,text:'Taste is good but I expected it to be spicier. Mild for an Andhra pickle.',size:'250g',helpful:12,verified:true},{name:'Lakshmi P.',rating:5,text:'My family finishes a 500g jar in a week! Absolutely love this.',size:'500g',helpful:38,verified:true}],
+  3:[{name:'Balaji K.',rating:5,text:'Ripe red chilli pickle — this is fire! In the best way possible. Gingelly oil makes it so aromatic.',size:'500g',helpful:41,verified:true},{name:'Saranya M.',rating:4,text:'Great heat level. The ripe chillies give a slightly sweet undertone that I love.',size:'250g',helpful:19,verified:true},{name:'Arjun S.',rating:5,text:'Ordered for my dad who loves spicy food — he was blown away. Authentic Andhra flavour.',size:'1kg',helpful:33,verified:true},{name:'Rekha B.',rating:3,text:'Too spicy for me personally but my husband loves it! Quality is clearly good.',size:'250g',helpful:8,verified:true},{name:'Senthil V.',rating:4,text:'Premium chilli pickle. The slow-made process is evident in every bite.',size:'500g',helpful:22,verified:true}],
+  4:[{name:'Geetha P.',rating:5,text:'Ginger pickle done right! The tamarind base gives it a lovely tangy depth. Goes with everything.',size:'500g',helpful:29,verified:true},{name:'Venkat N.',rating:4,text:'Fresh young ginger with tamarind — a classic combo. Not too spicy, very flavourful.',size:'250g',helpful:17,verified:true},{name:'Aravind C.',rating:5,text:'This ginger pickle is unique. The slow-cooked tamarind makes it rich and complex.',size:'500g',helpful:24,verified:true},{name:'Hema L.',rating:3,text:'Decent ginger pickle. A bit milder than expected but the quality is good.',size:'250g',helpful:7,verified:false},{name:'Mani S.',rating:4,text:'Good product, well packaged. Ginger flavour comes through nicely.',size:'1kg',helpful:14,verified:true}],
+  5:[{name:'Sangeetha R.',rating:5,text:'Tomato and red chilli combo is perfect! Double the flavour, exactly as advertised. My new favourite.',size:'500g',helpful:36,verified:true},{name:'Dinesh K.',rating:5,text:'This pickle is seriously addictive. The blend of tomato and chilli is something else.',size:'1kg',helpful:28,verified:true},{name:'Preeti M.',rating:4,text:'Really good fiery pickle. Works amazingly with hot rice and ghee.',size:'500g',helpful:21,verified:true},{name:'Ganesh M.',rating:3,text:'Good but the tomato flavour gets a bit lost. Could use more tomato punch.',size:'250g',helpful:9,verified:true},{name:'Usha K.',rating:5,text:'Consistent quality, fast delivery. This is my go-to pickle now.',size:'500g',helpful:31,verified:true}],
+  6:[{name:'Prakash N.',rating:5,text:'Gongura & red chilli — absolutely bold and addictive. That sourness from gongura is unmatched.',size:'500g',helpful:54,verified:true},{name:'Vani R.',rating:5,text:'Best gongura pickle I have had outside of Andhra. The sesame tempering is perfect.',size:'1kg',helpful:47,verified:true},{name:'Arun T.',rating:4,text:'Excellent flavour. The gongura sourness with chilli heat is a great combination.',size:'500g',helpful:33,verified:true},{name:'Radha S.',rating:3,text:'Very spicy! I had to mix it with yoghurt to tone it down. Quality is excellent though.',size:'250g',helpful:11,verified:true},{name:'Karthik N.',rating:5,text:'Ordered 1kg and it disappeared in two weeks. My family is obsessed.',size:'1kg',helpful:42,verified:true}],
+  7:[{name:'Meena L.',rating:5,text:'The lemon pickle is slow-cured perfectly. That clay pot process makes a huge difference.',size:'500g',helpful:38,verified:true},{name:'Vijay T.',rating:4,text:'Traditional lemon pickle with fenugreek. Beautifully tangy with a mild bitterness.',size:'500g',helpful:24,verified:true},{name:'Pavan K.',rating:5,text:'This lemon pickle is a staple in my kitchen now. Perfect with parathas.',size:'1kg',helpful:29,verified:true},{name:'Sneha R.',rating:3,text:'Good taste but I feel it could be a touch spicier. The texture is spot on.',size:'250g',helpful:8,verified:false},{name:'Mohan V.',rating:4,text:'Nice quality, well sealed packaging. Authentic lemon pickle flavour.',size:'500g',helpful:17,verified:true}],
+  8:[{name:'Chandra S.',rating:5,text:'Amla pickle with mustard and chilli — healthy and delicious! So much Vitamin C in every bite.',size:'500g',helpful:31,verified:true},{name:'Ravi M.',rating:4,text:'Unique flavour — the amla tartness with spices is a great combination.',size:'250g',helpful:19,verified:true},{name:'Divya K.',rating:5,text:'Love that this is preservative free. The amla flavour is very authentic.',size:'500g',helpful:25,verified:true},{name:'Ashok R.',rating:3,text:'Acquired taste but once you get used to it, it is really good.',size:'250g',helpful:10,verified:true},{name:'Padma N.',rating:4,text:'Good amla pickle. The spice balance is well done.',size:'1kg',helpful:14,verified:true}],
+  9:[{name:'Priya T.',rating:5,text:'Coriander & mint pickle is so refreshing and unique! Goes perfectly with biryani.',size:'250g',helpful:27,verified:true},{name:'Rani S.',rating:4,text:'A refreshing twist on traditional pickle. The mint makes it feel very fresh.',size:'250g',helpful:15,verified:true},{name:'Kumar V.',rating:5,text:'I was skeptical but this is now my favourite. So aromatic and vibrant.',size:'500g',helpful:22,verified:true},{name:'Seema K.',rating:3,text:'Interesting flavour but not for everyone. I personally prefer the mango or gongura.',size:'250g',helpful:7,verified:false},{name:'Anand R.',rating:4,text:'Nice new product. Would buy again. Unique flavour profile.',size:'250g',helpful:12,verified:true}],
+  10:[{name:'Latha P.',rating:5,text:'Gongura sorrel pickle — an Andhra legend! This version is the most authentic I have found online.',size:'500g',helpful:78,verified:true},{name:'Naresh K.',rating:5,text:'My parents are from Andhra and they approved! That is the highest praise possible for a gongura pickle.',size:'1kg',helpful:64,verified:true},{name:'Supriya M.',rating:5,text:'Sour, bold and absolutely irresistible. Mixed with ghee and hot rice — pure bliss.',size:'500g',helpful:55,verified:true},{name:'Ramu V.',rating:4,text:'Excellent quality. The dry red chillies and sesame balance is spot on.',size:'500g',helpful:38,verified:true},{name:'Bhavani S.',rating:5,text:'Ordered 1kg because I knew one jar would not be enough. Best decision.',size:'1kg',helpful:49,verified:true}],
+  11:[{name:'Indira R.',rating:5,text:'Chikkudukaaya pickle is so rare to find! Made with fresh young beans — exactly right.',size:'500g',helpful:22,verified:true},{name:'Prasad K.',rating:4,text:'Seasonal and special. The mustard marinade on fresh broad beans is delicious.',size:'250g',helpful:14,verified:true},{name:'Savitha M.',rating:5,text:'Loved it! A pickle you just cannot find anywhere else.',size:'500g',helpful:18,verified:true},{name:'Reddy V.',rating:3,text:'Good but the broad bean texture can be a bit firm. Flavour is nice.',size:'250g',helpful:7,verified:false},{name:'Jaya S.',rating:4,text:'Unique seasonal pickle. Worth trying if you have not had it before.',size:'250g',helpful:11,verified:true}],
+  12:[{name:'Santhosh K.',rating:5,text:'Chicken pickle with bones — the traditional way! So much more flavour than boneless versions.',size:'500g',helpful:44,verified:true},{name:'Rithvik M.',rating:5,text:'Country chicken slow-cooked in Andhra marinade. You can taste the generations of recipe behind this.',size:'1kg',helpful:38,verified:true},{name:'Anil R.',rating:4,text:'Rich, bold and deeply flavourful. The spice level is perfect.',size:'500g',helpful:27,verified:true},{name:'Pradeep V.',rating:3,text:'Good taste but separating the bones while eating is a bit of a hassle.',size:'250g',helpful:12,verified:true},{name:'Mahesh S.',rating:5,text:'Best chicken pickle I have ever had. The bones add so much flavour to the oil.',size:'1kg',helpful:35,verified:true}],
+  13:[{name:'Ramesh K.',rating:5,text:'Boneless chicken pickle — pure meat, pure flavour. Exactly as described. No bones, just bold taste.',size:'500g',helpful:52,verified:true},{name:'Siddharth M.',rating:5,text:'Tender chunks in fiery gingelly oil. This is restaurant quality in a jar.',size:'1kg',helpful:43,verified:true},{name:'Kiran V.',rating:5,text:'Ordered for my office lunch boxes — everyone wanted the recipe!',size:'500g',helpful:37,verified:true},{name:'Rohit S.',rating:4,text:'Very good chicken pickle. The boneless version is much easier to eat.',size:'250g',helpful:24,verified:true},{name:'Naveen R.',rating:4,text:'Spicy and delicious. The shelf life is decent for a meat pickle.',size:'500g',helpful:19,verified:true}],
+  14:[{name:'Coastal C.',rating:5,text:'Prawns pickle with coastal Andhra spices — absolutely incredible. Tiger prawns are so juicy.',size:'500g',helpful:41,verified:true},{name:'Sagar M.',rating:5,text:'I am from Vizag and this tastes exactly like the prawn pickle from home. Incredible quality.',size:'500g',helpful:35,verified:true},{name:'Sindhu K.',rating:4,text:'Premium prawn pickle. The coastal spice base is aromatic and tangy.',size:'250g',helpful:22,verified:true},{name:'Venky R.',rating:3,text:'Good flavour but the prawns are a bit small. Taste is authentic though.',size:'250g',helpful:9,verified:true},{name:'Harish V.',rating:5,text:'A true coastal delicacy. Worth every rupee. Will definitely reorder.',size:'500g',helpful:28,verified:true}],
+  15:[{name:'Srikanth K.',rating:5,text:'Mutton pickle done perfectly. Slow-cooked mutton pieces in a rich spicy masala — pairs brilliantly with bread.',size:'500g',helpful:39,verified:true},{name:'Praveen M.',rating:5,text:'Tender, flavourful mutton in a deeply spiced base. The quality is exceptional.',size:'1kg',helpful:31,verified:true},{name:'Archana R.',rating:4,text:'Rich and hearty mutton pickle. The masala flavour is complex and satisfying.',size:'500g',helpful:23,verified:true},{name:'Vikas S.',rating:4,text:'Great product. Shelf life is short but the flavour is worth it.',size:'250g',helpful:14,verified:true},{name:'Sudha V.',rating:5,text:'Bought as a gift and the recipient was very happy. Premium packaging.',size:'500g',helpful:27,verified:true}],
+  30:[{name:'Lakshmi P.',rating:5,text:'Stone-ground coriander powder with incredible aroma. Not at all like stale supermarket powder.',size:'100g',helpful:52,verified:true},{name:'Balaji K.',rating:4,text:'Fresh and fragrant. You can use less because it is so concentrated.',size:'100g',helpful:34,verified:true},{name:'Saranya M.',rating:5,text:'Vibrant colour and maximum aroma. This is what coriander powder should be.',size:'250g',helpful:28,verified:true},{name:'Arjun S.',rating:3,text:'Good quality but slightly coarser than I prefer. Flavour is excellent.',size:'50g',helpful:11,verified:true},{name:'Kavitha R.',rating:5,text:'Premium whole seeds ground to order. My curry base has never smelled better.',size:'250g',helpful:41,verified:true}],
+  31:[{name:'Murali V.',rating:5,text:'11 whole spices slow-roasted and cold-ground — you can smell the difference immediately when you open the pack.',size:'100g',helpful:67,verified:true},{name:'Nithya B.',rating:5,text:'Best garam masala I have ever used. Cloves, cinnamon, cardamom all perfectly balanced.',size:'100g',helpful:55,verified:true},{name:'Sriram D.',rating:4,text:'Very aromatic garam masala. My biryanis have levelled up significantly.',size:'250g',helpful:39,verified:true},{name:'Geetha P.',rating:5,text:'Restaurant quality results at home. This masala is exceptional.',size:'100g',helpful:48,verified:true},{name:'Venkat N.',rating:4,text:'Fresh, fragrant and well-balanced. The cardamom comes through beautifully.',size:'50g',helpful:26,verified:true}],
+  32:[{name:'Sangeetha R.',rating:5,text:'My sambar finally tastes like a proper South Indian one!',size:'250g',helpful:44,verified:true},{name:'Dinesh K.',rating:4,text:'Authentic homestyle sambar powder. Curry leaves and dry chilli flavour is spot on.',size:'250g',helpful:31,verified:true},{name:'Preeti M.',rating:5,text:'Have been making sambar for years and this powder makes it restaurant quality.',size:'500g',helpful:38,verified:true},{name:'Ganesh M.',rating:3,text:'Good but slightly more tamarind-forward than I prefer. Still a quality product.',size:'100g',helpful:12,verified:false},{name:'Usha K.',rating:5,text:'Consistent batch after batch. This is my permanent kitchen staple now.',size:'500g',helpful:35,verified:true}],
+  33:[{name:'Prakash N.',rating:5,text:'Tangy, peppery rasam powder that makes the most authentic South Indian soup.',size:'250g',helpful:36,verified:true},{name:'Vani R.',rating:4,text:'Classic coriander, pepper and cumin blend. My rasam has never been better.',size:'100g',helpful:22,verified:true},{name:'Arun T.',rating:5,text:'Fresh ground rasam powder with real depth. No fillers, just pure spice.',size:'250g',helpful:28,verified:true},{name:'Radha S.',rating:3,text:'Good flavour but a bit mild for my taste. Others in my family love it.',size:'100g',helpful:9,verified:true},{name:'Karthik N.',rating:4,text:'Well-balanced rasam powder. Fast delivery too.',size:'500g',helpful:17,verified:true}],
+  34:[{name:'Rithvik M.',rating:5,text:'Professional-grade chicken masala. Used in restaurant kitchens and you can taste exactly why.',size:'100g',helpful:58,verified:true},{name:'Anil R.',rating:5,text:'My chicken curries have completely transformed since switching to this masala.',size:'250g',helpful:46,verified:true},{name:'Pradeep V.',rating:4,text:'Bold aromatic masala. Works great for both curries and biryanis.',size:'100g',helpful:33,verified:true},{name:'Mahesh S.',rating:5,text:'Bought for my restaurant and my customers can taste the difference.',size:'250g',helpful:41,verified:true},{name:'Ramesh K.',rating:3,text:'Good quality but slightly more heat than I expected. Flavour is excellent.',size:'50g',helpful:14,verified:true}],
+  35:[{name:'Siddharth M.',rating:5,text:'Mutton masala with whole dry spices — the richness is unmatched. My mutton curry finally tastes like my mothers.',size:'100g',helpful:43,verified:true},{name:'Kiran V.',rating:4,text:'Slow-roasted whole spices. The depth of flavour in this masala is exceptional.',size:'100g',helpful:29,verified:true},{name:'Rohit S.',rating:5,text:'Premium mutton masala. Well worth the price.',size:'250g',helpful:35,verified:true},{name:'Naveen R.',rating:4,text:'Rich and robust. My mutton curry now disappears in minutes.',size:'100g',helpful:21,verified:true},{name:'Coastal C.',rating:3,text:'Good masala but slightly overpowering for lighter dishes. Perfect for heavy curries.',size:'50g',helpful:9,verified:true}],
+  36:[{name:'Sagar M.',rating:5,text:'Classic Andhra sambar karam with curry leaves and garlic — this is pantry essential!',size:'100g',helpful:39,verified:true},{name:'Sindhu K.',rating:4,text:'Great karam powder. The garlic and curry leaf combination is very authentic.',size:'100g',helpful:25,verified:true},{name:'Venky R.',rating:5,text:'Best sambar karam I have found. Spicy, aromatic and full of flavour.',size:'250g',helpful:31,verified:true},{name:'Harish V.',rating:3,text:'Good flavour but very spicy — even for a karam lover. Use sparingly.',size:'50g',helpful:12,verified:false},{name:'Srikanth K.',rating:4,text:'Authentic Andhra karam. Goes perfectly with hot rice and ghee.',size:'100g',helpful:19,verified:true}],
+  37:[{name:'Praveen M.',rating:5,text:'Pachi karam made with sun-dried green chillies — that unique fresh-heat flavour is unlike anything else.',size:'100g',helpful:33,verified:true},{name:'Archana R.',rating:4,text:'Fiery and flavourful. The green chilli gives it a fresher, brighter heat.',size:'50g',helpful:19,verified:true},{name:'Vikas S.',rating:5,text:'My new favourite karam. The raw green chilli flavour is so distinctive.',size:'100g',helpful:26,verified:true},{name:'Sudha V.',rating:3,text:'Very hot! Use very sparingly. Flavour is excellent though.',size:'50g',helpful:8,verified:true},{name:'Lakshmi P.',rating:4,text:'Authentic pachi karam. My husband loves it with everything.',size:'100g',helpful:15,verified:true}],
+  38:[{name:'Balaji K.',rating:5,text:'Karivepaku karam with intensely aromatic curry leaf — slow-roasted to perfection. My rice and dal combo just transformed.',size:'100g',helpful:47,verified:true},{name:'Saranya M.',rating:5,text:'You can smell the fresh curry leaves the moment you open the pack. Incredible.',size:'100g',helpful:38,verified:true},{name:'Arjun S.',rating:4,text:'Very aromatic karam. The curry leaf flavour is prominent and delicious.',size:'250g',helpful:27,verified:true},{name:'Kavitha R.',rating:5,text:'South Indian staple done right. This karam is exceptional quality.',size:'100g',helpful:33,verified:true},{name:'Murali V.',rating:3,text:'Good product but I felt the chilli heat could be slightly higher.',size:'50g',helpful:10,verified:false}],
+  39:[{name:'Nithya B.',rating:5,text:'Kobbari karam with dry-roasted coconut — the nutty depth it gives is absolutely lovely with hot rice.',size:'100g',helpful:34,verified:true},{name:'Sriram D.',rating:4,text:'Unique and delicious. The roasted coconut gives such a rich flavour.',size:'100g',helpful:22,verified:true},{name:'Geetha P.',rating:5,text:'I had this at a friends house and immediately ordered two packs. So good!',size:'250g',helpful:29,verified:true},{name:'Venkat N.',rating:3,text:'Good product. Subtle coconut flavour — I prefer a stronger coconut punch.',size:'50g',helpful:9,verified:true},{name:'Sangeetha R.',rating:4,text:'Nutty, fragrant and nicely spiced. Great with idly and dosa too.',size:'100g',helpful:17,verified:true}],
+  40:[{name:'Dinesh K.',rating:5,text:'Madypu karam — a heritage recipe from Andhra kitchens. Complex and deeply satisfying.',size:'100g',helpful:28,verified:true},{name:'Preeti M.',rating:4,text:'Traditional dry roasted spice powder. Very authentic flavour.',size:'100g',helpful:18,verified:true},{name:'Ganesh M.',rating:5,text:'This is a classic that my grandmother used to make. So glad I found it.',size:'250g',helpful:24,verified:true},{name:'Usha K.',rating:3,text:'Good flavour but slightly too mild for me. Others in my family enjoy it.',size:'50g',helpful:7,verified:true},{name:'Prakash N.',rating:4,text:'Heritage recipe done well. Great with rice and curries.',size:'100g',helpful:13,verified:true}],
+  41:[{name:'Vani R.',rating:5,text:'Munagaku karam — drumstick leaf powder packed with nutrition and flavour. Natures superfood in every spoonful.',size:'100g',helpful:32,verified:true},{name:'Arun T.',rating:4,text:'Healthy and flavourful. The drumstick leaf gives it a unique earthy taste.',size:'100g',helpful:21,verified:true},{name:'Radha S.',rating:5,text:'Love this healthy option. Iron-packed and delicious with rice.',size:'250g',helpful:27,verified:true},{name:'Karthik N.',rating:3,text:'Nice health product. Taste is a bit earthy for my preference.',size:'50g',helpful:8,verified:false},{name:'Meena L.',rating:4,text:'Good quality drumstick leaf karam. Nutritious and tasty.',size:'100g',helpful:15,verified:true}],
+  42:[{name:'Vijay T.',rating:5,text:'Idly karam with ghee on fresh idly — the quintessential South Indian breakfast. This powder is perfect.',size:'100g',helpful:44,verified:true},{name:'Pavan K.',rating:5,text:'The breakfast staple of South India done right. Fragrant and perfectly spiced.',size:'100g',helpful:36,verified:true},{name:'Sneha R.',rating:4,text:'Classic idly karam. Goes well with dosa and uthappam too.',size:'250g',helpful:25,verified:true},{name:'Mohan V.',rating:5,text:'My morning idly would be incomplete without this. Consistently excellent.',size:'250g',helpful:31,verified:true},{name:'Chandra S.',rating:3,text:'Good product. Slightly milder than the idly karam I grew up with.',size:'50g',helpful:9,verified:true}],
+  43:[{name:'Ravi M.',rating:5,text:'Idly chutney podi with urad dal and lentils — perfectly balanced. Mix with sesame oil for the best dipping sauce.',size:'100g',helpful:41,verified:true},{name:'Divya K.',rating:5,text:'This chutney podi is exceptional. The lentil and chilli blend is spot on.',size:'100g',helpful:33,verified:true},{name:'Ashok R.',rating:4,text:'Very good chutney podi. Works amazingly on hot rice with oil too.',size:'250g',helpful:24,verified:true},{name:'Padma N.',rating:5,text:'South Indian breakfast essential. I always keep a large pack at home.',size:'250g',helpful:29,verified:true},{name:'Priya S.',rating:3,text:'Good flavour but a bit salty for my taste. Quality is clearly good.',size:'100g',helpful:10,verified:false}],
+  44:[{name:'Rajan M.',rating:5,text:'Nuvvula karam with cold-pressed sesame seeds slow-roasted — the nutty fragrance is unbelievable.',size:'100g',helpful:36,verified:true},{name:'Anitha K.',rating:4,text:'Rich, nutty sesame karam. Unique flavour that I cannot stop eating.',size:'100g',helpful:24,verified:true},{name:'Suresh V.',rating:5,text:'The sesame oils come through beautifully in this karam. Exceptional quality.',size:'250g',helpful:30,verified:true},{name:'Deepa R.',rating:4,text:'Very fragrant and flavourful. Goes great with idly and hot rice.',size:'100g',helpful:18,verified:true},{name:'Karthik N.',rating:3,text:'Nice product but I prefer a more chilli-forward karam. This is sesame-dominant.',size:'50g',helpful:8,verified:true}],
+  50:[{name:'Padma N.',rating:5,text:'Classic rice flour vadiyalu — hand-rolled and sun-dried exactly the traditional way. Perfectly crispy when fried.',size:'250g',helpful:29,verified:true},{name:'Priya S.',rating:4,text:'Light, airy and crispy. My family loves these with rice and rasam.',size:'250g',helpful:19,verified:true},{name:'Rajan M.',rating:5,text:'Authentic sun-dried vadiyalu. You can taste the difference from machine-made ones.',size:'500g',helpful:24,verified:true},{name:'Anitha K.',rating:3,text:'Good vadiyalu. A few broke during shipping but the taste is perfect.',size:'100g',helpful:8,verified:false},{name:'Suresh V.',rating:4,text:'Traditional rice flour vadiyalu done right. Crispy and light.',size:'250g',helpful:15,verified:true}],
+  51:[{name:'Deepa R.',rating:5,text:'Ravva vadiyalu with subtle spices — crispy texture and mild flavour. My children are obsessed.',size:'250g',helpful:27,verified:true},{name:'Karthik N.',rating:4,text:'Semolina gives these a unique crunch. A South Indian staple done well.',size:'250g',helpful:18,verified:true},{name:'Meena L.',rating:5,text:'Perfect vadiyalu. The semolina texture is just right — not too thick.',size:'500g',helpful:23,verified:true},{name:'Vijay T.',rating:3,text:'Good product but slightly bland on their own. Fry them and add to rice — delicious.',size:'100g',helpful:7,verified:true},{name:'Pavan K.',rating:4,text:'Authentic ravva vadiyalu. Good value in the 500g pack.',size:'500g',helpful:14,verified:true}],
+  52:[{name:'Sneha R.',rating:5,text:'Tomato vadiyalu with real tomato pulp — the natural tangy flavour is wonderful. Great with dal.',size:'250g',helpful:24,verified:true},{name:'Mohan V.',rating:4,text:'Tangy and crispy. The tomato flavour comes through nicely.',size:'250g',helpful:16,verified:true},{name:'Chandra S.',rating:5,text:'Unique vadiyalu. The tomato gives them a beautiful colour and taste.',size:'500g',helpful:20,verified:true},{name:'Ravi M.',rating:3,text:'Good taste but I expected more tomato punch. Still a quality product.',size:'100g',helpful:7,verified:false},{name:'Divya K.',rating:4,text:'Tangy vadiyalu that are a nice change from the classic versions.',size:'250g',helpful:12,verified:true}],
+  58:[{name:'Vijay T.',rating:5,text:'Beetroot vadiyalu — ruby red and beautiful! The natural sweetness from beetroot is so unique.',size:'250g',helpful:24,verified:true},{name:'Pavan K.',rating:4,text:'Gorgeous colour and lovely earthy sweet flavour. A real conversation starter.',size:'250g',helpful:16,verified:true},{name:'Sneha R.',rating:5,text:'My kids love these because of the pretty colour! And they taste wonderful too.',size:'500g',helpful:20,verified:true},{name:'Mohan V.',rating:3,text:'Interesting flavour. The beetroot sweetness is there but quite mild.',size:'100g',helpful:7,verified:true},{name:'Chandra S.',rating:4,text:'Colourful and flavourful vadiyalu. Great new product.',size:'250g',helpful:13,verified:true}],
+  59:[{name:'Ravi M.',rating:5,text:'Carrot vadiyalu with fresh carrot and mild spices — wholesome, crunchy and nutritious.',size:'250g',helpful:19,verified:true},{name:'Divya K.',rating:4,text:'Light spiced carrot vadiyalu. Great healthy option.',size:'250g',helpful:13,verified:true},{name:'Ashok R.',rating:5,text:'The carrot gives these a subtle sweetness. Very pleasant and unique.',size:'500g',helpful:17,verified:true},{name:'Padma N.',rating:3,text:'Good product. Carrot flavour is mild but the crunch is satisfying.',size:'100g',helpful:6,verified:false},{name:'Priya S.',rating:4,text:'Healthy vadiyalu that actually taste good. Will reorder.',size:'250g',helpful:11,verified:true}],
+  70:[{name:'Rajan M.',rating:5,text:'Boondi mixture — crunchy, spiced and so addictive. My office snack of choice now.',size:'250g',helpful:41,verified:true},{name:'Anitha K.',rating:5,text:'Festival-style mixture with multiple crunchy components. The peanuts and sev are a great touch.',size:'500g',helpful:33,verified:true},{name:'Suresh V.',rating:4,text:'Great mixture. Not oily at all — you can taste the quality of the oil used.',size:'250g',helpful:24,verified:true},{name:'Deepa R.',rating:5,text:'My children cannot stop eating this. Will be ordering the large pack next time.',size:'500g',helpful:29,verified:true},{name:'Karthik N.',rating:3,text:'Good mixture but I prefer more sev and fewer plain boondi. Taste is excellent.',size:'100g',helpful:10,verified:true}],
+  71:[{name:'Meena L.',rating:5,text:'Chekkalu made with sago and rice flour — the classic Andhra teatime snack done perfectly. Crispy and golden.',size:'250g',helpful:35,verified:true},{name:'Vijay T.',rating:4,text:'Hand-shaped chekkalu just like my mother used to make. Excellent quality.',size:'250g',helpful:23,verified:true},{name:'Pavan K.',rating:5,text:'Deep-fried to golden perfection. The crunch lasts even after a few days in an airtight box.',size:'500g',helpful:28,verified:true},{name:'Sneha R.',rating:3,text:'Good chekkalu but a bit thick for my taste. Flavour is spot on.',size:'100g',helpful:8,verified:false},{name:'Mohan V.',rating:4,text:'Classic Andhra snack done right. Perfect with evening tea.',size:'250g',helpful:17,verified:true}],
+  72:[{name:'Chandra S.',rating:5,text:'Chakoralu with urad and chana dal — age-old recipe from Andhra kitchens. The crunch is incredible.',size:'250g',helpful:27,verified:true},{name:'Ravi M.',rating:4,text:'Traditional crispy rings. Great with chai and very moreish.',size:'250g',helpful:18,verified:true},{name:'Divya K.',rating:5,text:'These taste exactly like the chakoralu from Andhra sweet shops. Authentic!',size:'500g',helpful:22,verified:true},{name:'Ashok R.',rating:3,text:'Good product. Slightly chewy in the centre but the outer crunch is satisfying.',size:'100g',helpful:7,verified:true},{name:'Padma N.',rating:4,text:'Savoury and crunchy. A great traditional snack.',size:'250g',helpful:13,verified:true}],
+  73:[{name:'Priya S.',rating:5,text:'These laddus are hand-rolled with pure ghee and cardamom — exactly like grandmas recipe. Melts in your mouth.',size:'250g',helpful:48,verified:true},{name:'Rajan M.',rating:5,text:'The best laddus I have had outside a sweet shop. Premium quality.',size:'500g',helpful:39,verified:true},{name:'Anitha K.',rating:4,text:'Delicious laddus. The besan flavour is rich and the ghee is clearly good quality.',size:'250g',helpful:28,verified:true},{name:'Suresh V.',rating:5,text:'Ordered for Diwali and the whole family loved them. Will be a regular order.',size:'500g',helpful:36,verified:true},{name:'Deepa R.',rating:3,text:'Good laddus but slightly sweeter than I prefer. My children loved them though.',size:'250g',helpful:11,verified:true}],
+  74:[{name:'Karthik N.',rating:5,text:'Gavvalu with jaggery syrup coating — hand-pressed shell shapes and fried to golden crunch. A festival treat!',size:'250g',helpful:31,verified:true},{name:'Meena L.',rating:4,text:'Traditional Andhra sweet done beautifully. The jaggery coating is perfect.',size:'250g',helpful:22,verified:true},{name:'Vijay T.',rating:5,text:'Crispy shells with just the right sweetness. Authentic festival treat.',size:'500g',helpful:26,verified:true},{name:'Pavan K.',rating:3,text:'Good gavvalu. Slightly softer than I like but the jaggery flavour is excellent.',size:'100g',helpful:8,verified:false},{name:'Sneha R.',rating:4,text:'Traditional recipe done well. Great Andhra sweet.',size:'250g',helpful:15,verified:true}],
+  75:[{name:'Mohan V.',rating:5,text:'Kajalu — crescent moon shaped and delicately sweet with cardamom. Light as air and perfectly crispy.',size:'250g',helpful:25,verified:true},{name:'Chandra S.',rating:4,text:'Festive and beautiful. The crescent shape is consistent and the sweetness is light.',size:'250g',helpful:17,verified:true},{name:'Ravi M.',rating:5,text:'Handcrafted kajalu with the perfect cardamom touch. A real Andhra classic.',size:'500g',helpful:21,verified:true},{name:'Divya K.',rating:3,text:'Good product. I prefer a more pronounced cardamom flavour personally.',size:'100g',helpful:7,verified:true},{name:'Ashok R.',rating:4,text:'Light and delicious festival sweet. Nicely packaged.',size:'250g',helpful:13,verified:true}],
+  76:[{name:'Padma N.',rating:5,text:'Mithai boondi with pure saffron and sugar syrup — tiny pearls of joy! Perfect for festivals and celebrations.',size:'250g',helpful:36,verified:true},{name:'Priya S.',rating:5,text:'The saffron infusion makes these so special. Fragrant and beautifully made.',size:'250g',helpful:29,verified:true},{name:'Rajan M.',rating:4,text:'Rich festive boondi. The sugar coating is just right — not overly sweet.',size:'500g',helpful:22,verified:true},{name:'Anitha K.',rating:5,text:'Ordered for a pooja and everyone loved them. Premium quality sweets.',size:'250g',helpful:27,verified:true},{name:'Suresh V.',rating:3,text:'Good mithai boondi. Slightly too sweet for everyday eating but perfect for occasions.',size:'100g',helpful:9,verified:true}],
+  77:[{name:'Deepa R.',rating:5,text:'Sununda — a traditional Andhra sweet done with love. The flavour is so authentic.',size:'250g',helpful:29,verified:true},{name:'Karthik N.',rating:5,text:'My parents are from Andhra and they were delighted by how authentic these taste.',size:'500g',helpful:24,verified:true},{name:'Meena L.',rating:4,text:'Light and traditional sweet. Well made.',size:'250g',helpful:18,verified:true},{name:'Vijay T.',rating:5,text:'Festival sweet done with skill. You can taste the tradition.',size:'500g',helpful:22,verified:true},{name:'Pavan K.',rating:3,text:'Good sununda. Slightly softer than the traditional version. Taste is excellent.',size:'250g',helpful:8,verified:true}],
+  78:[{name:'Sneha R.',rating:5,text:'Nuvvula laddu — sesame and jaggery in the most perfect combination. Nutty, sweet and traditional.',size:'250g',helpful:33,verified:true},{name:'Mohan V.',rating:5,text:'Premium nuvvula laddus that taste exactly like the ones from my grandmothers kitchen.',size:'500g',helpful:28,verified:true},{name:'Chandra S.',rating:4,text:'Rich sesame laddu. The jaggery gives a beautiful deep sweetness.',size:'250g',helpful:21,verified:true},{name:'Ravi M.',rating:5,text:'Ordered for Sankranthi and they were a huge hit. Will definitely reorder.',size:'500g',helpful:26,verified:true},{name:'Divya K.',rating:3,text:'Good product but I prefer more sesame crunch. Still very tasty.',size:'250g',helpful:9,verified:false}],
+  79:[{name:'Ashok R.',rating:5,text:'Chalimidi — rice flour sweet with coconut, pure, simple and sacred. The most authentic version I have found.',size:'250g',helpful:29,verified:true},{name:'Padma N.',rating:4,text:'Traditional Andhra sweet with real coconut. Soft and aromatic.',size:'250g',helpful:20,verified:true},{name:'Priya S.',rating:5,text:'This sweet takes me straight back to childhood. Absolutely love it.',size:'500g',helpful:25,verified:true},{name:'Rajan M.',rating:3,text:'Good chalimidi. I prefer a slightly sweeter version but this is authentic.',size:'100g',helpful:8,verified:true},{name:'Anitha K.',rating:4,text:'Sacred and simple sweet done with quality ingredients. Will buy again.',size:'250g',helpful:15,verified:true}],
+};
+
+const OF = {
+  getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
+  cartKey(){const u=this.getUser();return u?'of_cart_'+u.id:'of_cart_guest'},
+  cartCount(){try{return Object.values(JSON.parse(localStorage.getItem(this.cartKey())||'{}')).reduce((a,b)=>a+b,0)}catch(e){return 0}},
+  refreshBadge(){const el=document.getElementById('nav-badge');if(el){const n=this.cartCount();el.textContent=n;el.style.display=n>0?'flex':'none'}},
+  getStoredRevs(id){try{return JSON.parse(localStorage.getItem('of_revs_'+id)||'[]')}catch(e){return[]}},
+  saveRevs(id,arr){localStorage.setItem('of_revs_'+id,JSON.stringify(arr))},
+  _tt:null,
+  toast(msg){const t=document.getElementById('toast');if(!t)return;t.innerHTML=msg;t.classList.add('show');clearTimeout(this._tt);this._tt=setTimeout(()=>t.classList.remove('show'),2800)},
+};
+
+let currentProduct = null;
+let allReviews = [];
+let shownCount = 5;
+let activeFilter = 'all';
+let userRating = 0;
+
+function starsHTML(r) {
+  const full=Math.floor(r), half=r%1>=0.3&&r%1<0.8, empty=5-full-(half?1:0);
+  return '★'.repeat(full)+(half?'½':'')+'☆'.repeat(empty);
+}
+
+function buildDistribution(revs) {
+  const dist={5:0,4:0,3:0,2:0,1:0};
+  revs.forEach(r=>{ const s=Math.round(r.rating); dist[s]=(dist[s]||0)+1; });
+  const total = revs.length || 1;
+  return [5,4,3,2,1].map(s=>({star:s,count:dist[s]||0,pct:Math.round((dist[s]||0)/total*100)}));
+}
+
+function renderBars(revs) {
+  const dist = buildDistribution(revs);
+  document.getElementById('rp-bars').innerHTML = dist.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label">${d.star}★</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%" data-w="${d.pct}%"></div></div>
+      <div class="bar-count">${d.count.toLocaleString()}</div>
+      <div class="bar-pct">${d.pct}%</div>
+    </div>
+  `).join('');
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.bar-fill').forEach(el=>{ el.style.width=el.dataset.w; });
+  });
+}
+
+function renderReviews(filter='all') {
+  const toShow = filter==='all' ? allReviews :
+                 filter==='critical' ? allReviews.filter(r=>r.rating<=2) :
+                 allReviews.filter(r=>Math.floor(r.rating)===filter);
+  const slice = toShow.slice(0, shownCount);
+  const list = document.getElementById('rev-list');
+  if (!slice.length) {
+    list.innerHTML = `<div class="no-reviews"><div>💬</div><p>No reviews in this category yet.</p></div>`;
+    document.getElementById('load-more-btn').style.display='none';
+    return;
+  }
+  list.innerHTML = slice.map((r,i)=>`
+    <div class="rev-card" style="animation-delay:${i*0.05}s">
+      <div class="rc-top">
+        <div class="rc-left">
+          <div class="rc-avatar">${r.name?r.name[0].toUpperCase():'?'}</div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <span class="rc-name">${r.name||'Anonymous'}</span>
+              ${r.verified?'<span class="rc-verified">✓ Verified Purchase</span>':''}
+            </div>
+            <div class="rc-stars">${starsHTML(r.rating)}</div>
+          </div>
+        </div>
+        <div class="rc-right">
+          <div class="rc-date">${r.date||'Recent'}</div>
+        </div>
+      </div>
+      ${r.size?`<span class="rc-size">Size: ${r.size}</span>`:''}
+      <div class="rc-body">${r.text}</div>
+      <div class="rc-foot">
+        Helpful?
+        <button class="helpful-btn${r._voted?' voted':''}" onclick="markHelpful(${allReviews.indexOf(r)},this)">${r.helpful||0} 👍</button>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('load-more-btn').style.display = toShow.length>shownCount ? 'block' : 'none';
+}
+
+function filterRevs(val, btn) {
+  activeFilter=val; shownCount=5;
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderReviews(val);
+}
+
+function loadMore() { shownCount+=5; renderReviews(activeFilter); }
+
+function markHelpful(idx, btn) {
+  if(btn.classList.contains('voted'))return;
+  allReviews[idx].helpful=(allReviews[idx].helpful||0)+1;
+  allReviews[idx]._voted=true;
+  btn.classList.add('voted');
+  btn.textContent=allReviews[idx].helpful+' 👍';
+}
+
+function setRating(val) {
+  userRating=val;
+  document.querySelectorAll('.wstar').forEach(s=>{
+    s.classList.toggle('lit', parseInt(s.dataset.val)<=val);
+  });
+}
+
+function submitReview() {
+  if(!userRating){OF.toast('⚠️ Please select a star rating first');return;}
+  const text=document.getElementById('wr-text').value.trim();
+  if(!text||text.length<10){OF.toast('⚠️ Please write at least 10 characters');return;}
+  const name=document.getElementById('wr-name').value.trim()||'Anonymous';
+  const now=new Date();
+  const dateStr=now.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][now.getMonth()]+' '+now.getFullYear();
+  const rev={name,rating:userRating,text,date:dateStr,helpful:0,verified:false,size:'',_new:true};
+  allReviews.unshift(rev);
+  const stored=OF.getStoredRevs(currentProduct.id);
+  stored.unshift(rev);
+  OF.saveRevs(currentProduct.id,stored);
+  // reset
+  userRating=0;
+  document.getElementById('wr-text').value='';
+  document.getElementById('wr-name').value='';
+  document.querySelectorAll('.wstar').forEach(s=>s.classList.remove('lit'));
+  renderReviews(activeFilter);
+  // update overview
+  renderBars(allReviews);
+  const avg=(allReviews.reduce((s,r)=>s+r.rating,0)/allReviews.length).toFixed(1);
+  document.getElementById('rp-big').textContent=avg;
+  document.getElementById('rp-stars').textContent=starsHTML(parseFloat(avg));
+  document.getElementById('rp-count').textContent=allReviews.length.toLocaleString()+' ratings';
+  OF.toast('✅ Your review has been posted! Thank you.');
+}
+
+function requireLogin(page){
+  const token=localStorage.getItem('of_token');
+  if(!token){location.href='login.html?next='+page;return;}
+  location.href=page;
+}
+
+window.addEventListener('DOMContentLoaded', ()=>{
+  const user=OF.getUser();
+  const li=document.getElementById('nav-user-li');
+  if(user&&li){li.querySelector('.ni-top').textContent='Hello, '+user.name.split(' ')[0];li.querySelector('.ni-bot').textContent='Account & Orders';}
+  OF.refreshBadge();
+
+  const id = parseInt(new URLSearchParams(window.location.search).get('id'))||1;
+  const p = ALL_PRODUCTS.find(x=>x.id===id) || ALL_PRODUCTS[0];
+  currentProduct = p;
+
+  document.title = 'Reviews: '+p.name+' — O Foods';
+
+  // Breadcrumb
+  const bcCat=document.getElementById('bc-cat');
+  bcCat.textContent=p.catLabel;
+  bcCat.href=CAT_PAGES[p.cat]||'memu.html';
+  const bcProd=document.getElementById('bc-prod');
+  bcProd.textContent=p.name;
+  bcProd.href='product.html?id='+p.id;
+
+  // Hero card
+  const heroLink=document.getElementById('prod-hero-link');
+  heroLink.href='product.html?id='+p.id;
+  document.getElementById('ph-emoji').textContent=p.emoji;
+  document.getElementById('ph-cat').textContent=p.catLabel;
+  document.getElementById('ph-name').textContent=p.name;
+  document.getElementById('ph-desc').textContent=p.desc;
+  document.getElementById('ph-price').innerHTML='₹'+p.sizes[0].price+' <span>onwards</span>';
+
+  // Rating overview
+  const reviewCount = p.reviews || Math.floor(p.rating*200 + p.id*7);
+  document.getElementById('rp-big').textContent=p.rating.toFixed(1);
+  document.getElementById('rp-stars').textContent=starsHTML(p.rating);
+  document.getElementById('rp-count').textContent=reviewCount.toLocaleString()+' ratings';
+
+  // Build reviews
+  const base = (REV_TEMPLATES[p.id]||[]).map(r=>({...r}));
+  const stored = OF.getStoredRevs(p.id);
+  allReviews = [...stored, ...base];
+
+  // Add dates to base reviews
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  allReviews.forEach((r,i)=>{
+    if(!r.date){
+      const d=new Date(); d.setDate(d.getDate()-Math.floor(Math.random()*120+1));
+      r.date=d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
+    }
+  });
+
+  renderBars(allReviews);
+  renderReviews('all');
+
+  // Star hover
+  document.querySelectorAll('.wstar').forEach(s=>{
+    s.addEventListener('mouseover',()=>{
+      const v=parseInt(s.dataset.val);
+      document.querySelectorAll('.wstar').forEach(ws=>ws.classList.toggle('lit',parseInt(ws.dataset.val)<=v));
+    });
+    s.addEventListener('mouseout',()=>{
+      document.querySelectorAll('.wstar').forEach(ws=>ws.classList.toggle('lit',parseInt(ws.dataset.val)<=userRating));
+    });
+  });
+});
+</script>
+</body>
+</html>

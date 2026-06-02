@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="logo2.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — O Foods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--err:#E03535;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--r2:12px;--nav-bg:#131921;}
+body{font-family:"Outfit",sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px;visibility:hidden;cursor:default}
+#topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
+#topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 20px;height:60px;gap:16px}
+.nav-logo{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s}
+.nav-logo:hover{border-color:#fff}
+.nav-spacer{flex:1}
+.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;cursor:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap}
+.nav-item:hover{border-color:#fff}
+.ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+.ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;cursor:none;flex-shrink:0;transition:border-color .15s}
+.nav-cart-link:hover{border-color:#fff}
+.cart-icon-wrap{position:relative;display:inline-flex}
+#nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center}
+.cart-label{font-size:13px;font-weight:700;color:#fff;padding-bottom:3px}
+/* HERO */
+.prof-hero{background:linear-gradient(135deg,#0e0303 0%,#1a0606 40%,#0a1505 70%,#080e14 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.prof-hero::before{content:"";position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(212,13,13,.15) 0%,transparent 65%);pointer-events:none}
+.hero-inner{display:flex;align-items:center;gap:32px;padding:40px 48px;position:relative;z-index:1;flex-wrap:wrap}
+.avatar{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--red),#800000);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;font-family:"Cormorant Garamond",serif;border:3px solid rgba(255,255,255,.12);box-shadow:0 0 40px rgba(212,13,13,.35);flex-shrink:0}
+.hero-info{flex:1;min-width:200px}
+.hero-greeting{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:6px}
+.hero-name{font-family:"Cormorant Garamond",serif;font-size:34px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
+.hero-email{font-size:13px;color:var(--muted);margin-bottom:16px}
+.hero-stats{display:flex;gap:0;border-left:1px solid var(--border);margin-top:4px}
+.stat-item{padding:10px 24px;border-right:1px solid var(--border);text-align:center}
+.stat-item:first-child{border-left:none}
+.stat-num{font-size:24px;font-weight:700;color:var(--red);font-family:"Cormorant Garamond",serif;line-height:1}
+.stat-lbl{font-size:10px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.hero-right{display:flex;flex-direction:column;gap:8px;align-items:flex-end;align-self:flex-start}
+.member-pill{background:rgba(232,184,75,.12);border:1px solid rgba(232,184,75,.3);border-radius:50px;padding:4px 14px;font-size:11px;font-weight:700;color:var(--gold)}
+.btn-logout{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px 14px;font-family:"Outfit",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.btn-logout:hover{border-color:var(--err);color:var(--err)}
+/* LAYOUT */
+.prof-layout{display:grid;grid-template-columns:240px 1fr;gap:28px;padding:32px 48px 60px;max-width:1300px;margin:0 auto}
+.prof-sidebar{position:sticky;top:80px;align-self:start}
+.sidebar-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.sb-section{padding:8px;border-bottom:1px solid var(--border)}
+.sb-section:last-child{border-bottom:none}
+.sb-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:10px 10px 5px;display:block}
+.psb{width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-family:"Outfit",sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:2px;text-align:left}
+.psb:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.psb.active{background:rgba(212,13,13,.1);color:var(--red);font-weight:600}
+.psb-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.psb-badge{margin-left:auto;background:var(--red);color:#fff;border-radius:50px;min-width:18px;height:18px;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
+/* PANELS */
+.panel{display:none}
+.panel.show{display:block;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.panel-title{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:700;letter-spacing:-1px}
+.panel-title span{color:var(--red)}
+.btn-action{background:var(--red);color:#fff;border:none;border-radius:50px;padding:10px 22px;font-family:"Outfit",sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.btn-action:hover{background:var(--red2);transform:translateY(-1px)}
+/* ORDER CARDS */
+.filter-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.ftab{padding:6px 14px;border-radius:50px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:"Outfit",sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s}
+.ftab:hover{border-color:rgba(212,13,13,.3);color:var(--text)}
+.ftab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.order-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden;transition:all .2s}
+.order-card:hover{border-color:rgba(212,13,13,.2);box-shadow:0 4px 24px rgba(0,0,0,.4);transform:translateY(-2px)}
+.oc-head{padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015);flex-wrap:wrap}
+.oc-id{font-weight:700;font-size:15px;font-family:"Cormorant Garamond",serif;letter-spacing:.5px}
+.oc-date{font-size:11px;color:var(--muted)}
+.oc-status{margin-left:auto;padding:4px 12px;border-radius:50px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.oc-status.preparing{background:rgba(212,13,13,.12);color:var(--red);border:1px solid rgba(212,13,13,.2)}
+.oc-status.ready{background:rgba(45,106,53,.12);color:#6BCF7F;border:1px solid rgba(45,106,53,.2)}
+.oc-status.completed{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border)}
+.oc-body{padding:14px 20px}
+.oc-items{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.oc-chip{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:4px 10px;font-size:11px}
+.oc-meta{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.oc-meta strong{color:var(--text)}
+.oc-foot{padding:10px 20px;display:flex;gap:8px;border-top:1px solid var(--border);background:rgba(0,0,0,.1);align-items:center}
+.btn-reorder{background:rgba(212,13,13,.08);color:var(--red);border:1px solid rgba(212,13,13,.2);border-radius:8px;padding:7px 14px;font-family:"Outfit",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-reorder:hover{background:var(--red);color:#fff}
+.btn-track{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:7px 14px;font-family:"Outfit",sans-serif;font-size:12px;cursor:pointer;text-decoration:none;transition:all .2s}
+.btn-track:hover{border-color:var(--red);color:var(--red)}
+.oc-total{margin-left:auto;font-size:15px;font-weight:700;color:var(--text)}
+/* FORMS */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;margin-bottom:18px}
+.fc-title{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:700;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fg-full{grid-column:1/-1}
+.form-lbl{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px}
+.form-in{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:"Outfit",sans-serif;font-size:14px;color:var(--text);transition:border-color .2s}
+.form-in:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(212,13,13,.06)}
+.form-in::placeholder{color:var(--muted)}
+.form-in:read-only{color:var(--muted)}
+.btn-save{background:var(--red);color:#fff;border:none;border-radius:10px;padding:11px 26px;font-family:"Outfit",sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:18px}
+.btn-save:hover{background:var(--red2);transform:translateY(-1px)}
+/* PREFS */
+.pref-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.pref-row{display:flex;align-items:center;padding:16px 22px;border-bottom:1px solid var(--border);transition:background .2s}
+.pref-row:last-child{border-bottom:none}
+.pref-row:hover{background:rgba(255,255,255,.015)}
+.pr-icon{font-size:20px;margin-right:14px;flex-shrink:0}
+.pr-info{flex:1}
+.pr-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:3px}
+.pr-value{font-size:14px;font-weight:600;color:var(--text)}
+.pr-value.empty{color:var(--muted);font-weight:400;font-style:italic}
+.pr-btn{background:rgba(212,13,13,.08);color:var(--red);border:1px solid rgba(212,13,13,.2);border-radius:8px;padding:6px 14px;font-family:"Outfit",sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;flex-shrink:0}
+.pr-btn:hover{background:var(--red);color:#fff}
+/* EMPTY */
+.empty-state{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:64px 32px;text-align:center}
+.es-icon{font-size:60px;display:block;margin-bottom:16px}
+.es-title{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:700;margin-bottom:8px}
+.es-sub{color:var(--muted);font-size:14px;margin-bottom:22px;line-height:1.6;max-width:300px;margin-left:auto;margin-right:auto}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9000;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
+.modal-overlay.show{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;max-width:500px;width:92%;max-height:82vh;overflow-y:auto;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.8);animation:popIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{border-color:var(--red);color:var(--red)}
+.modal-title{font-family:"Cormorant Garamond",serif;font-size:26px;font-weight:700;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:20px}
+.store-opt{padding:14px 16px;border-radius:12px;border:2px solid var(--border);background:var(--bg2);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.store-opt:hover{border-color:rgba(212,13,13,.4)}
+.store-opt.selected{border-color:var(--red);background:rgba(212,13,13,.07)}
+.so-name{font-size:13px;font-weight:600;color:var(--text)}
+.so-addr{font-size:11px;color:var(--muted);margin-top:2px}
+.so-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);margin-left:auto;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;transition:all .2s}
+.store-opt.selected .so-check{background:var(--red);border-color:var(--red);color:#fff}
+/* ADDRESS CARDS */
+.addr-grid{display:grid;gap:12px}
+.addr-card{background:var(--bg2);border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;position:relative;transition:all .25s;overflow:hidden}
+.addr-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,13,13,.04) 0%,transparent 60%);opacity:0;transition:opacity .25s}
+.addr-card:hover{border-color:rgba(212,13,13,.25);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.addr-card:hover::before{opacity:1}
+.addr-card.is-default{border-color:rgba(212,13,13,.35);background:rgba(212,13,13,.04)}
+.addr-card.is-default::before{opacity:1}
+.ac-top{display:flex;align-items:center;gap:10px;margin-bottom:10px;position:relative;z-index:1}
+.ac-label-pill{background:var(--bg3);border:1px solid var(--border);border-radius:50px;padding:3px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.addr-card.is-default .ac-label-pill{background:rgba(212,13,13,.12);border-color:rgba(212,13,13,.25);color:var(--red)}
+.ac-default-badge{background:rgba(45,106,53,.12);border:1px solid rgba(45,106,53,.25);color:#6BCF7F;border-radius:50px;padding:2px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.ac-actions{margin-left:auto;display:flex;gap:6px}
+.ac-btn{background:var(--bg3);border:1px solid var(--border);color:var(--muted);border-radius:7px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all .2s;flex-shrink:0}
+.ac-btn:hover{border-color:var(--red);color:var(--red);background:rgba(212,13,13,.06)}
+.ac-btn.del:hover{border-color:var(--err);color:var(--err);background:rgba(224,53,53,.06)}
+.ac-body{position:relative;z-index:1}
+.ac-addr-text{font-size:13px;font-weight:500;color:var(--text);line-height:1.5}
+.ac-landmark{font-size:11px;color:var(--muted);margin-top:3px}
+.ac-set-default{display:inline-block;margin-top:8px;font-size:11px;font-weight:600;color:var(--red);cursor:pointer;background:none;border:none;font-family:"Outfit",sans-serif;padding:0;transition:opacity .2s}
+.ac-set-default:hover{opacity:.7}
+.addr-empty{text-align:center;padding:48px 20px;background:var(--card);border:1px solid var(--border);border-radius:var(--r)}
+.addr-empty .es-icon{font-size:50px;display:block;margin-bottom:12px}
+.addr-empty .es-title{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;margin-bottom:6px}
+.addr-empty .es-sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+#toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:50px;padding:13px 28px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.5);z-index:9998;pointer-events:none;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:1000px){.prof-layout{grid-template-columns:1fr;padding:20px 20px 48px}.prof-sidebar{position:static}.hero-inner{padding:28px 20px}.form-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.hero-stats{flex-wrap:wrap}.stat-item{padding:8px 14px}}
+</style>
+</head>
+<body>
+
+<div id="topnav-wrapper">
+  <nav id="topnav">
+    <a href="memu.html" class="nav-logo"><img src="logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;" onerror="this.outerHTML='<span style=&quot;font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff&quot;>O<span style=&quot;color:#d40d0d&quot;>Foods</span></span>'"></a>
+    <div class="nav-spacer"></div>
+    <a href="memu.html" class="nav-item"><span class="ni-top">Browse</span><span class="ni-bot">Products</span></a>
+    <a href="cart.html" class="nav-cart-link">
+      <div class="cart-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="nav-badge"></span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+  </nav>
+</div>
+
+<div class="prof-hero"><div class="hero-inner" id="hero-inner"></div></div>
+
+<div class="prof-layout">
+  <nav class="prof-sidebar">
+    <div class="sidebar-card">
+      <div class="sb-section">
+        <span class="sb-lbl">My Account</span>
+        <button class="psb active" onclick="showPanel('orders',this)"><span class="psb-icon">📦</span> My Orders <span class="psb-badge" id="orders-badge">0</span></button>
+        <button class="psb" onclick="showPanel('profile',this)"><span class="psb-icon">👤</span> Profile Info</button>
+        <button class="psb" onclick="showPanel('addresses',this)"><span class="psb-icon">📍</span> Addresses <span class="psb-badge" id="addr-badge" style="background:var(--green)">0</span></button>
+      </div>
+      <div class="sb-section">
+        <span class="sb-lbl">Settings</span>
+        <button class="psb" onclick="showPanel('prefs',this)"><span class="psb-icon">⚙️</span> Preferences</button>
+        <button class="psb" onclick="showPanel('security',this)"><span class="psb-icon">🔒</span> Security</button>
+      </div>
+      <div class="sb-section" style="padding-bottom:12px">
+        <button class="psb" style="color:var(--err)" onclick="doLogout()"><span class="psb-icon">🚪</span> Sign Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div id="panels">
+    <div class="panel show" id="panel-orders">
+      <div class="panel-header">
+        <div class="panel-title">My <span>Orders</span></div>
+        <a href="memu.html" class="btn-action">+ New Order</a>
+      </div>
+      <div class="filter-tabs">
+        <button class="ftab active" onclick="filterOrders('all',this)">All</button>
+        <button class="ftab" onclick="filterOrders('preparing',this)">🍳 Preparing</button>
+        <button class="ftab" onclick="filterOrders('ready',this)">✅ Ready</button>
+        <button class="ftab" onclick="filterOrders('completed',this)">✓ Completed</button>
+      </div>
+      <div id="orders-list"></div>
+    </div>
+
+    <div class="panel" id="panel-profile">
+      <div class="panel-header"><div class="panel-title">Profile <span>Info</span></div></div>
+      <div class="form-card">
+        <div class="fc-title">👤 Personal Details</div>
+        <div class="form-grid">
+          <div><label class="form-lbl">Full Name</label><input class="form-in" type="text" id="s-name" placeholder="Your full name" autocomplete="name"></div>
+          <div><label class="form-lbl">Email Address</label><input class="form-in" type="email" id="s-email" placeholder="you@example.com" autocomplete="email"></div>
+          <div><label class="form-lbl">Phone Number</label><input class="form-in" type="tel" id="s-phone" placeholder="+91 XXXXX XXXXX"></div>
+          <div><label class="form-lbl">Date of Birth</label><input class="form-in" type="date" id="s-dob"></div>
+        </div>
+        <button class="btn-save" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- ADDRESS BOOK PANEL -->
+    <div class="panel" id="panel-addresses">
+      <div class="panel-header">
+        <div class="panel-title">📍 My <span>Addresses</span></div>
+        <button class="btn-action" onclick="openAddrModal()">+ Add Address</button>
+      </div>
+      <div class="addr-grid" id="addr-list"></div>
+    </div>
+
+    <div class="panel" id="panel-prefs">
+      <div class="panel-header"><div class="panel-title">⚙️ <span>Preferences</span></div></div>
+      <div class="pref-card">
+        <div class="pref-row"><span class="pr-icon">📦</span><div class="pr-info"><div class="pr-label">Delivery</div><div class="pr-value">All India 🇮🇳</div></div></div>
+        <div class="pref-row"><span class="pr-icon">📍</span><div class="pr-info"><div class="pr-label">Delivery Addresses</div><div class="pr-value" id="pr-addr-val">0 saved</div></div><a href="javascript:void(0)" onclick="showPanel('addresses',document.querySelectorAll('.psb')[2])" class="pr-btn" style="text-decoration:none">Manage →</a></div>
+        <div class="pref-row"><span class="pr-icon">🛍️</span><div class="pr-info"><div class="pr-label">Total Orders</div><div class="pr-value" id="pr-orders-val">0 orders</div></div></div>
+        <div class="pref-row"><span class="pr-icon">💰</span><div class="pr-info"><div class="pr-label">Total Spent</div><div class="pr-value" id="pr-spent-val">₹0</div></div></div>
+      </div>
+    </div>
+
+    <div class="panel" id="panel-security">
+      <div class="panel-header"><div class="panel-title">🔒 <span>Security</span></div></div>
+      <div class="pref-card">
+        <div class="pref-row"><span class="pr-icon">🔑</span><div class="pr-info"><div class="pr-label">Password</div><div class="pr-value">••••••••</div></div><button class="pr-btn" onclick="openChangePassword()">Change →</button></div>
+        
+        <div class="pref-row"><span class="pr-icon">🗑️</span><div class="pr-info"><div class="pr-label">Delete Account</div><div class="pr-value empty">Permanently delete your data</div></div><button class="pr-btn" style="color:var(--err);border-color:rgba(224,53,53,.2)" onclick="toast('⚠️ Please contact support to delete your account')">Delete →</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal-overlay" id="pw-modal" onclick="if(event.target===this)closePwModal()">
+  <div class="modal-box" style="max-width:420px">
+    <button class="modal-close" onclick="closePwModal()">✕</button>
+    <div class="modal-title">Change Password</div>
+    <div class="modal-sub" id="pw-modal-sub">Enter your new password below.</div>
+
+    <!-- Step 1: New password form -->
+    <div id="pw-step1">
+      <div style="margin-bottom:14px">
+        <label class="form-lbl">New Password</label>
+        <input class="form-in" type="password" id="pw-new" placeholder="Min. 6 characters" autocomplete="new-password">
+      </div>
+      <div style="margin-bottom:20px">
+        <label class="form-lbl">Confirm New Password</label>
+        <input class="form-in" type="password" id="pw-confirm" placeholder="Repeat new password" autocomplete="new-password">
+      </div>
+      <button class="btn-save" style="width:100%;margin-top:0" onclick="sendPwOTP()">Send OTP to Email →</button>
+    </div>
+
+    <!-- Step 2: OTP verification -->
+    <div id="pw-step2" style="display:none">
+      <div style="background:rgba(212,13,13,.06);border:1px solid rgba(212,13,13,.15);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13px;color:var(--muted);line-height:1.6">
+        A 6-digit OTP has been sent to your registered email.<br>Enter it below to confirm the change.
+      </div>
+      <div style="margin-bottom:20px">
+        <label class="form-lbl">Enter OTP</label>
+        <input class="form-in" type="text" id="pw-otp" placeholder="6-digit code" maxlength="6" style="letter-spacing:6px;font-size:20px;text-align:center" autocomplete="one-time-code">
+      </div>
+      <button class="btn-save" style="width:100%;margin-top:0" onclick="verifyPwOTP()">Confirm New Password</button>
+      <button onclick="sendPwOTP()" style="width:100%;margin-top:10px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:10px;padding:10px;font-family:Outfit,sans-serif;font-size:13px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">Resend OTP</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADDRESS ADD/EDIT MODAL -->
+<div class="modal-overlay" id="addr-modal" onclick="if(event.target===this)closeAddrModal()">
+  <div class="modal-box" style="max-width:520px">
+    <button class="modal-close" onclick="closeAddrModal()">✕</button>
+    <div class="modal-title" id="addr-modal-title">Add Address</div>
+    <div class="modal-sub">Fill in your delivery address details</div>
+    <div style="margin-bottom:14px">
+      <label class="form-lbl">Label</label>
+      <select class="form-in" id="a-label" style="cursor:pointer">
+        <option value="Home">🏠 Home</option>
+        <option value="Work">🏢 Work</option>
+        <option value="Other">📍 Other</option>
+      </select>
+    </div>
+    <div class="form-grid" style="margin-bottom:14px">
+      <div><label class="form-lbl">House / Flat No.</label><input class="form-in" type="text" id="a-house" placeholder="e.g. 12B, Flat 3"></div>
+      <div><label class="form-lbl">Street / Area</label><input class="form-in" type="text" id="a-street" placeholder="e.g. MG Road, Nampally"></div>
+      <div><label class="form-lbl">City *</label><input class="form-in" type="text" id="a-city" placeholder="e.g. Guntur"></div>
+      <div><label class="form-lbl">State *</label><input class="form-in" type="text" id="a-state" placeholder="e.g. Andhra Pradesh"></div>
+      <div><label class="form-lbl">Pincode *</label><input class="form-in" type="text" id="a-pincode" placeholder="e.g. 522001" maxlength="6"></div>
+      <div><label class="form-lbl">Landmark (Optional)</label><input class="form-in" type="text" id="a-landmark" placeholder="e.g. Near Bus Stand"></div>
+    </div>
+    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;color:var(--text);margin-bottom:20px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px">
+      <input type="checkbox" id="a-default" style="accent-color:var(--red);width:16px;height:16px">
+      Set as default delivery address
+    </label>
+    <input type="hidden" id="a-edit-id" value="">
+    <button class="btn-save" style="width:100%;margin-top:0" onclick="saveAddress()">Save Address</button>
+  </div>
+</div>
+
+
+
+<div id="toast"></div>
+
+<script>
+const STORES=[
+   {
+    id: '1',
+    name: 'O Foods — Amaravathi',
+    address: 'Beside Of Police Station, Amaravathi - 522426',
+    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
+    phone: '+91 9390626483'
+  },
+  {
+    id: '2',
+    name: 'O Foods — Guntur',
+    address: 'Beside Of Police Station, Guntur - 522002',
+    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
+    phone: '+91 7013158283'
+  },
+  {
+    id: '3',
+    name: 'O Foods — Vijayawada',
+    address: 'Beside Of Police Station, Vijayawada - 520001',
+    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
+    phone: '+91 7842111179'
+  },
+];
+const API = 'http://localhost:3000';
+
+function getUser(){try{return JSON.parse(localStorage.getItem("of_user")||"null")}catch(e){return null}}
+function saveUser(u){localStorage.setItem("of_user",JSON.stringify(u))}
+function ordersKey(){const u=getUser();return u?'of_orders_'+u.id:'of_orders_guest'}
+function getOrders(){
+  try {
+    const orders = JSON.parse(localStorage.getItem(ordersKey()) || "[]") || [];
+    return orders.map(o => {
+      const normalized = { ...o };
+      if (!normalized.deliveryMethod && String(normalized.slot || '').toLowerCase().includes('pickup')) {
+        normalized.deliveryMethod = 'pickup';
+      }
+      if (!normalized.pickupDateDisplay && normalized.pickupDate) {
+        const d = new Date(normalized.pickupDate);
+        normalized.pickupDateDisplay = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM';
+      }
+      return normalized;
+    });
+  } catch (e) { return [] }
+}
+function getPrefs(){try{return JSON.parse(localStorage.getItem("of_prefs")||"{}")}catch(e){return{}}}
+function savePrefs(p){localStorage.setItem("of_prefs",JSON.stringify(p))}
+function cartKey(){const u=getUser();return u?'of_cart_'+u.id:'of_cart_guest'}
+function getCart(){try{return JSON.parse(localStorage.getItem(cartKey())||"{}")}catch(e){return{}}}
+function saveCart(c){localStorage.setItem(cartKey(),JSON.stringify(c))}
+let _tt=null,_cache=[],_filter="all";
+function toast(msg){const t=document.getElementById("toast");t.innerHTML=msg;t.classList.add("show");clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove("show"),2800)}
+window.addEventListener("DOMContentLoaded", async () => {
+
+  const n = Object.values(getCart()).reduce((a, b) => a + b, 0);
+  const nb = document.getElementById("nav-badge");
+  if (nb) { nb.textContent = n; nb.style.display = n > 0 ? "flex" : "none"; }
+
+const token = localStorage.getItem("of_token");
+if (!token) { location.href = "login.html?next=profile.html"; return; }
+document.body.style.visibility = 'visible'; // ✅ show page only if logged in
+
+  try {
+    const pr = await fetch(`${API}/api/profile`, {
+      headers: { "Authorization": "Bearer " + token }
+    });
+    const pd = await pr.json();
+    if (!pd.success) { location.href = "login.html?next=profile.html"; return; }
+    const user = pd.user;
+    saveUser(user);
+
+    const or = await fetch(`${API}/api/orders`, {
+      headers: { "Authorization": "Bearer " + token }
+    });
+    const od = await or.json();
+    if (od.success) {
+      const orders = od.orders.map(o => ({
+        id: o.order_id,
+        date: new Date(o.created_at).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }),
+        placedAt: o.created_at,
+        items: JSON.parse(o.items_json || "[]"),
+        total: parseFloat(o.total) || 0,
+        store: o.store,
+        deliveryAddress: o.delivery_address || '',
+        slot: o.slot,
+        deliveryMethod: o.deliveryMethod || o.delivery_method || null,
+        pickupDate: o.pickupDate || o.pickup_date || null,
+        pickupDateDisplay: o.pickupDateDisplay || (o.pickupDate || o.pickup_date ? new Date(o.pickupDate || o.pickup_date).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM' : null),
+        payMethod: o.payment,
+        status: o.status
+      }));
+      // Save under user-specific key so each user sees their own orders
+      localStorage.setItem("of_orders_"+user.id, JSON.stringify(orders));
+    }
+
+    buildHero(user);
+    prefillForm(user);
+    renderOrders();
+    await loadAddresses();
+    renderPrefs();
+  } catch (e) {
+    console.error(e);
+    const user = getUser();
+    if (!user) { location.href = "login.html?next=profile.html"; return; }
+    buildHero(user); prefillForm(user); renderOrders(); await loadAddresses(); renderPrefs();
+  }
+
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeStoreModal(); });
+
+  // Auto-refresh order timelines every 60s to keep delivery countdown up-to-date
+  setInterval(() => { renderOrders(); }, 60000);
+});
+
+function buildHero(user){
+  const orders=getOrders(),spent=orders.reduce((s,o)=>s+(o.total||0),0);
+  const letter=(user.name&&user.name.trim())?user.name.trim()[0].toUpperCase():"U";
+  const badge=document.getElementById("orders-badge");
+  if(badge)badge.textContent=orders.length;
+  document.getElementById("hero-inner").innerHTML=`
+    <div class="avatar">${letter}</div>
+    <div class="hero-info">
+      <div class="hero-greeting">Welcome back</div>
+      <div class="hero-name">${user.name||"Guest"}</div>
+      <div class="hero-email">${user.email||user.phone||"No contact info"}</div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">${orders.length}</div><div class="stat-lbl">Orders</div></div>
+        <div class="stat-item"><div class="stat-num">₹${Math.round(spent).toLocaleString("en-IN")}</div><div class="stat-lbl">Spent</div></div>
+        <div class="stat-item"><div class="stat-num">${orders.filter(o=>o.status==="completed").length}</div><div class="stat-lbl">Completed</div></div>
+      </div>
+    </div>
+    <div class="hero-right">
+      
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>`;
+}
+
+function prefillForm(user){
+  document.getElementById("s-name").value=user.name||"";
+  document.getElementById("s-email").value=user.email||"";
+  document.getElementById("s-phone").value=user.phone||"";
+  document.getElementById("s-dob").value=user.dob||"";
+}
+
+function showPanel(id,btn){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("show"));
+  document.querySelectorAll(".psb").forEach(b=>b.classList.remove("active"));
+  document.getElementById("panel-"+id).classList.add("show");
+  btn.classList.add("active");
+  if(id==='addresses') loadAddresses();
+}
+
+function filterOrders(status,btn){
+  _filter=status;
+  document.querySelectorAll(".ftab").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  renderOrders();
+}
+
+function renderOrders(){
+  const all=getOrders();
+  const list=_filter==="all"?all:all.filter(o=>o.status===_filter);
+  _cache=all;
+  const el=document.getElementById("orders-list");
+  if(!list.length){
+    el.innerHTML=`<div class="empty-state"><span class="es-icon">${_filter==="all"?"📦":"🔍"}</span><div class="es-title">${_filter==="all"?"No orders yet":"No "+_filter+" orders"}</div><div class="es-sub">${_filter==="all"?"Browse our fresh homemade products and place your first order!":"No orders with this status."}</div>${_filter==="all"?'<a href="all-items.html" class="btn-action">Browse Products →</a>':""}</div>`;
+    return;
+  }
+  const sm={preparing:{cls:"preparing",lbl:"🍳 Preparing"},ready:{cls:"ready",lbl:"✅ Ready"},completed:{cls:"completed",lbl:"✓ Completed"}};
+  el.innerHTML=list.map(o=>{
+    const items=Array.isArray(o.items)?o.items:[];
+    const preview=items.slice(0,4).map(it=>`<div class="oc-chip">${it.emoji||""} ${it.name||""}</div>`).join("");
+    const extra=items.length>4?`<div class="oc-chip">+${items.length-4}</div>`:"";
+    const st=sm[o.status]||sm.preparing;
+    const idx=_cache.findIndex(x=>x.id===o.id);
+    // Build timeline display
+    const timeline=buildOrderTimeline(o);
+    const addrDisplay = o.deliveryAddress || o.store || '—';
+    return `<div class="order-card">
+      <div class="oc-head">
+        <div><div class="oc-id">Order #${o.id}</div><div class="oc-date">${o.date||""}</div></div>
+        <div class="oc-status ${st.cls}">${st.lbl}</div>
+      </div>
+      <div class="oc-body">
+        <div class="oc-items">${preview}${extra}</div>
+        <div class="oc-meta">
+          <span>📦 <strong>${addrDisplay}</strong></span>
+          <span>📅 <strong>${o.pickupDateDisplay || o.pickupDate || o.pickup_date || "—"}</strong></span>
+          <span>🕐 <strong>${o.deliveryMethod === 'pickup' || o.delivery_method === 'pickup' || String(o.slot || '').toLowerCase().includes('pickup') ? 'Store Pickup' : (o.slot || "4–5 business days")}</strong></span>
+          <span>💰 <strong>₹${o.total||0}</strong></span>
+          ${o.payMethod?`<span>💳 <strong>${o.payMethod.toUpperCase()}</strong></span>`:""}
+        </div>
+        ${timeline}
+      </div>
+      <div class="oc-foot">
+        <button class="btn-reorder" onclick="doReorder(${idx})">🔄 Reorder</button>
+        <a href="conformation.html" class="btn-track">Track →</a>
+        <div class="oc-total">₹${o.total||0}</div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function fmt(isoOrDate){
+  if(!isoOrDate) return '—';
+  const d=new Date(isoOrDate);
+  return d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+}
+
+function buildOrderTimeline(o){
+  const isPickup = o.deliveryMethod === 'pickup'
+    || o.delivery_method === 'pickup'
+    || String(o.slot || '').toLowerCase().includes('pickup')
+    || Boolean(o.pickupDate)
+    || Boolean(o.pickup_date);
+  const placedDate = o.placedAt ? new Date(o.placedAt) : (o.date ? new Date(o.date) : null);
+  if(!placedDate || isNaN(placedDate.getTime())) return '';
+
+  // ── Next working day helper (matches date-utils.js) ────────
+  function getNextWorkingDay(from) {
+    const d = new Date(from); d.setHours(0,0,0,0);
+    const day = d.getDay();
+    if (day === 6) d.setDate(d.getDate() + 2); // Sat→Mon
+    else if (day === 0) d.setDate(d.getDate() + 1); // Sun→Mon
+    else d.setDate(d.getDate() + 1); // Mon-Fri→next day
+    return d;
+  }
+
+  if(isPickup){
+    const now = new Date();
+
+    // Use stored pickupDate from order if available, else compute
+    let pickupReadyTime;
+    if (o.pickupDate) {
+      pickupReadyTime = new Date(o.pickupDate);
+    } else if (o.pickup_date) {
+      pickupReadyTime = new Date(o.pickup_date);
+    } else {
+      pickupReadyTime = getNextWorkingDay(placedDate);
+    }
+    pickupReadyTime.setHours(16, 0, 0, 0); // 4:00 PM
+
+    const pickupDayLabel = pickupReadyTime.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' });
+
+    const totalMs = pickupReadyTime - placedDate;
+    const elapsedMs = now - placedDate;
+    const progress = Math.min(Math.max((elapsedMs / totalMs) * 100, 2), 100);
+    const remainMs = Math.max(pickupReadyTime - now, 0);
+    const remainHrs = Math.floor(remainMs / (1000*60*60));
+    const remainMins = Math.floor((remainMs % (1000*60*60)) / (1000*60));
+    const remainDays = Math.floor(remainMs / (1000*60*60*24));
+
+    let statusLabel = '🍳 Preparing';
+    let statusColor = '#E8B84B';
+    let barColor = 'linear-gradient(90deg, #E8B84B, #F0C75E)';
+    if(now >= pickupReadyTime) { statusLabel = '✅ Ready for Pickup'; statusColor = '#6BCF7F'; barColor = 'linear-gradient(90deg, #2D6A35, #6BCF7F)'; }
+
+    const readyText = remainMs <= 0
+      ? '✅ Ready now!'
+      : remainDays > 0
+        ? `${remainDays}d ${remainHrs % 24}h left`
+        : `${remainHrs}h ${remainMins}m left`;
+
+    const dateFmt2 = {day:'numeric',month:'short',year:'numeric'};
+
+    return `<div data-order-timeline="${o.id}" style="margin-top:12px;background:rgba(45,106,53,.06);border:1px solid rgba(45,106,53,.15);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--muted)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6BCF7F">🏪 Pickup Progress</div>
+        <div style="font-size:11px;font-weight:700;color:${statusColor}">${statusLabel}</div>
+      </div>
+      <div style="background:rgba(255,255,255,.06);border-radius:6px;height:6px;overflow:hidden;margin-bottom:10px">
+        <div style="height:100%;border-radius:6px;background:${barColor};width:${progress}%;transition:width .6s ease"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;line-height:1.5">
+        <div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">📋 Ordered</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text)">${placedDate.toLocaleDateString('en-IN',dateFmt2)}</div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">🏪 Ready By</div>
+          <div style="font-size:11px;font-weight:600;color:var(--text)">${pickupDayLabel}</div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">⏰ Countdown</div>
+          <div style="font-size:11px;font-weight:600;color:#6BCF7F">${readyText}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Home delivery — dynamic progress
+  const now = new Date();
+  const estDelivery = new Date(placedDate);
+  estDelivery.setDate(estDelivery.getDate() + 5);
+  const dispatchEst = new Date(placedDate);
+  dispatchEst.setDate(dispatchEst.getDate() + 2);
+
+  const totalMs = 5 * 24 * 60 * 60 * 1000; // 5 days
+  const elapsedMs = now - placedDate;
+  const progress = Math.min(Math.max((elapsedMs / totalMs) * 100, 2), 100);
+  const remainMs = Math.max(estDelivery - now, 0);
+  const remainDays = Math.floor(remainMs / (1000*60*60*24));
+  const remainHrs = Math.floor((remainMs % (1000*60*60*24)) / (1000*60*60));
+
+  // Status determination
+  let statusLabel = '🍳 Preparing';
+  let statusColor = '#E8B84B';
+  let barColor = 'linear-gradient(90deg, #E8B84B, #F0C75E)';
+  if(elapsedMs >= 48*60*60*1000) { statusLabel = '📦 Dispatched'; statusColor = '#6BCF7F'; barColor = 'linear-gradient(90deg, #2D6A35, #6BCF7F)'; }
+  if(elapsedMs >= totalMs) { statusLabel = '✅ Delivered'; statusColor = '#6BCF7F'; barColor = 'linear-gradient(90deg, #2D6A35, #6BCF7F)'; }
+
+  const arrivalText = remainMs <= 0
+    ? '✅ Delivered'
+    : `Arriving in ${remainDays > 0 ? remainDays + 'd ' : ''}${remainHrs}h`;
+
+  const dateFmt = {day:'numeric',month:'short',year:'numeric'};
+
+  return `<div data-order-timeline="${o.id}" style="margin-top:12px;background:rgba(45,106,53,.06);border:1px solid rgba(45,106,53,.15);border-radius:10px;padding:14px 16px;font-size:12px;color:var(--muted)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6BCF7F">🚚 Delivery Progress</div>
+      <div style="font-size:11px;font-weight:700;color:${statusColor}">${statusLabel}</div>
+    </div>
+    <div style="background:rgba(255,255,255,.06);border-radius:6px;height:6px;overflow:hidden;margin-bottom:10px">
+      <div style="height:100%;border-radius:6px;background:${barColor};width:${progress}%;transition:width .6s ease"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;line-height:1.5">
+      <div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">📋 Ordered</div>
+        <div style="font-size:11px;font-weight:600;color:var(--text)">${placedDate.toLocaleDateString('en-IN',dateFmt)}</div>
+      </div>
+      <div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">📦 Dispatch</div>
+        <div style="font-size:11px;font-weight:600;color:var(--text)">${elapsedMs >= 48*60*60*1000 ? 'Dispatched ✓' : dispatchEst.toLocaleDateString('en-IN',dateFmt)}</div>
+      </div>
+      <div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">🚚 Est. Delivery</div>
+        <div style="font-size:11px;font-weight:600;color:#6BCF7F">${arrivalText}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPrefs(){
+  const orders=getOrders();
+  const spent=orders.reduce((s,o)=>s+(o.total||0),0);
+  // Address count from cached addresses
+  const addrCount = _addrCache.length;
+  const av=document.getElementById("pr-addr-val");
+  if(av){
+    if(addrCount>0){
+      const def=_addrCache.find(a=>a.is_default);
+      const defStr=def?[def.house,def.street,def.city,def.state,def.pincode].filter(Boolean).join(', '):`${addrCount} address${addrCount!==1?'es':''}`;
+      av.textContent=defStr;av.className='pr-value';
+    } else { av.textContent='No addresses saved';av.className='pr-value empty'; }
+  }
+  const ov=document.getElementById("pr-orders-val"),spv=document.getElementById("pr-spent-val");
+  if(ov)ov.textContent=orders.length+" order"+(orders.length!==1?"s":"");
+  if(spv)spv.textContent="₹"+Math.round(spent).toLocaleString("en-IN");
+}
+
+async function saveProfile() {
+  const user = getUser(); if (!user) return;
+  const n = document.getElementById("s-name").value.trim();
+  if (!n) { toast("⚠️ Please enter your name"); return; }
+  user.name = n;
+  user.email = document.getElementById("s-email").value.trim() || user.email;
+  user.phone = document.getElementById("s-phone").value.trim() || user.phone;
+  user.dob = document.getElementById("s-dob").value || user.dob;
+  const token = localStorage.getItem("of_token");
+  if (token) {
+    try {
+      await fetch(`${API}/api/profile`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+        body: JSON.stringify({ name: user.name, phone: user.phone, dob: user.dob })
+      });
+    } catch(e) { console.warn("Profile update to server failed", e); }
+  }
+  if (!user.since) user.since = new Date().toLocaleDateString("en-IN", { month:"long", year:"numeric" });
+  saveUser(user); buildHero(user); toast("✅ Profile updated!");
+}
+
+// ════════════════════════════════════════════════════════════════
+//  ADDRESS BOOK — Multi-address CRUD
+// ════════════════════════════════════════════════════════════════
+let _addrCache = [];
+
+async function loadAddresses(){
+  const token=localStorage.getItem('of_token'); if(!token) return;
+  try {
+    const r=await fetch(`${API}/api/addresses`,{headers:{'Authorization':'Bearer '+token}});
+    const d=await r.json();
+    if(d.success) _addrCache=d.addresses||[];
+  } catch(e){ console.warn('Could not load addresses',e); }
+  renderAddresses();
+  // Update badge
+  const badge=document.getElementById('addr-badge');
+  if(badge) badge.textContent=_addrCache.length;
+  renderPrefs();
+}
+
+function renderAddresses(){
+  const el=document.getElementById('addr-list');
+  if(!_addrCache.length){
+    el.innerHTML=`<div class="addr-empty">
+      <span class="es-icon">📍</span>
+      <div class="es-title">No addresses yet</div>
+      <div class="es-sub">Add your delivery addresses so you can quickly select one during checkout.</div>
+      <button class="btn-action" onclick="openAddrModal()">+ Add Address</button>
+    </div>`;
+    return;
+  }
+  const labelIcons={'Home':'🏠','Work':'🏢','Other':'📍'};
+  el.innerHTML=_addrCache.map(a=>{
+    const addrStr=[a.house,a.street,a.city,a.state,a.pincode].filter(Boolean).join(', ');
+    const icon=labelIcons[a.label]||'📍';
+    return `<div class="addr-card${a.is_default?' is-default':''}">
+      <div class="ac-top">
+        <span class="ac-label-pill">${icon} ${a.label||'Home'}</span>
+        ${a.is_default?'<span class="ac-default-badge">✓ Default</span>':''}
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="editAddr(${a.id})" title="Edit">✏️</button>
+          <button class="ac-btn del" onclick="deleteAddr(${a.id})" title="Delete">🗑️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        <div class="ac-addr-text">${addrStr}</div>
+        ${a.landmark?'<div class="ac-landmark">Near '+a.landmark+'</div>':''}
+        ${!a.is_default?'<button class="ac-set-default" onclick="setDefaultAddr('+a.id+')">Set as default →</button>':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openAddrModal(addr){
+  document.getElementById('a-label').value=addr?addr.label:'Home';
+  document.getElementById('a-house').value=addr?addr.house:'';
+  document.getElementById('a-street').value=addr?addr.street:'';
+  document.getElementById('a-city').value=addr?addr.city:'';
+  document.getElementById('a-state').value=addr?addr.state:'';
+  document.getElementById('a-pincode').value=addr?addr.pincode:'';
+  document.getElementById('a-landmark').value=addr?addr.landmark:'';
+  document.getElementById('a-default').checked=addr?!!addr.is_default:false;
+  document.getElementById('a-edit-id').value=addr?addr.id:'';
+  document.getElementById('addr-modal-title').textContent=addr?'Edit Address':'Add Address';
+  document.getElementById('addr-modal').classList.add('show');
+}
+function closeAddrModal(){ document.getElementById('addr-modal').classList.remove('show'); }
+
+function editAddr(id){
+  const addr=_addrCache.find(a=>a.id===id);
+  if(addr) openAddrModal(addr);
+}
+
+async function saveAddress(){
+  const token=localStorage.getItem('of_token'); if(!token) return;
+  const city=document.getElementById('a-city').value.trim();
+  const state=document.getElementById('a-state').value.trim();
+  const pincode=document.getElementById('a-pincode').value.trim();
+  if(!city&&!state&&!pincode){toast('⚠️ Please fill in city, state, or pincode');return;}
+  const body={
+    label:document.getElementById('a-label').value,
+    house:document.getElementById('a-house').value.trim(),
+    street:document.getElementById('a-street').value.trim(),
+    city, state, pincode,
+    landmark:document.getElementById('a-landmark').value.trim(),
+    is_default:document.getElementById('a-default').checked
+  };
+  const editId=document.getElementById('a-edit-id').value;
+  try{
+    const url=editId?`${API}/api/addresses/${editId}`:`${API}/api/addresses`;
+    const method=editId?'PUT':'POST';
+    const r=await fetch(url,{method,headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify(body)});
+    const d=await r.json();
+    if(!d.success){toast('❌ '+(d.error||'Failed to save'));return;}
+    toast(editId?'✅ Address updated!':'✅ Address added!');
+    closeAddrModal();
+    await loadAddresses();
+  }catch(e){toast('❌ Could not reach server');}
+}
+
+async function deleteAddr(id){
+  if(!confirm('Delete this address?')) return;
+  const token=localStorage.getItem('of_token'); if(!token) return;
+  try{
+    const r=await fetch(`${API}/api/addresses/${id}`,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});
+    const d=await r.json();
+    if(!d.success){toast('❌ '+(d.error||'Failed to delete'));return;}
+    toast('🗑️ Address deleted');
+    await loadAddresses();
+  }catch(e){toast('❌ Could not reach server');}
+}
+
+async function setDefaultAddr(id){
+  const token=localStorage.getItem('of_token'); if(!token) return;
+  try{
+    const r=await fetch(`${API}/api/addresses/${id}/default`,{method:'PUT',headers:{'Authorization':'Bearer '+token}});
+    const d=await r.json();
+    if(!d.success){toast('❌ '+(d.error||'Failed'));return;}
+    toast('✅ Default address updated');
+    await loadAddresses();
+  }catch(e){toast('❌ Could not reach server');}
+}
+
+// ── Change Password Modal ─────────────────────────────────────
+let _pendingNewPw = '';
+
+function openChangePassword(){
+  _pendingNewPw = '';
+  document.getElementById("pw-new").value = '';
+  document.getElementById("pw-confirm").value = '';
+  document.getElementById("pw-otp").value = '';
+  document.getElementById("pw-step1").style.display = 'block';
+  document.getElementById("pw-step2").style.display = 'none';
+  document.getElementById("pw-modal-sub").textContent = 'Enter your new password below.';
+  document.getElementById("pw-modal").classList.add("show");
+}
+
+function closePwModal(){
+  document.getElementById("pw-modal").classList.remove("show");
+}
+
+async function sendPwOTP(){
+  const np = document.getElementById("pw-new").value;
+  const cp = document.getElementById("pw-confirm").value;
+  if(!np || np.length < 6){ toast("⚠️ Password must be at least 6 characters"); return; }
+  if(np !== cp){ toast("⚠️ Passwords do not match"); return; }
+  _pendingNewPw = np;
+  const token = localStorage.getItem("of_token");
+  try {
+    const r = await fetch(`${API}/api/change-password/send-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+    });
+    const d = await r.json();
+    if(!d.success){ toast("❌ " + (d.error||"Failed to send OTP")); return; }
+    document.getElementById("pw-step1").style.display = 'none';
+    document.getElementById("pw-step2").style.display = 'block';
+    document.getElementById("pw-modal-sub").textContent = 'OTP sent to ' + (d.maskedEmail||'your email');
+    toast("📧 OTP sent to your email!");
+  } catch(e) {
+    toast("❌ Could not reach server. Please try again.");
+  }
+}
+
+async function verifyPwOTP(){
+  const otp = document.getElementById("pw-otp").value.trim();
+  if(!otp || otp.length !== 6){ toast("⚠️ Please enter the 6-digit OTP"); return; }
+  const token = localStorage.getItem("of_token");
+  try {
+    const r = await fetch(`${API}/api/change-password/verify-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+      body: JSON.stringify({ otp, newPassword: _pendingNewPw })
+    });
+    const d = await r.json();
+    if(!d.success){ toast("❌ " + (d.error||"Invalid OTP")); return; }
+    closePwModal();
+    toast("✅ Password changed successfully!");
+    _pendingNewPw = '';
+  } catch(e) {
+    toast("❌ Could not reach server. Please try again.");
+  }
+}
+
+function doLogout(){
+  if(confirm("Sign out from O Foods?")){localStorage.removeItem("of_user");localStorage.removeItem("of_token");location.href="login.html";}
+}
+
+function doReorder(idx){
+  const items=(_cache[idx]||{}).items;
+  if(!Array.isArray(items)||!items.length){toast("⚠️ Could not load order");return;}
+  const c={};items.forEach(it=>{if(it&&it.id&&it.qty)c[it.id]=it.qty;});
+  saveCart(c);toast("🛒 Items added to cart!");
+  setTimeout(()=>location.href="cart.html",800);
+}
+
+</script>
+</body>
+</html>
