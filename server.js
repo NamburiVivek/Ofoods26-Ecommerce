@@ -667,7 +667,7 @@ app.post('/api/password/forgot', async (req, res) => {
     resetTokenStore.set(token, { email, expiresAt });
 
     // Build the reset URL — points back to login.html with the token as a query param
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:24711';
+    const frontendUrl = process.env.FRONTEND_URL || 'https://ofoods26-ecommerce.onrender.com';
     const resetUrl    = `${frontendUrl}/login.html?reset_token=${token}`;
 
     // Send branded reset email
