@@ -192,9 +192,7 @@ console.log("GMAIL_USER:", process.env.GMAIL_USER);
 console.log("APP PASSWORD EXISTS:", !!process.env.GMAIL_APP_PASSWORD);
 // ── Email transporter ────────────────────────────────────────
 const mailer = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD
@@ -1123,9 +1121,22 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
   }
 });
 
-// ════════════════════════════════════════════════════════════════
-//  START
-// ════════════════════════════════════════════════════════════════
+app.get("/test-mail", async (req, res) => {
+  try {
+    await sendEmailOTP("viveknamburiviveknamburi@gmail.com", "123456", "Vivek");
+    res.send("Mail sent");
+  } catch (e) {
+    console.error(e);
+    res.send(e.message);
+  }
+});
+mailer.verify((error, success) => {
+  if (error) {
+    console.error("MAIL ERROR:", error);
+  } else {
+    console.log("MAIL SERVER READY");
+  }
+});
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`\n✅  O Foods server running → http://localhost:${PORT}`);
