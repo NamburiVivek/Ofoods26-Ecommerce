@@ -188,14 +188,24 @@ const db = mysql.createPool({
     console.warn('Migration check skipped:', e.message);
   }
 })();
-
+console.log("GMAIL_USER:", process.env.GMAIL_USER);
+console.log("APP PASSWORD EXISTS:", !!process.env.GMAIL_APP_PASSWORD);
 // ── Email transporter ────────────────────────────────────────
 const mailer = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
+    pass: process.env.GMAIL_APP_PASSWORD
+  }
+});
+mailer.verify(function (error, success) {
+  if (error) {
+    console.log("MAIL ERROR:", error);
+  } else {
+    console.log("MAIL SERVER READY");
+  }
 });
 
 // ── Twilio client ────────────────────────────────────────────
