@@ -31,6 +31,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 .search-go:hover{background:#f5f5f5;}
 .nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap;}
 .nav-item:hover{border-color:#fff}
+
 .ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
 .ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
 .nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
@@ -79,7 +80,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 .cart-ind{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;border-radius:50px;padding:3px 9px;font-size:10px;font-weight:700;display:none;align-items:center;gap:3px}
 .cart-ind.show{display:flex}
 .pc-body{padding:16px 18px}
-.pc-cat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.pc-cat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
 .pc-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:5px;line-height:1.2}
 .pc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
 .pc-foot{display:flex;align-items:center;justify-content:space-between}
@@ -160,9 +161,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
     <div id="cat-list"></div>
     <div class="sid-div"></div>
     <div class="sid-title">Filter</div>
-    <label class="filter-lbl"><input type="checkbox" id="veg-f" onchange="render()"> Veg Only 🌱</label>
-    <label class="filter-lbl"><input type="checkbox" id="nonveg-f" onchange="render()"> Non-Veg Only 🍗</label>
-    <label class="filter-lbl"><input type="checkbox" id="spicy-f" onchange="render()"> Exclude Spicy 🌶️</label>
+    <label class="filter-lbl"><input type="checkbox" id="veg-f" onchange="render()"> Veg Only</label>
+    <label class="filter-lbl"><input type="checkbox" id="nonveg-f" onchange="render()"> Non-Veg Only</label>
+    <label class="filter-lbl"><input type="checkbox" id="spicy-f" onchange="render()"> Exclude Spicy</label>
     <div class="sid-div"></div>
     <div class="sid-title">Sort</div>
     <select class="sort-sel" id="sort-f" onchange="render()">
@@ -355,11 +356,11 @@ function render(){
   // Grouped view only when on "All" with no active filters/search
   if(currentCat==='all'&&!q&&!vegOnly&&!nonVegOnly&&sort===''){
     const groups=[
-      {key:'veg-pickles',   label:'🥗 Veg Pickles'},
-      {key:'nonveg-pickles',label:'🍗 Non-Veg Pickles'},
-      {key:'spices',        label:'🌶️ Masala & Karam Powders'},
-      {key:'chips',         label:'🍟 Chips & Vadiyalu'},
-      {key:'snacks',        label:'🍬 Snacks & Sweets'},
+      {key:'veg-pickles',   label:'Veg Pickles'},
+      {key:'nonveg-pickles',label:'Non-Veg Pickles'},
+      {key:'spices',        label:'Masala & Karam Powders'},
+      {key:'chips',         label:'Chips & Vadiyalu'},
+      {key:'snacks',        label:'Snacks & Sweets'},
     ];
     let html='';
     groups.forEach(g=>{
@@ -381,7 +382,7 @@ function makeCard(p,cart){
   return `<a href="product.html?id=${p.id}" class="pc" id="pc-${p.id}">
   <div class="pc-img" style="background:${bg}">
   ${p.img 
-    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:210px;object-fit:cover;border-radius:0;">` 
+    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:175px;object-fit:cover;border-radius:0;">` 
     : `<span>${p.emoji}</span>`
   }
   <div class="pbdg ${p.type}">${p.badge}</div>
