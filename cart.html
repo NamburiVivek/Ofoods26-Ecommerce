@@ -48,7 +48,6 @@
       overflow-x: hidden;
       padding-top: 60px;
       visibility: hidden;
-      cursor: default
     }
 
     #cur {
@@ -594,7 +593,7 @@
       opacity: .5;
       box-shadow: none;
       transform: none;
-      cursor: not-allowed
+      cursor: pointer
     }
 
     .pay-logos {
@@ -665,11 +664,11 @@
 </script>
 
 <body>
-  <div id="cur"></div>
+  
 
   <div id="topnav-wrapper">
     <nav id="topnav">
-      <a href="memu.html" class="nav-logo">
+      <a href="product.html" class="nav-logo">
         <img src="logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;"
           onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'">
       </a>
@@ -707,8 +706,7 @@
   </div>
 
   <div class="page-top">
-    <a href="memu.html" class="back-a">←</a>
-    <h1 class="page-h">Your <span>Cart</span></h1>
+    <h1 class="page-h">Your Cart</h1>
     <span class="page-sub" id="page-sub"></span>
   </div>
 
@@ -728,8 +726,7 @@
       <!-- MINI ITEMS LIST -->
       <div class="cp-items-list" id="cp-items-list"></div>
 
-      <!-- PROMO HINT -->
-      <div class="promo-hint">🎟️ Have a promo code? Apply it on the next step (Checkout).</div>
+     
 
       <!-- TOTALS -->
       <div class="cp-row"><span>Subtotal</span><span id="cp-sub">₹0</span></div>
@@ -738,11 +735,7 @@
 
       <button class="btn-checkout" id="chk-btn" onclick="proceedToCheckout()" disabled>Proceed to Checkout →</button>
 
-      <div class="pay-logos" style="margin-top:16px">
-        <div class="plogo">🔒 Secure</div>
-        <div class="plogo">📱 UPI</div>
-        <div class="plogo">💵 COD</div>
-      </div>
+      
     </div>
   </div>
 
@@ -752,62 +745,62 @@
 
   <script>
     const OF = {
-      products: [
-        // PICKLES (IDs 1–15)
-        { id: 1, name: 'Tomato Pickle', price: 120, emoji: '🍅', cat: 'pickles' },
-        { id: 2, name: 'Mango Pickle', price: 149, emoji: '🥭', cat: 'pickles' },
-        { id: 3, name: 'Ripe Red Chilli Pickle', price: 139, emoji: '🌶️', cat: 'pickles' },
-        { id: 4, name: 'Ginger Pickle', price: 129, emoji: '🫚', cat: 'pickles' },
-        { id: 5, name: 'Tomato & Red Chilli Pickle', price: 135, emoji: '🍅', cat: 'pickles' },
-        { id: 6, name: 'Gongura & Red Chilli Pickle', price: 159, emoji: '🌿', cat: 'pickles' },
-        { id: 7, name: 'Lemon Pickle', price: 119, emoji: '🍋', cat: 'pickles' },
-        { id: 8, name: 'Amla Pickle', price: 125, emoji: '🫒', cat: 'pickles' },
-        { id: 9, name: 'Coriander & Mint Pickle', price: 110, emoji: '🌱', cat: 'pickles' },
-        { id: 10, name: 'Gongura Pickle (Sorrel)', price: 169, emoji: '🍃', cat: 'pickles' },
-        { id: 11, name: 'Broad Beans Pickle', price: 130, emoji: '🫘', cat: 'pickles' },
-        { id: 12, name: 'Chicken Pickle (With Bones)', price: 299, emoji: '🍗', cat: 'pickles' },
-        { id: 13, name: 'Chicken Pickle (Boneless)', price: 329, emoji: '🍖', cat: 'pickles' },
-        { id: 14, name: 'Prawns Pickle', price: 349, emoji: '🦐', cat: 'pickles' },
-        { id: 15, name: 'Mutton Pickle', price: 379, emoji: '🥩', cat: 'pickles' },
-        // SPICES (IDs 30–44)
-        { id: 30, name: 'Coriander Powder', price: 79, emoji: '🟢', cat: 'spices' },
-        { id: 31, name: 'Garam Masala Powder', price: 99, emoji: '✨', cat: 'spices' },
-        { id: 32, name: 'Sambar Masala Powder', price: 85, emoji: '🟤', cat: 'spices' },
-        { id: 33, name: 'Rasam Powder', price: 75, emoji: '🌿', cat: 'spices' },
-        { id: 34, name: 'Chicken Masala Powder', price: 110, emoji: '🍗', cat: 'spices' },
-        { id: 35, name: 'Mutton Masala Powder', price: 115, emoji: '🥩', cat: 'spices' },
-        { id: 36, name: 'Sambar Karam', price: 89, emoji: '🌶️', cat: 'spices' },
-        { id: 37, name: 'Pachi Karam', price: 79, emoji: '🌱', cat: 'spices' },
-        { id: 38, name: 'Karivepaku Karam', price: 85, emoji: '🍃', cat: 'spices' },
-        { id: 39, name: 'Kobbari Karam', price: 90, emoji: '🥥', cat: 'spices' },
-        { id: 40, name: 'Madypu Karam', price: 80, emoji: '🟠', cat: 'spices' },
-        { id: 41, name: 'Munagaku Karam', price: 95, emoji: '🌿', cat: 'spices' },
-        { id: 42, name: 'Idly Karam', price: 69, emoji: '🍚', cat: 'spices' },
-        { id: 43, name: 'Idly Chutney Podi', price: 75, emoji: '🫙', cat: 'spices' },
-        { id: 44, name: 'Nuvvula Karam', price: 85, emoji: '🤍', cat: 'spices' },
-        // CHIPS (IDs 50–59)
-        { id: 50, name: 'Biyyam Pindi Vadiyalu', price: 55, emoji: '⬜', cat: 'papad' },
-        { id: 51, name: 'Ravva Vadiyalu', price: 59, emoji: '🟡', cat: 'papad' },
-        { id: 52, name: 'Tomato Vadiyalu', price: 65, emoji: '🍅', cat: 'papad' },
-        { id: 53, name: 'Ragi Vadiyalu', price: 60, emoji: '🟤', cat: 'papad' },
-        { id: 54, name: 'Saggubiyyam Vadiyalu', price: 58, emoji: '⚪', cat: 'papad' },
-        { id: 55, name: 'Minapa Vadiyalu', price: 65, emoji: '🫘', cat: 'papad' },
-        { id: 56, name: 'Tase Chitti Vadiyalu', price: 70, emoji: '🌶️', cat: 'papad' },
-        { id: 57, name: 'Palakura Vadiyalu', price: 65, emoji: '🥬', cat: 'papad' },
-        { id: 58, name: 'Beetroot Vadiyalu', price: 65, emoji: '🟣', cat: 'papad' },
-        { id: 59, name: 'Carrot Vadiyalu', price: 60, emoji: '🥕', cat: 'papad' },
-        // SNACKS (IDs 70–79)
-        { id: 70, name: 'Boondi Mixture', price: 65, emoji: '🟡', cat: 'snacks' },
-        { id: 71, name: 'Chekkalu', price: 55, emoji: '⬜', cat: 'snacks' },
-        { id: 72, name: 'Chakoralu', price: 59, emoji: '🟤', cat: 'snacks' },
-        { id: 73, name: 'Laddu', price: 49, emoji: '🟠', cat: 'snacks' },
-        { id: 74, name: 'Gavvalu', price: 55, emoji: '🐚', cat: 'snacks' },
-        { id: 75, name: 'Kajalu', price: 60, emoji: '🌙', cat: 'snacks' },
-        { id: 76, name: 'Mithai Boondi', price: 49, emoji: '🟠', cat: 'snacks' },
-        { id: 77, name: 'Ariselu', price: 65, emoji: '🔵', cat: 'snacks' },
-        { id: 78, name: 'Kajjikayalu', price: 70, emoji: '🌙', cat: 'snacks' },
-        { id: 79, name: 'Chalimidi', price: 55, emoji: '🤍', cat: 'snacks' },
-      ],
+  products: [
+    // PICKLES (IDs 1–15)
+    { id: 1,  name: 'Tomato Pickle',               price: 120, img: 'tomato.png',                    emoji: '🍅', cat: 'pickles' },
+    { id: 2,  name: 'Mango Pickle',                price: 149, img: 'mango.png',                     emoji: '🥭', cat: 'pickles' },
+    { id: 3,  name: 'Ripe Red Chilli Pickle',      price: 139, img: 'red chilli.png',                emoji: '🌶️', cat: 'pickles' },
+    { id: 4,  name: 'Ginger Pickle',               price: 129, img: 'gongura.png',                   emoji: '🫚', cat: 'pickles' },
+    { id: 5,  name: 'Tomato & Red Chilli Pickle',  price: 135, img: 'redchilli&pandumirchi.png',      emoji: '🍅', cat: 'pickles' },
+    { id: 6,  name: 'Gongura & Red Chilli Pickle', price: 159, img: 'redchilli&pandumirchi.png',      emoji: '🌿', cat: 'pickles' },
+    { id: 7,  name: 'Lemon Pickle',                price: 119, img: 'Lemon.png',                     emoji: '🍋', cat: 'pickles' },
+    { id: 8,  name: 'Amla Pickle',                 price: 125, img: 'amala.png',                     emoji: '🫒', cat: 'pickles' },
+    { id: 9,  name: 'Coriander & Mint Pickle',     price: 110, img: 'kotimerra.png',                 emoji: '🌱', cat: 'pickles' },
+    { id: 10, name: 'Gongura Pickle (Sorrel)',      price: 169, img: 'munakaya.png',                  emoji: '🍃', cat: 'pickles' },
+    { id: 11, name: 'Broad Beans Pickle',           price: 130, img: 'chinthakaya.png',               emoji: '🫘', cat: 'pickles' },
+    { id: 12, name: 'Chicken Pickle (With Bones)', price: 299, img: 'chicken bones.png',             emoji: '🍗', cat: 'pickles' },
+    { id: 13, name: 'Chicken Pickle (Boneless)',   price: 329, img: 'boneless.png',                  emoji: '🍖', cat: 'pickles' },
+    { id: 14, name: 'Prawns Pickle',               price: 349, img: 'prawn.png',                     emoji: '🦐', cat: 'pickles' },
+    { id: 15, name: 'Mutton Pickle',               price: 379, img: 'mutton.png',                    emoji: '🥩', cat: 'pickles' },
+    // SPICES (IDs 30–44)
+    { id: 30, name: 'Coriander Powder',            price: 79,  img: 'sambar powder.png',             emoji: '🟢', cat: 'spices' },
+    { id: 31, name: 'Garam Masala Powder',         price: 99,  img: 'garam masala.png',              emoji: '✨', cat: 'spices' },
+    { id: 32, name: 'Sambar Masala Powder',        price: 85,  img: 'sambar powder.png',             emoji: '🟤', cat: 'spices' },
+    { id: 33, name: 'Rasam Powder',                price: 75,  img: 'rasam karam.png',               emoji: '🌿', cat: 'spices' },
+    { id: 34, name: 'Chicken Masala Powder',       price: 110, img: 'chicken karam.png',             emoji: '🍗', cat: 'spices' },
+    { id: 35, name: 'Mutton Masala Powder',        price: 115, img: 'mutton karam.png',              emoji: '🥩', cat: 'spices' },
+    { id: 36, name: 'Sambar Karam',                price: 89,  img: 'sambar karam.png',              emoji: '🌶️', cat: 'spices' },
+    { id: 37, name: 'Pachi Karam',                 price: 79,  img: 'pachi karam.png',               emoji: '🌱', cat: 'spices' },
+    { id: 38, name: 'Karivepaku Karam',            price: 85,  img: 'curry leaf.png',                emoji: '🍃', cat: 'spices' },
+    { id: 39, name: 'Kobbari Karam',               price: 90,  img: 'cobari karam.png',              emoji: '🥥', cat: 'spices' },
+    { id: 40, name: 'Madypu Karam',                price: 80,  img: 'madupu karam.png',              emoji: '🟠', cat: 'spices' },
+    { id: 41, name: 'Munagaku Karam',              price: 95,  img: 'munagaku karam.png',            emoji: '🌿', cat: 'spices' },
+    { id: 42, name: 'Idly Karam',                  price: 69,  img: 'Idly karam.png',                emoji: '🍚', cat: 'spices' },
+    { id: 43, name: 'Idly Chutney Podi',           price: 75,  img: 'Idly Chutney Podi.png',         emoji: '🫙', cat: 'spices' },
+    { id: 44, name: 'Nuvvula Karam',               price: 85,  img: 'nuvula karam.png',              emoji: '🤍', cat: 'spices' },
+    // CHIPS (IDs 50–59)
+    { id: 50, name: 'Biyyam Pindi Vadiyalu',       price: 55,  img: 'biyam pindi vadiyalu.png',      emoji: '⬜', cat: 'papad' },
+    { id: 51, name: 'Ravva Vadiyalu',              price: 59,  img: 'rava vadiyalu.png',             emoji: '🟡', cat: 'papad' },
+    { id: 52, name: 'Tomato Vadiyalu',             price: 65,  img: 'tomato vadiyalu.png',           emoji: '🍅', cat: 'papad' },
+    { id: 53, name: 'Ragi Vadiyalu',               price: 60,  img: 'biyam pindi vadiyalu.png',      emoji: '🟤', cat: 'papad' },
+    { id: 54, name: 'Saggubiyyam Vadiyalu',        price: 58,  img: 'rava vadiyalu.png',             emoji: '⚪', cat: 'papad' },
+    { id: 55, name: 'Minapa Vadiyalu',             price: 65,  img: 'biyam pindi vadiyalu.png',      emoji: '🫘', cat: 'papad' },
+    { id: 56, name: 'Tase Chitti Vadiyalu',        price: 70,  img: 'tomato vadiyalu.png',           emoji: '🌶️', cat: 'papad' },
+    { id: 57, name: 'Palakura Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',         emoji: '🥬', cat: 'papad' },
+    { id: 58, name: 'Beetroot Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',         emoji: '🟣', cat: 'papad' },
+    { id: 59, name: 'Carrot Vadiyalu',             price: 60,  img: 'carrat vadiyalu.png',           emoji: '🥕', cat: 'papad' },
+    // SNACKS (IDs 70–79)
+    { id: 70, name: 'Boondi Mixture',              price: 65,  img: 'bundhe.png',                    emoji: '🟡', cat: 'snacks' },
+    { id: 71, name: 'Chekkalu',                    price: 55,  img: 'Chekkalu (Saggubiyyam).png',    emoji: '⬜', cat: 'snacks' },
+    { id: 72, name: 'Chakoralu',                   price: 59,  img: 'chakaralu.png',                 emoji: '🟤', cat: 'snacks' },
+    { id: 73, name: 'Laddu',                       price: 49,  img: 'laddu.png',                     emoji: '🟠', cat: 'snacks' },
+    { id: 74, name: 'Gavvalu',                     price: 55,  img: 'gavvalu.png',                   emoji: '🐚', cat: 'snacks' },
+    { id: 75, name: 'Kajalu',                      price: 60,  img: 'kajalu.png',                    emoji: '🌙', cat: 'snacks' },
+    { id: 76, name: 'Mithai Boondi',               price: 49,  img: 'Mithai Boondi.png',             emoji: '🟠', cat: 'snacks' },
+    { id: 77, name: 'Ariselu',                     price: 65,  img: 'sununda.png',                   emoji: '🔵', cat: 'snacks' },
+    { id: 78, name: 'Kajjikayalu',                 price: 70,  img: 'nuvula laddu.png',              emoji: '🌙', cat: 'snacks' },
+    { id: 79, name: 'Chalimidi',                   price: 55,  img: 'salimidi.png',                  emoji: '🤍', cat: 'snacks' },
+  ],
       getUser() { try { return JSON.parse(localStorage.getItem('of_user') || 'null') } catch (e) { return null } },
       cartKey() { const u = this.getUser(); return u ? 'of_cart_' + u.id : 'of_cart_guest' },
       getCart() { try { return JSON.parse(localStorage.getItem(this.cartKey()) || '{}') } catch (e) { return {} } },
@@ -910,7 +903,11 @@
         if (!p) return '';
         const qty = cart[id];
         return `<div class="ci">
-      <div class="ci-em">${p.emoji}</div>
+      <div class="ci-em">
+  ${p.img 
+    ? `<img src="${p.img}" alt="${p.name}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">` 
+    : p.emoji}
+</div>
       <div class="ci-info">
         <div class="ci-name">${p.name}</div>
         <div class="ci-unit">₹${p.price} per item</div>
@@ -931,7 +928,10 @@
 
       document.getElementById('cp-items-list').innerHTML = ids.map(id => {
         const p = OF.products.find(x => x.id == id);
-        return p ? `<div class="cp-il"><span>${p.emoji} ${p.name} ×${cart[id]}</span><span>₹${p.price * cart[id]}</span></div>` : '';
+        return p ? `<div class="cp-il"><span>
+  ${p.img ? `<img src="${p.img}" alt="" style="width:20px;height:20px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:4px;">` : p.emoji}
+  ${p.name} ×${cart[id]}
+</span><span>₹${p.price * cart[id]}</span></div>` : '';
       }).join('');
 
       document.getElementById('chk-btn').disabled = false;
@@ -979,7 +979,7 @@
       const orderData = {
         items: ids.map(id => {
           const p = OF.products.find(x => x.id == id);
-          return { id, name: p ? p.name : '?', emoji: p ? p.emoji : '🍽️', price: p ? p.price : 0, qty: cart[id] };
+          return { id, name: p ? p.name : '?', emoji: p ? p.emoji : '🍽️', img: p ? p.img : '', price: p ? p.price : 0, qty: cart[id] };
         }),
         subtotal: sub,
         deliveryAddress: addrStr || '',
