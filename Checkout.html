@@ -266,13 +266,10 @@
     }
 
     .store-opt::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--red-glow);
-      opacity: 0;
-      transition: opacity .2s
-    }
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(39, 174, 96, 0.08);}
 
     .store-opt:hover::before {
       opacity: 1
@@ -283,9 +280,9 @@
     }
 
     .store-opt.sel {
-      border-color: var(--red);
-      background: rgba(200, 16, 46, 0.06)
-    }
+  border-color: var(--green);
+  background: rgba(39, 174, 96, 0.06)
+}
 
     .store-opt.sel::before {
       opacity: 1
@@ -341,10 +338,10 @@
     }
 
     .store-opt.sel .store-check {
-      background: var(--red);
-      border-color: var(--red);
-      color: #fff
-    }
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff
+}
 
     /* DATE & SLOTS */
     .slot-sub {
@@ -445,15 +442,15 @@
     }
 
     .pay-opt::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--red-glow);
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(39, 174, 96, 0.08);
       opacity: 0;
       transition: opacity .2s
     }
 
-    .pay-opt:hover::before,
+    
     .pay-opt.sel::before {
       opacity: 1
     }
@@ -463,8 +460,8 @@
     }
 
     .pay-opt.sel {
-      border-color: var(--red)
-    }
+  border-color: var(--green)
+}
 
     .pay-icon-wrap {
       width: 38px;
@@ -1021,26 +1018,24 @@
       <!-- DELIVERY METHOD SELECTOR -->
       <div class="card">
         <div class="card-title">
-          <div class="icon">🚚</div>Delivery <mark>Method</mark>
+           Delivery Method<mark></mark>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="delivery-method-grid">
-          <div class="store-opt sel" id="method-home" onclick="selectDeliveryMethod('home')">
-            <div class="store-pin">🏠</div>
-            <div class="store-info">
-              <div class="store-name">Home Delivery</div>
-              <div class="store-addr">All India · 4–5 business days</div>
-            </div>
-            <div class="store-check" id="method-home-chk">✓</div>
-          </div>
-          <div class="store-opt" id="method-pickup" onclick="selectDeliveryMethod('pickup')">
-            <div class="store-pin">🏪</div>
-            <div class="store-info">
-              <div class="store-name">Store Pickup</div>
-              <div class="store-addr">Pick up Tomorrow by 4:00 PM</div>
-            </div>
-            <div class="store-check" id="method-pickup-chk"></div>
-          </div>
-        </div>
+  <div class="store-opt sel" id="method-home" onclick="selectDeliveryMethod('home')">
+    <div class="store-info">
+      <div class="store-name">Home Delivery</div>
+      <div class="store-addr">All India · 4–5 business days</div>
+    </div>
+    <div class="store-check" id="method-home-chk">✓</div>
+  </div>
+  <div class="store-opt" id="method-pickup" onclick="selectDeliveryMethod('pickup')">
+    <div class="store-info">
+      <div class="store-name">Store Pickup</div>
+      <div class="store-addr">Pick up Tomorrow by 4:00 PM</div>
+    </div>
+    <div class="store-check" id="method-pickup-chk"></div>
+  </div>
+</div>
       </div>
 
       <!-- HOME DELIVERY SECTION -->
@@ -1048,34 +1043,32 @@
         <!-- DELIVERY ADDRESS -->
         <div class="card">
           <div class="card-title">
-            <div class="icon">📦</div>Delivery <mark>Address</mark> <span
-              style="font-size:11px;font-weight:500;color:var(--text3);margin-left:8px;font-family:'DM Sans',sans-serif">🇮🇳
-              All India Delivery</span>
+            Delivery Address
           </div>
           <div id="delivery-addr-list" class="store-grid">
             <div style="font-size:13px;color:var(--text3);padding:12px 0">Loading addresses...</div>
           </div>
           <div id="add-addr-toggle" style="margin-top:12px">
             <button onclick="toggleAddAddrForm()"
-              style="background:rgba(200,16,46,0.06);border:1.5px dashed rgba(200,16,46,0.3);border-radius:var(--r2);padding:12px 18px;width:100%;color:var(--red);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px"
-              onmouseover="this.style.borderColor='var(--red)';this.style.background='rgba(200,16,46,0.1)'"
-              onmouseout="this.style.borderColor='rgba(200,16,46,0.3)';this.style.background='rgba(200,16,46,0.06)'">➕
-              Add New Address</button>
+              style="background:rgba(39,174,96,0.06);border:1.5px dashed rgba(39,174,96,0.3);border-radius:var(--r2);padding:12px 18px;width:100%;color:var(--green);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px"
+              onmouseover="this.style.borderColor='var(--green)';this.style.background='rgba(39,174,96,0.1)'"
+              onmouseout="this.style.borderColor='rgba(39,174,96,0.3)';this.style.background='rgba(39,174,96,0.06)'">
+              ➕ Add New Address</button>
           </div>
           <div id="add-addr-form"
             style="display:none;margin-top:14px;padding:18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)">
             <div
               style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:12px">
-              🏠 New Address</div>
+               New Address</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div>
                 <label
                   style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">Label</label>
                 <select id="co-a-label"
                   style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer">
-                  <option value="Home">🏠 Home</option>
-                  <option value="Work">🏢 Work</option>
-                  <option value="Other">📍 Other</option>
+                  <option value="Home"> Home</option>
+                  <option value="Work"> Work</option>
+                  <option value="Other"> Other</option>
                 </select>
               </div>
               <div><label
@@ -1121,24 +1114,22 @@
         <!-- ESTIMATED DELIVERY -->
         <div class="card">
           <div class="card-title">
-            <div class="icon">📅</div>Estimated <mark>Delivery</mark>
+            Estimated Delivery
           </div>
           <div
             style="padding:14px 18px;border-radius:var(--r2);border:1.5px solid rgba(39,174,96,0.25);background:rgba(39,174,96,0.06)">
             <div style="display:flex;align-items:center;gap:12px">
-              <div
-                style="width:40px;height:40px;border-radius:10px;background:rgba(39,174,96,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">
-                📦</div>
+              
               <div style="flex:1">
-                <div style="font-size:14px;font-weight:700;color:var(--text)">🇮🇳 All India · 4–5 Business Days</div>
+                <div style="font-size:14px;font-weight:700;color:var(--text)">All India · 4–5 Business Days</div>
                 <div style="font-size:12px;color:var(--text3);margin-top:2px" id="est-delivery-date">Estimated delivery
                   by loading...</div>
               </div>
-              <div style="font-size:18px">✅</div>
+              <div style="font-size:18px"></div>
             </div>
             <div
               style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);font-size:11px;color:var(--text3)">
-              📋 Your order will be freshly prepared and dispatched via courier. Tracking details will be sent to your
+              Your order will be freshly prepared and dispatched via courier. Tracking details will be sent to your
               email.
             </div>
           </div>
@@ -1149,29 +1140,26 @@
       <div id="section-store-pickup" style="display:none">
         <div class="card">
           <div class="card-title">
-            <div class="icon">🏪</div>Select <mark>Store</mark>
+            Select Store
           </div>
           <div class="store-grid" id="pickup-store-list">
             <!-- Rendered by JS -->
           </div>
-          <div
-            style="margin-top:14px;padding:12px 16px;background:rgba(39,174,96,0.05);border:1px solid rgba(39,174,96,0.15);border-radius:8px;font-size:12px;color:var(--text3)">
-            ⏰ Store hours: <strong style="color:var(--text)">Mon–Sun, 10:00 AM – 9:00 PM</strong> &nbsp;·&nbsp; Please
-            bring your order ID when collecting.
-          </div>
+          
         </div>
       </div>
 
       <!-- PAYMENT -->
-      <div class="card">
+       <!-- PAYMENT -->
+<div class="card" style="margin-top:28px">
         <div class="card-title">
-          <div class="icon">💳</div>Payment <mark>Method</mark>
+          Payment Method
         </div>
         <div class="pay-opts" id="pay-opts-container">
 
           <!-- RAZORPAY — UPI / Cards / Net Banking / Wallets -->
           <div class="pay-opt sel" id="pay-opt-razorpay" onclick="selectPay('razorpay',this)">
-            <div class="pay-icon-wrap">💳</div>
+             
             <div class="pay-info">
               <div class="pay-name">Pay Online
                 <span style="font-size:10px;background:rgba(39,174,96,0.15);color:#4CD47A;border:1px solid rgba(39,174,96,0.3);border-radius:50px;padding:2px 8px;margin-left:6px;font-weight:700">RECOMMENDED</span>
@@ -1183,7 +1171,7 @@
 
           <!-- CASH ON PICKUP — store pickup only -->
           <div class="pay-opt" id="pay-opt-cod" onclick="selectPay('cod',this)" style="display:none">
-            <div class="pay-icon-wrap">💵</div>
+             
             <div class="pay-info">
               <div class="pay-name" id="cod-label">Cash on Pickup</div>
               <div class="pay-desc" id="cod-desc">Pay cash when you collect your order at the store</div>
@@ -1194,14 +1182,7 @@
         </div>
 
         <!-- Razorpay trust strip -->
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px">
-          <span style="font-size:11px;color:var(--text2)">🔒 Secured by</span>
-          <span style="font-size:12px;font-weight:700;color:#528FF0">Razorpay</span>
-          <span style="font-size:10px;color:var(--text3)">·</span>
-          <span style="font-size:11px;color:var(--text2)">UPI · Cards · Net Banking · Wallets</span>
-          <span style="font-size:10px;color:var(--text3)">·</span>
-          <span style="font-size:11px;color:#4CD47A">✓ 100% Safe & Secure</span>
-        </div>
+        
 
         <button class="btn-pay" id="pay-btn" onclick="placeOrder()">
           <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -1215,12 +1196,12 @@
 
     <!-- SUMMARY -->
     <div class="summary">
-      <div class="sum-title">Order <em>Summary</em></div>
+      <div class="sum-title">Order Summary</div>
       <div class="sum-items" id="sum-items"></div>
       <hr class="sum-div">
       <div class="sum-ss-box" id="sum-ss-box">
         <div class="sum-ss-row">
-          <div class="ss-icon">📦</div>
+           
           <div>
             <div class="ss-label">Delivery address</div>
             <div class="ss-val" id="ss-store-name">—</div>
@@ -1228,7 +1209,7 @@
           </div>
         </div>
         <div class="sum-ss-row">
-          <div class="ss-icon">🚚</div>
+           
           <div>
             <div class="ss-label" id="ss-method-label">Delivery method</div>
             <div class="ss-val green" id="ss-date">🇮🇳 All India · 4–5 business days</div>
@@ -1236,14 +1217,14 @@
         </div>
       </div>
       <div class="sum-row"><span>Subtotal</span><span id="s-sub">₹0</span></div>
-      <div class="sum-row disc-row" id="s-disc-row"><span>Discount 🎉</span><span id="s-disc">—</span></div>
+      <div class="sum-row disc-row" id="s-disc-row"><span>Discount</span><span id="s-disc">—</span></div>
       <div class="sum-row"><span>Platform fee</span><span>₹5</span></div>
-      <div class="sum-row" id="s-delivery-row"><span>🚚 Delivery charge</span><span id="s-delivery">₹0</span></div>
+      <div class="sum-row" id="s-delivery-row"><span>Delivery charge</span><span id="s-delivery">₹0</span></div>
       <div class="sum-row total-row"><span>Total</span><span id="s-total">₹5</span></div>
 
       <!-- PROMO CODE -->
       <div class="promo-wrap">
-        <div class="promo-title">🎟️ Promo <em style="color:var(--red);font-family:'Playfair Display',serif">Code</em>
+        <div class="promo-title">Promo Code</em>
         </div>
 
         <div id="promo-applied-box"
@@ -1450,12 +1431,12 @@
         const charge = calcDeliveryCharge(a.state);
         const region = SOUTH_STATES.includes((a.state || '').toLowerCase()) ? 'South' : 'North';
         return `<div class="store-opt${sel ? ' sel' : ''}" onclick="selectDeliveryAddr(${a.id})">
-      <div class="store-pin">${icon}</div>
+       
       <div class="store-info">
         <div class="store-name">${a.label || 'Address'} ${a.is_default ? '<span style="color:var(--green);font-size:10px;font-weight:700;margin-left:6px">✓ DEFAULT</span>' : ''}</div>
         <div class="store-addr">${addrStr}</div>
         ${a.landmark ? '<div class="store-addr" style="color:var(--text3)">Near ' + a.landmark + '</div>' : ''}
-        <div style="font-size:10px;color:var(--green);margin-top:3px;font-weight:600">🚚 ₹${charge} (${region} India)</div>
+        <div style="font-size:10px;color:var(--green);margin-top:3px;font-weight:600">₹${charge} (${region} India)</div>
       </div>
       <div class="store-check">${sel ? '✓' : ''}</div>
     </div>`;
@@ -1479,7 +1460,7 @@
       el.innerHTML = STORES.map((s, i) => {
         const sel = _selectedPickupStore && _selectedPickupStore.id === s.id;
         return `<div class="store-opt${sel ? ' sel' : ''}" onclick="selectPickupStore('${s.id}')">
-      <div class="store-pin">🏪</div>
+       
       <div class="store-info">
         <div class="store-name">${s.name}</div>
         <div class="store-addr">${s.address}</div>
@@ -1534,7 +1515,7 @@
         });
         const d = await r.json();
         if (!d.success) { toast('❌ ' + (d.error || 'Failed to add address')); return; }
-        toast('✅ Address added!');
+        toast('Address added!');
         // Reload addresses
         const r2 = await fetch('http://localhost:3000/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
         const d2 = await r2.json();
@@ -1554,7 +1535,11 @@
       if (!orderData) return;
       document.getElementById('sum-items').innerHTML = (orderData.items || []).map(it => `
     <div class="sum-item">
-      <div class="sum-emoji">${it.emoji || '🍽️'}</div>
+      <div class="sum-emoji">
+        ${it.img 
+  ? `<img src="${it.img}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">` 
+  : (it.emoji || '')}
+      </div>
       <div class="sum-detail">
         <div class="sum-name">${it.name}</div>
         <div class="sum-meta">× ${it.qty}</div>
@@ -1572,9 +1557,9 @@
         document.getElementById('ss-store-addr').textContent = '';
         if (_deliveryMethod === 'pickup') {
           document.getElementById('ss-method-label').textContent = 'Store Pickup';
-          document.getElementById('ss-date').textContent = '🏪 Ready next day by 4:00 PM';
+          document.getElementById('ss-date').textContent = 'Ready next day by 4:00 PM';
         } else {
-          document.getElementById('ss-method-label').textContent = '🇮🇳 All India Delivery';
+          document.getElementById('ss-method-label').textContent = 'All India Delivery';
           document.getElementById('ss-date').textContent = '4–5 business days';
         }
       } else box.style.display = 'none';
@@ -1782,7 +1767,7 @@
           theme: { color: '#C8102E' },
           modal: {
             ondismiss: () => {
-              toast('⚠️ Payment cancelled. You can try again.');
+              toast('Payment cancelled. You can try again.');
               btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
               btn.disabled = false;
             }
@@ -1809,7 +1794,7 @@
             const verifyData = await verifyResp.json();
 
             if (!verifyData.success) {
-              toast('❌ Payment verification failed. Please contact support.');
+              toast('Payment verification failed. Please contact support.');
               btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
               btn.disabled = false;
               return;
@@ -1820,6 +1805,7 @@
             // Save to localStorage for confirmation page
             const finalOrder = {
               ...orderData,
+              subtotal: orderData.subtotal || 0,
               id: verifyData.orderId,
               razorpayPaymentId: verifyData.paymentId,
               date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
@@ -1842,12 +1828,14 @@
             orders.unshift(finalOrder);
             localStorage.setItem(localKey, JSON.stringify(orders));
 
-            localStorage.removeItem('of_buynow');
-            localStorage.removeItem('of_cart_' + user.id);
-            localStorage.removeItem('of_cart_guest');
+           localStorage.removeItem('of_cart_' + user.id);
+localStorage.removeItem('of_cart_guest');
 
-            toast('✅ Payment successful! Order confirmed.');
-            setTimeout(() => location.href = 'conformation.html', 1200);
+toast('Payment successful! Order confirmed.');
+setTimeout(() => {
+  localStorage.removeItem('of_buynow');
+  location.href = 'conformation.html';
+}, 1200);
           }
         };
 
@@ -1870,6 +1858,7 @@
 
       const finalOrder = {
         ...orderData,
+        subtotal: orderData.subtotal || 0,
         id: 'OF' + Date.now().toString().slice(-6),
         date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
         placedAt: new Date().toISOString(),
@@ -1913,11 +1902,14 @@
       orders.unshift(finalOrder);
       localStorage.setItem(localKey, JSON.stringify(orders));
 
-      localStorage.removeItem('of_buynow');
+       
       localStorage.removeItem('of_cart_' + user.id);
-      localStorage.removeItem('of_cart_guest');
+localStorage.removeItem('of_cart_guest');
 
-      setTimeout(() => location.href = 'conformation.html', 1000);
+setTimeout(() => {
+  localStorage.removeItem('of_buynow');
+  location.href = 'conformation.html';
+}, 100);
     }
   </script>
 
