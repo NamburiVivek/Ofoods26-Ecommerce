@@ -1112,8 +1112,10 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
 // ════════════════════════════════════════════════════════════════
 //  START
 // ════════════════════════════════════════════════════════════════
+// ✅ Replace with this
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`\n✅  O Foods server running → http://localhost:${PORT}`);
-  console.log(`   Open your browser at http://localhost:${PORT}/index.html\n`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ O Foods server running on port ${PORT}`);
 });
+
+module.exports = app;
