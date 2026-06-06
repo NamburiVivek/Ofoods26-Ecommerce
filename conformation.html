@@ -292,12 +292,16 @@
 
     /* CONTENT */
     .conf-content {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 40px 40px 60px;
-      position: relative;
-      z-index: 1;
-    }
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 40px 40px 60px;
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
 
     /* SECTION CARD */
     .section-card {
@@ -683,7 +687,7 @@
     }
 
     @media(max-width:768px) {
-      .conf-content { padding: 28px 18px 48px }
+  .conf-content { padding: 28px 18px 48px; grid-template-columns: 1fr }
       .success-hero { padding: 40px 20px 36px }
       .timeline-grid { grid-template-columns: 1fr }
       .sc-body { padding: 16px 20px 20px }
@@ -747,35 +751,45 @@
     <!-- ORDER TIMELINE -->
     <div class="section-card" id="timeline-card">
       <div class="sc-header">
-        <div class="sc-icon green">⏰</div>
-        <div class="sc-title">Order <em>Timeline</em></div>
+        
+        <div class="sc-title">Order Timeline</div>
       </div>
       <div class="sc-body">
         <div class="timeline-grid" id="timeline-grid"></div>
         <div class="status-bar" id="status-bar" style="display:none">
           <div class="status-bar-fill" id="status-fill" style="width:10%"></div>
         </div>
-        <div class="status-text preparing" id="status-text">Confirming your order…</div>
+        <div class="status-text preparing" id="status-text" style="display:none">Confirming your order…</div>
       </div>
     </div>
 
     <!-- DELIVERY INFO + ITEMS -->
-    <div class="section-card" id="details-card">
-      <div class="sc-header">
-        <div class="sc-icon red">🛍️</div>
-        <div class="sc-title">Order <em>Details</em></div>
-      </div>
-      <div class="sc-body">
-        <div id="delivery-info-container"></div>
-        <div id="items-container"></div>
-      </div>
-    </div>
+    <!-- DELIVERY INFO -->
+<div class="section-card" id="details-card">
+  <div class="sc-header">
+    <div class="sc-title">Order Details</div>
+  </div>
+  <div class="sc-body">
+    <div id="delivery-info-container"></div>
+  </div>
+</div>
+
+<!-- ITEMS + PAYMENT -->
+<div class="section-card" id="items-card">
+  <div class="sc-header">
+    <div class="sc-title">Order Summary</div>
+  </div>
+  <div class="sc-body">
+    <div id="items-container"></div>
+  </div>
+</div>
 
     <!-- ACTIONS -->
-    <div class="conf-actions">
-      <a href="memu.html" class="btn-p">Order Again →</a>
-      <a href="profile.html" class="btn-o">My Orders</a>
-    </div>
+    <!-- ACTIONS -->
+<div style="grid-column:1/-1" class="conf-actions">
+  <a href="memu.html" class="btn-p">Order Again →</a>
+  <a href="profile.html" class="btn-o">My Orders</a>
+</div>
   </div>
 
   <div id="toast"></div>
@@ -827,21 +841,21 @@
         const isReady = now >= pickupReadyDate;
         items = [
           {
-            label: '📋 Order Placed',
+            label: 'Order Placed',
             value: formatTime(placedDate),
             sub: formatDateFull(placedDate),
             state: 'active'
           },
           {
-            label: '🍳 Preparing',
+             label: 'Preparing',
             value: isReady ? 'Done ✓' : 'In progress',
             sub: 'Your order is being freshly prepared',
             state: 'active'
           },
           {
-            label: '🏪 Ready for Pickup',
+            label: 'Ready for Pickup',
             value: isReady ? 'Ready Now! ✅' : pickupDayLabel,
-            sub: isReady ? 'Visit the store with your Order ID' : "We'll notify you when it's ready",
+            sub: isReady ? 'Visit the store with your Order ID' : "",
             state: isReady ? 'active' : 'pending'
           }
         ];
@@ -854,19 +868,19 @@
 
         items = [
           {
-            label: '📋 Order Date & Time',
+            label: 'Order Date & Time',
             value: formatTime(placedDate),
             sub: formatDateFull(placedDate),
             state: 'active'
           },
           {
-            label: '📦 Dispatch',
+            label: 'Dispatch',
             value: 'Within 1–2 days',
             sub: 'Tracking details will be sent to your email',
             state: 'pending'
           },
           {
-            label: '🚚 Estimated Delivery',
+            label: 'Estimated Delivery',
             value: formatDateFull(estDate),
             sub: '4–5 business days from order',
             state: 'pending'
@@ -914,7 +928,7 @@
         } else {
           fill.style.width = pickupProgress + '%';
           statusText.className = 'status-text preparing';
-          statusText.textContent = `🍳 Your order is being freshly prepared — ready on ${pickupDayLabel}`;
+          statusText.textContent = ``;
         }
       } else {
         const now = new Date();
@@ -954,7 +968,6 @@
       let infoHtml = '';
 
       infoHtml += `<div class="delivery-info">
-        <div class="delivery-info-icon">${isPickup ? '🏪' : '📦'}</div>
         <div class="delivery-info-text">
           <div class="delivery-info-label">${isPickup ? 'Pickup Location' : 'Delivery Address'}</div>
           <div class="delivery-info-value">${addressVal}</div>
@@ -962,17 +975,19 @@
       </div>`;
 
       infoHtml += `<div class="delivery-info">
-        <div class="delivery-info-icon">${isPickup ? '💵' : '💳'}</div>
         <div class="delivery-info-text">
           <div class="delivery-info-label">Payment</div>
-          <div class="delivery-info-value">${order.payMethod === 'upi' ? '📱 UPI — ' + (order.upiId || 'UPI Payment') : (isPickup ? '💵 Cash on Pickup' : '💵 Cash on Delivery')}</div>
+          <div class="delivery-info-value">${
+  order.payMethod === 'razorpay' ? '💳 Online Payment (Razorpay)' :
+  order.payMethod === 'upi' ? '📱 UPI — ' + (order.upiId || 'UPI Payment') :
+  order.payMethod === 'cod' ? 'Cash on Pickup' : 'Cash on Delivery'
+}</div>
         </div>
       </div>`;
 
       if (isPickup) {
         const pickupText = order.pickupDateDisplay || (order.pickupDate ? formatDateFull(order.pickupDate) + ' by 4:00 PM' : 'Ready next day by 4:00 PM');
         infoHtml += `<div class="delivery-info">
-          <div class="delivery-info-icon">📅</div>
           <div class="delivery-info-text">
             <div class="delivery-info-label">Pickup ready</div>
             <div class="delivery-info-value">${pickupText}</div>
@@ -983,13 +998,21 @@
       document.getElementById('delivery-info-container').innerHTML = infoHtml;
 
       // Items + totals
-      const itemsHtml = (order.items || []).map(it =>
-        `<div class="item-row"><div class="ir-left"><span class="ir-em">${it.emoji || '🍽️'}</span>
-        <div><div class="ir-name">${it.name}${it.size ? ' <span style="font-size:10px;color:var(--muted)">(' + it.size + ')</span>' : ''}</div><div class="ir-qty">×${it.qty}</div></div></div>
-        <div class="ir-price">₹${(it.price || 0) * it.qty}</div></div>`
-      ).join('');
+const itemsHtml = (order.items || []).map(it => {
+  const imgHtml = it.img
+    ? '<img src="' + it.img + '" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">'
+    : (it.emoji || '');
+  const sizeBadge = it.size
+    ? ' <span style="font-size:10px;color:var(--muted)">(' + it.size + ')</span>'
+    : '';
+  return '<div class="item-row"><div class="ir-left"><span class="ir-em">' + imgHtml + '</span>'
+    + '<div><div class="ir-name">' + it.name + sizeBadge + '</div>'
+    + '<div class="ir-qty">×' + it.qty + '</div></div></div>'
+    + '<div class="ir-price">₹' + ((it.price || 0) * it.qty) + '</div></div>';
+}).join('');
+        
 
-      const deliveryRow = isPickup ? '' : `<div class="tl-row"><span>🚚 Delivery charge</span><span>₹${deliveryCharge}</span></div>`;
+      const deliveryRow = isPickup ? '' : `<div class="tl-row"><span>Delivery charge</span><span>₹${deliveryCharge}</span></div>`;
 
       document.getElementById('items-container').innerHTML = `
         ${itemsHtml}
