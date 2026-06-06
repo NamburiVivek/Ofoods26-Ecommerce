@@ -249,16 +249,9 @@
       padding-bottom: 3px
     }
 
-    /* BREADCRUMB */
-    .breadcrumb {
-      padding: 16px 48px;
-      font-size: 12px;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap
-    }
+   .breadcrumb {
+  display: none;
+}
 
     .breadcrumb a {
       color: var(--muted);
@@ -1131,7 +1124,7 @@
           <span class="product-emoji-3d" id="prod-emoji">🍋</span>
         </div>
         <div class="badge-lg" id="prod-badge">Popular</div>
-        <div class="rotate-hint" id="rotate-hint">🔄 Drag to rotate</div>
+        
       </div>
     </div>
 
@@ -1155,7 +1148,6 @@
           <span class="price-mrp" id="pp-mrp">₹249</span>
           <span class="price-save" id="pp-save">Save 40%</span>
         </div>
-        <div class="price-sub">Inclusive of all taxes</div>
       </div>
 
       
@@ -1174,7 +1166,7 @@
         <div class="detail-row"><span class="dr-label">Storage</span><span class="dr-val">Cool, dry place. Refrigerate
             after opening.</span></div>
         <div class="detail-row"><span class="dr-label">Made In</span><span class="dr-val">India 🇮🇳</span></div>
-        <div class="detail-row"><span class="dr-label">No Preservatives</span><span class="dr-val">✅ 100% Natural</span>
+        <div class="detail-row"><span class="dr-label">No Preservatives</span><span class="dr-val">100% Natural</span>
         </div>
       </div>
 
@@ -1259,7 +1251,7 @@
   </div>
 
   <div class="similar-section">
-    <div class="sim-title">Similar <span>Items</span></div>
+    <div class="sim-title">Similar Items<span></span></div>
     <div class="sim-grid" id="sim-grid"></div>
   </div>
 
@@ -1407,7 +1399,7 @@ if (p.image) {
       bdg.textContent = p.badge;
       bdg.className = 'badge-lg ' + (p.type || '');
 
-      document.getElementById('prod-cat').textContent = p.cat.charAt(0).toUpperCase() + p.cat.slice(1) + ' ›';
+      document.getElementById('prod-cat').textContent = '';
       document.getElementById('prod-name').textContent = p.name;
 
       const revUrl = `review.html?id=${p.id}`;
@@ -1492,7 +1484,7 @@ if (p.image) {
       const buyNowOrder = {
         id: 'OF' + Date.now().toString().slice(-6),
         date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-        items: [{ id: currentProduct.id, name: currentProduct.name, emoji: currentProduct.emoji, price: selectedSize.price, qty: qty, size: selectedSize.label }],
+        items: [{ id: currentProduct.id, name: currentProduct.name, emoji: currentProduct.emoji, img: currentProduct.image, price: selectedSize.price, qty: qty, size: selectedSize.label }],
         subtotal: selectedSize.price * qty,
         discount: 0,
         total: selectedSize.price * qty + 5,
@@ -1558,10 +1550,10 @@ if (p.image) {
         if (mode === 'pickup') {
           const store = DeliveryMode.getSelectedStore();
           dbox.innerHTML = `
-        <div class="db-row"><span class="db-label">🏪 Pickup from</span><span class="db-val green">${store.shortName || store.name}</span></div>
-        <div class="db-row"><span class="db-label">⏰ Ready by</span><span class="db-val green">Tomorrow 4:00 PM</span></div>
-        <div class="db-row"><span class="db-label">💰 Pickup fee</span><span class="db-val green">FREE</span></div>
-        <div class="db-row"><span class="db-label">✅ Sold by</span><span class="db-val">O Foods Official</span></div>
+        <div class="db-row"><span class="db-label">Pickup from</span><span class="db-val green">${store.shortName || store.name}</span></div>
+        <div class="db-row"><span class="db-label">Ready by</span><span class="db-val green">Tomorrow 4:00 PM</span></div>
+        <div class="db-row"><span class="db-label">Pickup fee</span><span class="db-val green">FREE</span></div>
+        <div class="db-row"><span class="db-label">Sold by</span><span class="db-val">O Foods Official</span></div>
         <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px">
           <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px">🏪 Store Details</div>
           <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
@@ -1575,10 +1567,10 @@ if (p.image) {
         </div>`;
         } else {
           dbox.innerHTML = `
-        <div class="db-row"><span class="db-label">📦 Delivery</span><span class="db-val green">All India 🇮🇳</span></div>
-        <div class="db-row"><span class="db-label">🚚 Delivery in</span><span class="db-val green">4–5 business days</span></div>
-       <div class="db-row"><span class="db-label">🏠 Home Delivery Charge</span><span class="db-val">₹50</span></div>
-        <div class="db-row"><span class="db-label">✅ Sold by</span><span class="db-val">O Foods Official</span></div>`;
+        <div class="db-row"><span class="db-label">Delivery</span><span class="db-val green">All India 🇮🇳</span></div>
+        <div class="db-row"><span class="db-label">Delivery in</span><span class="db-val green">4–5 business days</span></div>
+       <div class="db-row"><span class="db-label">Home Delivery Charge</span><span class="db-val">₹50</span></div>
+        <div class="db-row"><span class="db-label">Sold by</span><span class="db-val">O Foods Official</span></div>`;
         }
       }
       updateDeliveryBox();
