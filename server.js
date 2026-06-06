@@ -7,8 +7,7 @@ const express    = require('express');
 const mysql      = require('mysql2/promise');
 const bcrypt     = require('bcryptjs');
 const jwt        = require('jsonwebtoken');
-const { Resend } = require('resend');
-const resend = new Resend(process.env.RESEND_API_KEY);
+const nodemailer = require('nodemailer');
 const twilio     = require('twilio');
 const cors       = require('cors');
 const path       = require('path');
@@ -31,16 +30,12 @@ app.use(express.static(path.join(__dirname)));
 
 // ── DB Pool ──────────────────────────────────────────────────
 const db = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
+  host:     process.env.DB_HOST,
+  user:     process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  ssl: {
-    rejectUnauthorized: false
-  }
 });
 
 // ── Auto-migration: add dob & address columns if missing ────
@@ -189,22 +184,14 @@ const db = mysql.createPool({
     console.warn('Migration check skipped:', e.message);
   }
 })();
-console.log("GMAIL_USER:", process.env.GMAIL_USER);
-console.log("APP PASSWORD EXISTS:", !!process.env.GMAIL_APP_PASSWORD);
+
 // ── Email transporter ────────────────────────────────────────
 const mailer = nodemailer.createTransport({
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD
-  }
-});
-mailer.verify(function (error, success) {
-  if (error) {
-    console.log("MAIL ERROR:", error);
-  } else {
-    console.log("MAIL SERVER READY");
-  }
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
 });
 
 // ── Twilio client ────────────────────────────────────────────
@@ -680,7 +667,7 @@ app.post('/api/password/forgot', async (req, res) => {
     resetTokenStore.set(token, { email, expiresAt });
 
     // Build the reset URL — points back to login.html with the token as a query param
-    const frontendUrl = process.env.FRONTEND_URL || 'https://ofoods26-ecommerce.onrender.com';
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:24711';
     const resetUrl    = `${frontendUrl}/login.html?reset_token=${token}`;
 
     // Send branded reset email
@@ -1122,22 +1109,9 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
   }
 });
 
-app.get("/test-mail", async (req, res) => {
-  try {
-    await sendEmailOTP("viveknamburiviveknamburi@gmail.com", "123456", "Vivek");
-    res.send("Mail sent");
-  } catch (e) {
-    console.error(e);
-    res.send(e.message);
-  }
-});
-mailer.verify((error, success) => {
-  if (error) {
-    console.error("MAIL ERROR:", error);
-  } else {
-    console.log("MAIL SERVER READY");
-  }
-});
+// ════════════════════════════════════════════════════════════════
+//  START
+// ════════════════════════════════════════════════════════════════
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`\n✅  O Foods server running → http://localhost:${PORT}`);
