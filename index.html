@@ -26,7 +26,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;cursor:
 #topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
 .nav-logo:hover{border-color:#fff}
-.nav-location{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;cursor:none;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
+.nav-location{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px; text-decoration:none;flex-shrink:0;transition:border-color .15s;}
 .nav-location:hover{border-color:#fff}
 .loc-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
 .loc-bot{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.4}
@@ -36,15 +36,15 @@ body{font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;cursor:
 .search-icon-left{display:flex;align-items:center;padding:0 14px;background:#fff;color:#888;flex-shrink:0;}
 .search-input{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#111;background:#fff;padding:0 8px;min-width:0;}
 .search-input::placeholder{color:#999;}
-.search-go{background:#fff;border:none;padding:0 18px;cursor:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee;transition:background .15s;}
+.search-go{background:#fff;border:none;padding:0 18px; display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee;transition:background .15s;}
 .search-go:hover{background:#f5f5f5;}
 
-.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;cursor:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap;position:relative;}
+.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none; flex-shrink:0;transition:border-color .15s;white-space:nowrap;position:relative;}
 .nav-item:hover{border-color:#fff}
 .ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
 .ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
 
-.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;cursor:none;flex-shrink:0;transition:border-color .15s;}
+.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none; flex-shrink:0;transition:border-color .15s;}
 .nav-cart-link:hover{border-color:#fff}
 .cart-icon-wrap{position:relative;display:inline-flex}
 #nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;}
@@ -53,40 +53,37 @@ body{font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;cursor:
 .nav-spacer{height:60px}
 
 /* HERO */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:60px}
 #hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(212,13,13,.12) 0%,transparent 70%)}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 56px;position:relative;z-index:1}
+ .hero-left{display:flex;flex-direction:column;justify-content:center;padding:1px 56px 10px;position:relative;z-index:1}
 .h-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,6vw,88px);font-weight:700;line-height:1;letter-spacing:-2px;animation:fadeUp .6s .25s both}
 .h-title em{color:var(--red);font-style:italic;display:block}
 .h-sub{font-size:16px;font-weight:300;color:var(--muted);line-height:1.7;margin:24px 0 40px;max-width:400px;animation:fadeUp .6s .4s both}
 .h-cta{display:flex;gap:14px;animation:fadeUp .6s .55s both}
-.btn-p{background:var(--red);color:#fff;border:none;border-radius:50px;padding:14px 32px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 30px rgba(212,13,13,.35)}
+.btn-p{background:var(--red);color:#fff;border:none;border-radius:50px;padding:14px 32px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600; text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 30px rgba(212,13,13,.35)}
 .btn-p:hover{background:var(--red2);transform:translateY(-2px);box-shadow:0 0 50px rgba(212,13,13,.5)}
-.btn-o{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:14px 28px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:500;cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,color .2s}
+.btn-o{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15);border-radius:50px;padding:14px 28px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:500; text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,color .2s}
 .btn-o:hover{border-color:var(--red);color:var(--red)}
-.h-stats{display:flex;gap:40px;margin-top:60px;animation:fadeUp .6s .7s both;padding-top:40px;border-top:1px solid var(--border)}
+.h-stats{display:flex;gap:40px;margin-top:40px;animation:fadeUp .6s .7s both;padding-top:40px;border-top:1px solid var(--border)}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--text);line-height:1}
 .stat-l{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:.5px}
 .hero-right{position:relative;display:flex;align-items:center;justify-content:center;z-index:1}
 .h-ring{position:absolute;width:420px;height:420px;border-radius:50%;border:1px solid rgba(212,13,13,.12);animation:spin 20s linear infinite;margin-left:100px;}
 .h-ring2{width:320px;height:320px;border-color:rgba(212,13,13,.1);animation-duration:15s;animation-direction:reverse;margin-left:100px;}
 .hero-plate {
-  background: none;        /* removes the gradient card look */
-  border: none;
-  border-radius: 24px;
-  padding: 0;              /* remove padding so image fills fully */
-  width: 300px;
   text-align: center;
   position: relative;
   z-index: 2;
   animation: float 4s ease-in-out infinite;
-  margin-left: 40px;
-  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 .plate-emoji{font-size:80px;display:block;margin-bottom:16px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.5))}
 .plate-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text);margin-bottom:8px}
 .plate-price{font-size:28px;font-weight:700;color:var(--red);margin-bottom:18px}
-.plate-slot{background:rgba(45,106,53,.25);border:1px solid rgba(45,106,53,.4);color:#6BCF7F;font-size:12px;font-weight:600;padding:8px 16px;border-radius:8px}
+.plate-slot{background:rgba(45,106,53,.25);border:0px solid rgba(45,106,53,.4);color:#6BCF7F;font-size:12px;font-weight:600;padding:8px 16px;border-radius:8px}
 
 .hc-emoji{font-size:64px;display:block;margin-bottom:16px;line-height:1}
 .hc-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px}
@@ -108,7 +105,7 @@ section{padding:80px 48px}
 .cats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 .cat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px 16px;text-align:center;text-decoration:none;color:var(--text);transition:transform .25s,border-color .25s,box-shadow .25s;display:block}
 .cat-card:hover{transform:translateY(-5px);border-color:var(--red);box-shadow:0 8px 30px rgba(212,13,13,.15)}
-.ci{font-size:42px;display:block;margin-bottom:12px}
+.ci{font-size:42px;display:block;margin-bottom:12px;line-height:1}
 .cn{font-size:13px;font-weight:600}
 .cc{font-size:11px;color:var(--muted);margin-top:3px}
 
@@ -118,7 +115,7 @@ section{padding:80px 48px}
 .ot{background:rgba(255,255,255,.18);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:50px;display:inline-block;margin-bottom:12px}
 .oh{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:700;color:#fff;line-height:1.1;letter-spacing:-1px}
 .os{color:rgba(255,255,255,.75);font-size:14px;margin-top:10px}
-.btn-offer{background:#fff;color:var(--red);border:none;border-radius:50px;padding:14px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;cursor:none;text-decoration:none;transition:transform .2s,box-shadow .2s;position:relative;z-index:1}
+.btn-offer{background:#fff;color:var(--red);border:none;border-radius:50px;padding:14px 32px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:700; text-decoration:none;transition:transform .2s,box-shadow .2s;position:relative;z-index:1}
 .btn-offer:hover{transform:scale(1.04);box-shadow:0 8px 30px rgba(0,0,0,.25)}
 
 /* HOW IT WORKS */
@@ -126,7 +123,7 @@ section{padding:80px 48px}
 .how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:48px}
 .hw{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:36px 24px;text-align:center;transition:border-color .3s,transform .3s}
 .hw:hover{border-color:rgba(212,13,13,.3);transform:translateY(-4px)}
-.hw-step{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:16px}
+.hw-step{font-size:25px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:16px}
 .hw-icon{font-size:44px;display:block;margin-bottom:18px}
 .hw-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--text);margin-bottom:10px}
 .hw-desc{font-size:13px;color:var(--muted);line-height:1.65}
@@ -134,7 +131,7 @@ section{padding:80px 48px}
 /* STORE LOCATIONS */
 #stores{background:var(--bg);padding:80px 48px}
 .store-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:48px}
-.store-detail-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .25s,transform .25s;cursor:none}
+.store-detail-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:28px;transition:border-color .25s,transform .25s; }
 .store-detail-card:hover{border-color:rgba(212,13,13,.4);transform:translateY(-4px)}
 .store-detail-card.default{border-color:var(--red);box-shadow:0 0 24px rgba(212,13,13,.15)}
 .sdc-badge{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:50px;margin-bottom:12px}
@@ -142,9 +139,9 @@ section{padding:80px 48px}
 .sdc-addr{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
 .sdc-hours{font-size:12px;color:#6BCF7F;font-weight:600;margin-bottom:16px}
 .sdc-actions{display:flex;gap:8px}
-.btn-sdc{background:var(--red);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:none;text-decoration:none;transition:background .2s;display:inline-flex;align-items:center;gap:5px}
+.btn-sdc{background:var(--red);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600; text-decoration:none;transition:background .2s;display:inline-flex;align-items:center;gap:5px}
 .btn-sdc:hover{background:var(--red2)}
-.btn-sdc-o{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:9px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;cursor:none;text-decoration:none;transition:all .2s}
+.btn-sdc-o{background:transparent;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:9px 18px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:500; text-decoration:none;transition:all .2s}
 .btn-sdc-o:hover{border-color:var(--red);color:var(--red)}
 
 /* FOOTER */
@@ -259,7 +256,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       </div>
 
       <!-- Account Menu -->
-      <div class="nav-item" id="nav-account" onclick="handleAccountClick()" style="cursor:none;position:relative;">
+      <div class="nav-item" id="nav-account" onclick="handleAccountClick()" style=" position:relative;">
         <span class="ni-top" id="nav-greeting">Hello, sign in</span>
         <span class="ni-bot">Account &amp; Lists ▾</span>
         <div id="acc-dropdown">
@@ -321,13 +318,58 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       </div>
     </div>
 
-    <!-- Right: Featured Product Card -->
-   <div class="hero-right">
+ <div class="hero-right">
   <div class="hero-plate">
-    <img 
-      src="chicken boneless.png" 
-      class="hero-product-img"
-    />
+
+    <!-- Jar image with glow -->
+    <div style="position:relative;width:280px;height:280px;margin-left:150px;">
+      <div style="position:absolute;inset:-30px;border-radius:50%;
+                  background:radial-gradient(circle,rgba(212,13,13,.3) 0%,transparent 65%);"></div>
+      <img src="boneless.png" alt="Chicken Pickle Boneless"
+        style="width:280px;height:280px;object-fit:cover;border-radius:50%;
+               border:2px solid rgba(212,13,13,.5);
+               box-shadow:0 0 60px rgba(212,13,13,.4),0 0 120px rgba(212,13,13,.1);
+               display:block;position:relative;z-index:1;">
+
+      <!-- Floating badge on top of jar -->
+      
+    </div>
+
+    <!-- Info card — tight, horizontal, professional -->
+    <div style="margin-left:160px;margin-top:20px;width:280px;
+                background:linear-gradient(135deg,rgba(25,25,25,.98),rgba(18,18,18,.98));
+                border:1px solid rgba(212,13,13,.2);border-radius:16px;
+                padding:18px 20px;box-shadow:0 8px 40px rgba(0,0,0,.5);
+                backdrop-filter:blur(20px);">
+
+      <!-- Product name row -->
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;
+                  font-weight:700;color:var(--text);line-height:1.2;margin-bottom:12px;">
+        Chicken Pickle Boneless
+      </div>
+
+      <!-- Divider -->
+      <div style="height:1px;background:rgba(255,255,255,.06);margin-bottom:12px;"></div>
+
+      <!-- Price + CTA row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:2px;"></div>
+          <div style="font-size:24px;font-weight:700;color:var(--red);line-height:1;">
+            ₹1,199
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">/ 1kg</span>
+          </div>
+        </div>
+        <a href="login.html?id=13"
+          style="background:var(--red);color:#fff;border-radius:50px;
+                 padding:10px 18px;font-size:12px;font-weight:600;
+                 text-decoration:none;transition:background .2s;
+                 box-shadow:0 4px 16px rgba(212,13,13,.4);">
+          Order Now →
+        </a>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -370,28 +412,28 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
 
       <div class="hw reveal">
         <div class="hw-step">Step 01</div>
-        <span class="hw-icon">📍</span>
+        <span class="hw-icon"></span>
         <div class="hw-title">Pick Your Store</div>
         <div class="hw-desc">Select the O Foods location nearest to you from our network.</div>
       </div>
 
       <div class="hw reveal" style="transition-delay:.1s">
         <div class="hw-step">Step 02</div>
-        <span class="hw-icon">🫙</span>
+        <span class="hw-icon"></span>
         <div class="hw-title">Browse &amp; Add</div>
         <div class="hw-desc">Choose from homemade pickles, masala powders, papad, chips &amp; snacks.</div>
       </div>
 
       <div class="hw reveal" style="transition-delay:.2s">
         <div class="hw-step">Step 03</div>
-        <span class="hw-icon">🕐</span>
-        <div class="hw-title">Choose Slot</div>
+        <span class="hw-icon"></span>
+        <div class="hw-title">Add Address</div>
         <div class="hw-desc">Pick a convenient pickup time. We'll prepare your order right on time.</div>
       </div>
 
       <div class="hw reveal" style="transition-delay:.3s">
         <div class="hw-step">Step 04</div>
-        <span class="hw-icon">✅</span>
+        <span class="hw-icon"></span>
         <div class="hw-title">Pickup &amp; Enjoy</div>
         <div class="hw-desc">Show your order ID at the counter. Fresh food ready and waiting.</div>
       </div>
@@ -431,7 +473,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
 .of-contact-pill .icon{width:28px;height:28px;border-radius:6px;background:rgba(212,13,13,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .of-contact-pill .info{font-size:11px;color:#5a5450;line-height:1.2;}
 .of-contact-pill .val{font-size:13px;color:#ccc;font-weight:500;}
-.of-col-heading{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:#d40d0d;margin-bottom:20px;}
+.of-col-heading{font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:#d40d0d;margin-bottom:20px;}
 .of-col-links{list-style:none;padding:0;margin:0;}
 .of-col-links li{margin-bottom:12px;}
 .of-col-links a{color:rgba(255,255,255,0.38);text-decoration:none;font-size:13px;transition:color .18s;display:flex;align-items:center;gap:7px;}
@@ -465,20 +507,23 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
   
 
       <!-- Contact Pills -->
-      <div class="of-contact-pill">
-        <div class="icon">📞</div>
-        <div>
-          <div class="info">contact</div>
-          <div class="val">+91 9390626483</div>
-        </div>
-      </div>
-      <div class="of-contact-pill">
-        <div class="icon">📧</div>
-        <div>
-          <div class="info">Support Email</div>
-          <div class="val">hello@ofoods.in</div>
-        </div>
-      </div>
+     <div class="of-contact-pill">
+  <div class="icon">📞</div>
+  <div>
+    <div class="info">Call Us</div>
+    <div class="val">+91 7981250665</div>
+  </div>
+</div>
+
+
+
+<div class="of-contact-pill">
+  <div class="icon">📧</div>
+  <div>
+    <div class="info">Email Us</div>
+    <div class="val">ofoods26@gmail.com</div>
+  </div>
+</div>
       <div class="of-contact-pill">
         <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -501,7 +546,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
         <li><a href="spices.html">Masala Powders</a></li>
         <li><a href="papad.html">Chips &amp; Vadiyalu</a></li>
         <li><a href="snacks.html">Snacks &amp; Sweets</a></li>
-        <li><a href="all-items.html">View All →</a></li>
+        
       </ul>
     </div>
 
@@ -511,9 +556,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       <ul class="of-col-links">
         <li><a href="javascript:void(0)" onclick="requireLogin('profile.html')">My Orders</a></li>
         <li><a href="javascript:void(0)" onclick="requireLogin('cart.html')">My Cart</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="refund-policy.html">Refund Policy</a></li>
+        
       </ul>
     </div>
 
@@ -526,13 +569,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
         <li><a href="index.html#stores">Amaravathi</a></li>
       </ul>
 
-      <div style="margin-top:28px;">
-        <div class="of-col-heading">Legal</div>
-        <ul class="of-col-links">
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="terms.html">Terms &amp; Conditions</a></li>
-        </ul>
-      </div>
+      
     </div>
 
   </div>
@@ -602,14 +639,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
     };
 
     /* ── Category Data ── */
-    const CATS = [
-      { key: 'pickles', icon: '🫙', name: 'Veg Pickles',         count: 11,    href: 'login.html' },
-      { key: 'nonveg',  icon: '🍗', name: 'Non-Veg Pickles',     count: 4,     href: 'login.html' },
-      { key: 'spices',  icon: '🌶️', name: 'Masala Powders',      count: 9,     href: 'login.html' },
-      { key: 'papad',   icon: '🍟', name: 'Chips & Vadiyalu',    count: 10,    href: 'login.html' },
-      { key: 'snacks',  icon: '🍬', name: 'Hot Items & Sweets',  count: 10,    href: 'login.html' },
-      { key: 'all',     icon: '🍽️', name: 'View All',            count: '50+', href: 'login.html' },
-    ];
+   const CATS = [
+  { key: 'pickles', icon: '🫙', name: 'Veg Pickles',        count: 10,    href: 'pickles.html',       img: 'tomato.png' },
+  { key: 'nonveg',  icon: '🍗', name: 'Non-Veg Pickles',    count: 4,     href: 'pickles.html#nonveg', img: 'chicken bones.png' },
+  { key: 'spices',  icon: '🌶️', name: 'Masala Powders',     count: 14,    href: 'spices.html',         img: 'pachi karam.png' },
+  { key: 'papad',   icon: '🍟', name: 'Chips & Vadiyalu',   count: 5,     href: 'papad.html',          img: 'biyam pindi vadiyalu.png' },
+  { key: 'snacks',  icon: '🍬', name: 'Hot Items & Sweets', count: 10,    href: 'snacks.html',         img: 'bundhe.png' },
+ 
+];
 
     /* ── DOM Ready ── */
     window.addEventListener('DOMContentLoaded', () => {
@@ -670,13 +707,15 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       });
 
       // Render category cards
-      document.getElementById('cats-grid').innerHTML = CATS.map(c => `
-        <a href="${c.href}" class="cat-card reveal">
-          <span class="ci">${c.icon}</span>
-          <div class="cn">${c.name}</div>
-          <div class="cc">${c.count} items</div>
-        </a>
-      `).join('');
+     document.getElementById('cats-grid').innerHTML = CATS.map(c => `
+  <a href="${c.href}" class="cat-card reveal">
+    <div class="ci" style="width:100%;height:100px;border-radius:12px;overflow:hidden;margin-bottom:12px;background:#1A1A1A;">
+      <img src="${c.img}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.parentElement.innerHTML='<span style=\'font-size:42px;display:flex;align-items:center;justify-content:center;height:100%\'>${c.icon}</span>'">
+    </div>
+    <div class="cn">${c.name}</div>
+    <div class="cc">${c.count} items</div>
+  </a>
+`).join('');
 
       renderStoreCards();
       OF.initReveal();
