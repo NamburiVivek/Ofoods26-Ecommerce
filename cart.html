@@ -664,11 +664,12 @@
 </script>
 
 <body>
-  
+
+  <div id="cur"></div>
 
   <div id="topnav-wrapper">
     <nav id="topnav">
-      <a href="product.html" class="nav-logo">
+      <a href="memu.html" class="nav-logo">
         <img src="logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;"
           onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'">
       </a>
@@ -726,87 +727,76 @@
       <!-- MINI ITEMS LIST -->
       <div class="cp-items-list" id="cp-items-list"></div>
 
-     
-
       <!-- TOTALS -->
-      <div class="cp-row"><span>Subtotal</span><span id="cp-sub">₹0</span></div>
-      <div class="cp-row"><span>Platform fee</span><span>₹5</span></div>
-      <div class="cp-total-row"><span>Estimated Total</span><span id="cp-total">₹5</span></div>
+      <div class="cp-row"><span>Subtotal</span><span id="cp-sub">&#8377;0</span></div>
+      <div class="cp-row"><span>Platform fee</span><span>&#8377;5</span></div>
+      <div class="cp-total-row"><span>Estimated Total</span><span id="cp-total">&#8377;5</span></div>
 
-      <button class="btn-checkout" id="chk-btn" onclick="proceedToCheckout()" disabled>Proceed to Checkout →</button>
-
-      
+      <button class="btn-checkout" id="chk-btn" onclick="proceedToCheckout()" disabled>Proceed to Checkout &#8594;</button>
     </div>
   </div>
 
   <div id="toast"></div>
 
-
-
   <script>
     const OF = {
-  products: [
-    // PICKLES (IDs 1–15)
-    { id: 1,  name: 'Tomato Pickle',               price: 120, img: 'tomato.png',                    emoji: '🍅', cat: 'pickles' },
-    { id: 2,  name: 'Mango Pickle',                price: 149, img: 'mango.png',                     emoji: '🥭', cat: 'pickles' },
-    { id: 3,  name: 'Ripe Red Chilli Pickle',      price: 139, img: 'red chilli.png',                emoji: '🌶️', cat: 'pickles' },
-    { id: 4,  name: 'Ginger Pickle',               price: 129, img: 'gongura.png',                   emoji: '🫚', cat: 'pickles' },
-    { id: 5,  name: 'Tomato & Red Chilli Pickle',  price: 135, img: 'redchilli&pandumirchi.png',      emoji: '🍅', cat: 'pickles' },
-    { id: 6,  name: 'Gongura & Red Chilli Pickle', price: 159, img: 'redchilli&pandumirchi.png',      emoji: '🌿', cat: 'pickles' },
-    { id: 7,  name: 'Lemon Pickle',                price: 119, img: 'Lemon.png',                     emoji: '🍋', cat: 'pickles' },
-    { id: 8,  name: 'Amla Pickle',                 price: 125, img: 'amala.png',                     emoji: '🫒', cat: 'pickles' },
-    { id: 9,  name: 'Coriander & Mint Pickle',     price: 110, img: 'kotimerra.png',                 emoji: '🌱', cat: 'pickles' },
-    { id: 10, name: 'Gongura Pickle (Sorrel)',      price: 169, img: 'munakaya.png',                  emoji: '🍃', cat: 'pickles' },
-    { id: 11, name: 'Broad Beans Pickle',           price: 130, img: 'chinthakaya.png',               emoji: '🫘', cat: 'pickles' },
-    { id: 12, name: 'Chicken Pickle (With Bones)', price: 299, img: 'chicken bones.png',             emoji: '🍗', cat: 'pickles' },
-    { id: 13, name: 'Chicken Pickle (Boneless)',   price: 329, img: 'boneless.png',                  emoji: '🍖', cat: 'pickles' },
-    { id: 14, name: 'Prawns Pickle',               price: 349, img: 'prawn.png',                     emoji: '🦐', cat: 'pickles' },
-    { id: 15, name: 'Mutton Pickle',               price: 379, img: 'mutton.png',                    emoji: '🥩', cat: 'pickles' },
-    // SPICES (IDs 30–44)
-    { id: 30, name: 'Coriander Powder',            price: 79,  img: 'sambar powder.png',             emoji: '🟢', cat: 'spices' },
-    { id: 31, name: 'Garam Masala Powder',         price: 99,  img: 'garam masala.png',              emoji: '✨', cat: 'spices' },
-    { id: 32, name: 'Sambar Masala Powder',        price: 85,  img: 'sambar powder.png',             emoji: '🟤', cat: 'spices' },
-    { id: 33, name: 'Rasam Powder',                price: 75,  img: 'rasam karam.png',               emoji: '🌿', cat: 'spices' },
-    { id: 34, name: 'Chicken Masala Powder',       price: 110, img: 'chicken karam.png',             emoji: '🍗', cat: 'spices' },
-    { id: 35, name: 'Mutton Masala Powder',        price: 115, img: 'mutton karam.png',              emoji: '🥩', cat: 'spices' },
-    { id: 36, name: 'Sambar Karam',                price: 89,  img: 'sambar karam.png',              emoji: '🌶️', cat: 'spices' },
-    { id: 37, name: 'Pachi Karam',                 price: 79,  img: 'pachi karam.png',               emoji: '🌱', cat: 'spices' },
-    { id: 38, name: 'Karivepaku Karam',            price: 85,  img: 'curry leaf.png',                emoji: '🍃', cat: 'spices' },
-    { id: 39, name: 'Kobbari Karam',               price: 90,  img: 'cobari karam.png',              emoji: '🥥', cat: 'spices' },
-    { id: 40, name: 'Madypu Karam',                price: 80,  img: 'madupu karam.png',              emoji: '🟠', cat: 'spices' },
-    { id: 41, name: 'Munagaku Karam',              price: 95,  img: 'munagaku karam.png',            emoji: '🌿', cat: 'spices' },
-    { id: 42, name: 'Idly Karam',                  price: 69,  img: 'Idly karam.png',                emoji: '🍚', cat: 'spices' },
-    { id: 43, name: 'Idly Chutney Podi',           price: 75,  img: 'Idly Chutney Podi.png',         emoji: '🫙', cat: 'spices' },
-    { id: 44, name: 'Nuvvula Karam',               price: 85,  img: 'nuvula karam.png',              emoji: '🤍', cat: 'spices' },
-    // CHIPS (IDs 50–59)
-    { id: 50, name: 'Biyyam Pindi Vadiyalu',       price: 55,  img: 'biyam pindi vadiyalu.png',      emoji: '⬜', cat: 'papad' },
-    { id: 51, name: 'Ravva Vadiyalu',              price: 59,  img: 'rava vadiyalu.png',             emoji: '🟡', cat: 'papad' },
-    { id: 52, name: 'Tomato Vadiyalu',             price: 65,  img: 'tomato vadiyalu.png',           emoji: '🍅', cat: 'papad' },
-    { id: 53, name: 'Ragi Vadiyalu',               price: 60,  img: 'biyam pindi vadiyalu.png',      emoji: '🟤', cat: 'papad' },
-    { id: 54, name: 'Saggubiyyam Vadiyalu',        price: 58,  img: 'rava vadiyalu.png',             emoji: '⚪', cat: 'papad' },
-    { id: 55, name: 'Minapa Vadiyalu',             price: 65,  img: 'biyam pindi vadiyalu.png',      emoji: '🫘', cat: 'papad' },
-    { id: 56, name: 'Tase Chitti Vadiyalu',        price: 70,  img: 'tomato vadiyalu.png',           emoji: '🌶️', cat: 'papad' },
-    { id: 57, name: 'Palakura Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',         emoji: '🥬', cat: 'papad' },
-    { id: 58, name: 'Beetroot Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',         emoji: '🟣', cat: 'papad' },
-    { id: 59, name: 'Carrot Vadiyalu',             price: 60,  img: 'carrat vadiyalu.png',           emoji: '🥕', cat: 'papad' },
-    // SNACKS (IDs 70–79)
-    { id: 70, name: 'Boondi Mixture',              price: 65,  img: 'bundhe.png',                    emoji: '🟡', cat: 'snacks' },
-    { id: 71, name: 'Chekkalu',                    price: 55,  img: 'Chekkalu (Saggubiyyam).png',    emoji: '⬜', cat: 'snacks' },
-    { id: 72, name: 'Chakoralu',                   price: 59,  img: 'chakaralu.png',                 emoji: '🟤', cat: 'snacks' },
-    { id: 73, name: 'Laddu',                       price: 49,  img: 'laddu.png',                     emoji: '🟠', cat: 'snacks' },
-    { id: 74, name: 'Gavvalu',                     price: 55,  img: 'gavvalu.png',                   emoji: '🐚', cat: 'snacks' },
-    { id: 75, name: 'Kajalu',                      price: 60,  img: 'kajalu.png',                    emoji: '🌙', cat: 'snacks' },
-    { id: 76, name: 'Mithai Boondi',               price: 49,  img: 'Mithai Boondi.png',             emoji: '🟠', cat: 'snacks' },
-    { id: 77, name: 'Ariselu',                     price: 65,  img: 'sununda.png',                   emoji: '🔵', cat: 'snacks' },
-    { id: 78, name: 'Kajjikayalu',                 price: 70,  img: 'nuvula laddu.png',              emoji: '🌙', cat: 'snacks' },
-    { id: 79, name: 'Chalimidi',                   price: 55,  img: 'salimidi.png',                  emoji: '🤍', cat: 'snacks' },
-  ],
+      products: [
+        { id: 1,  name: 'Tomato Pickle',               price: 120, img: 'tomato.png',                   emoji: '🍅', cat: 'pickles' },
+        { id: 2,  name: 'Mango Pickle',                price: 149, img: 'mango.png',                    emoji: '🥭', cat: 'pickles' },
+        { id: 3,  name: 'Ripe Red Chilli Pickle',      price: 139, img: 'red chilli.png',               emoji: '🌶️', cat: 'pickles' },
+        { id: 4,  name: 'Ginger Pickle',               price: 129, img: 'gongura.png',                  emoji: '🫚', cat: 'pickles' },
+        { id: 5,  name: 'Tomato & Red Chilli Pickle',  price: 135, img: 'redchilli&pandumirchi.png',    emoji: '🍅', cat: 'pickles' },
+        { id: 6,  name: 'Gongura & Red Chilli Pickle', price: 159, img: 'redchilli&pandumirchi.png',    emoji: '🌿', cat: 'pickles' },
+        { id: 7,  name: 'Lemon Pickle',                price: 119, img: 'Lemon.png',                    emoji: '🍋', cat: 'pickles' },
+        { id: 8,  name: 'Amla Pickle',                 price: 125, img: 'amala.png',                    emoji: '🫒', cat: 'pickles' },
+        { id: 9,  name: 'Coriander & Mint Pickle',     price: 110, img: 'kotimerra.png',                emoji: '🌱', cat: 'pickles' },
+        { id: 10, name: 'Gongura Pickle (Sorrel)',      price: 169, img: 'munakaya.png',                 emoji: '🍃', cat: 'pickles' },
+        { id: 11, name: 'Broad Beans Pickle',           price: 130, img: 'chinthakaya.png',              emoji: '🫘', cat: 'pickles' },
+        { id: 12, name: 'Chicken Pickle (With Bones)', price: 299, img: 'chicken bones.png',            emoji: '🍗', cat: 'pickles' },
+        { id: 13, name: 'Chicken Pickle (Boneless)',   price: 329, img: 'boneless.png',                 emoji: '🍖', cat: 'pickles' },
+        { id: 14, name: 'Prawns Pickle',               price: 349, img: 'prawn.png',                    emoji: '🦐', cat: 'pickles' },
+        { id: 15, name: 'Mutton Pickle',               price: 379, img: 'mutton.png',                   emoji: '🥩', cat: 'pickles' },
+        { id: 30, name: 'Coriander Powder',            price: 79,  img: 'sambar powder.png',            emoji: '🟢', cat: 'spices' },
+        { id: 31, name: 'Garam Masala Powder',         price: 99,  img: 'garam masala.png',             emoji: '✨', cat: 'spices' },
+        { id: 32, name: 'Sambar Masala Powder',        price: 85,  img: 'sambar powder.png',            emoji: '🟤', cat: 'spices' },
+        { id: 33, name: 'Rasam Powder',                price: 75,  img: 'rasam karam.png',              emoji: '🌿', cat: 'spices' },
+        { id: 34, name: 'Chicken Masala Powder',       price: 110, img: 'chicken karam.png',            emoji: '🍗', cat: 'spices' },
+        { id: 35, name: 'Mutton Masala Powder',        price: 115, img: 'mutton karam.png',             emoji: '🥩', cat: 'spices' },
+        { id: 36, name: 'Sambar Karam',                price: 89,  img: 'Sambar Karam.png',             emoji: '🌶️', cat: 'spices' },
+        { id: 37, name: 'Pachi Karam',                 price: 79,  img: 'pachi karam.png',              emoji: '🌱', cat: 'spices' },
+        { id: 38, name: 'Karivepaku Karam',            price: 85,  img: 'curry leaf.png',               emoji: '🍃', cat: 'spices' },
+        { id: 39, name: 'Kobbari Karam',               price: 90,  img: 'cobari karam.png',             emoji: '🥥', cat: 'spices' },
+        { id: 40, name: 'Madypu Karam',                price: 80,  img: 'madupu karam.png',             emoji: '🟠', cat: 'spices' },
+        { id: 41, name: 'Munagaku Karam',              price: 95,  img: 'munagaku karam.png',           emoji: '🌿', cat: 'spices' },
+        { id: 42, name: 'Idly Karam',                  price: 69,  img: 'Idly karam.png',               emoji: '🍚', cat: 'spices' },
+        { id: 43, name: 'Idly Chutney Podi',           price: 75,  img: 'Idly Chutney Podi.png',        emoji: '🫙', cat: 'spices' },
+        { id: 44, name: 'Nuvvula Karam',               price: 85,  img: 'nuvula karam.png',             emoji: '🤍', cat: 'spices' },
+        { id: 50, name: 'Biyyam Pindi Vadiyalu',       price: 55,  img: 'biyam pindi vadiyalu.png',     emoji: '⬜', cat: 'papad' },
+        { id: 51, name: 'Ravva Vadiyalu',              price: 59,  img: 'rava vadiyalu.png',            emoji: '🟡', cat: 'papad' },
+        { id: 52, name: 'Tomato Vadiyalu',             price: 65,  img: 'tomato vadiyalu.png',          emoji: '🍅', cat: 'papad' },
+        { id: 53, name: 'Ragi Vadiyalu',               price: 60,  img: 'biyam pindi vadiyalu.png',     emoji: '🟤', cat: 'papad' },
+        { id: 54, name: 'Saggubiyyam Vadiyalu',        price: 58,  img: 'rava vadiyalu.png',            emoji: '⚪', cat: 'papad' },
+        { id: 55, name: 'Minapa Vadiyalu',             price: 65,  img: 'biyam pindi vadiyalu.png',     emoji: '🫘', cat: 'papad' },
+        { id: 56, name: 'Tase Chitti Vadiyalu',        price: 70,  img: 'tomato vadiyalu.png',          emoji: '🌶️', cat: 'papad' },
+        { id: 57, name: 'Palakura Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',        emoji: '🥬', cat: 'papad' },
+        { id: 58, name: 'Beetroot Vadiyalu',           price: 65,  img: 'beetroot vadiyalu.png',        emoji: '🟣', cat: 'papad' },
+        { id: 59, name: 'Carrot Vadiyalu',             price: 60,  img: 'carrat vadiyalu.png',          emoji: '🥕', cat: 'papad' },
+        { id: 70, name: 'Boondi Mixture',              price: 65,  img: 'bundhe.png',                   emoji: '🟡', cat: 'snacks' },
+        { id: 71, name: 'Chekkalu',                    price: 55,  img: 'Chekkalu (Saggubiyyam).png',   emoji: '⬜', cat: 'snacks' },
+        { id: 72, name: 'Chakoralu',                   price: 59,  img: 'chakaralu.png',                emoji: '🟤', cat: 'snacks' },
+        { id: 73, name: 'Laddu',                       price: 49,  img: 'laddu.png',                    emoji: '🟠', cat: 'snacks' },
+        { id: 74, name: 'Gavvalu',                     price: 55,  img: 'Gavvalu.png',                  emoji: '🐚', cat: 'snacks' },
+        { id: 75, name: 'Kajalu',                      price: 60,  img: 'kajalu.png',                   emoji: '🌙', cat: 'snacks' },
+        { id: 76, name: 'Mithai Boondi',               price: 49,  img: 'Mithai Boondi.png',            emoji: '🟠', cat: 'snacks' },
+        { id: 77, name: 'Ariselu',                     price: 65,  img: 'sununda.png',                  emoji: '🔵', cat: 'snacks' },
+        { id: 78, name: 'Kajjikayalu',                 price: 70,  img: 'nuvula laddu.png',             emoji: '🌙', cat: 'snacks' },
+        { id: 79, name: 'Chalimidi',                   price: 55,  img: 'salimidi.png',                 emoji: '🤍', cat: 'snacks' },
+      ],
       getUser() { try { return JSON.parse(localStorage.getItem('of_user') || 'null') } catch (e) { return null } },
       cartKey() { const u = this.getUser(); return u ? 'of_cart_' + u.id : 'of_cart_guest' },
       getCart() { try { return JSON.parse(localStorage.getItem(this.cartKey()) || '{}') } catch (e) { return {} } },
       saveCart(c) { localStorage.setItem(this.cartKey(), JSON.stringify(c)) },
       setQty(id, q) { const c = this.getCart(); if (q <= 0) delete c[id]; else c[id] = q; this.saveCart(c) },
-      cartTotal() { const c = this.getCart(); return Object.entries(c).reduce((s, [id, q]) => { const p = this.products.find(x => x.id == id); return s + (p ? p.price * q : 0) }, 0) },
       cartCount() { return Object.values(this.getCart()).reduce((a, b) => a + b, 0) },
       refreshBadge() { const el = document.getElementById('nav-badge'); if (el) { const n = this.cartCount(); el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none' } },
       getPrefs() { try { return JSON.parse(localStorage.getItem('of_prefs') || '{}') } catch (e) { return {} } },
@@ -814,6 +804,36 @@
       _tt: null,
       toast(msg) { const t = document.getElementById('toast'); if (!t) return; t.innerHTML = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), 2800) },
     };
+
+    // ── HELPER: get meta stored by product page when item was added ──
+    function getMeta(key) {
+      try { return JSON.parse(localStorage.getItem('of_cart_meta_' + key) || 'null'); } catch (e) { return null; }
+    }
+
+    // ── HELPER: resolve item info from cart key (supports both old numeric keys and new size keys) ──
+    function getItemInfo(key, cart) {
+      const meta = getMeta(key);
+      const parts = key.split('_');
+      const pid = parseInt(parts[0]);
+      const sizeLabel = parts.slice(1).join('_') || '';
+      const p = OF.products.find(x => x.id == pid);
+      return {
+        name:  meta ? meta.name  : (p ? p.name + (sizeLabel ? ' (' + sizeLabel + ')' : '') : key),
+        price: meta ? meta.price : (p ? p.price : 0),
+        emoji: meta ? meta.emoji : (p ? p.emoji : ''),
+        img:   meta ? meta.img   : (p ? p.img   : ''),
+        qty:   cart[key]
+      };
+    }
+
+    // ── HELPER: compute cart total using meta prices ──
+    function cartTotalNew() {
+      const cart = OF.getCart();
+      return Object.keys(cart).filter(k => cart[k] > 0).reduce((sum, key) => {
+        const info = getItemInfo(key, cart);
+        return sum + info.price * info.qty;
+      }, 0);
+    }
 
     function updateStoreBox() {
       const sb = document.getElementById('store-box');
@@ -824,20 +844,19 @@
         const sName = store ? store.name : 'O Foods Store';
         const sAddr = store ? store.address : '';
         sb.innerHTML =
-          '<div class="sb-lbl">🏪 Store Pickup</div>' +
+          '<div class="sb-lbl">Store Pickup</div>' +
           '<div class="sb-val">' + sName + '</div>' +
           '<div class="sb-sub">' + sAddr + '</div>' +
-          '<div style="margin-top:8px;font-size:11px;color:#6BCF7F;font-weight:600">⏰ Ready next day by 4:00 PM · FREE pickup</div>';
+          '<div style="margin-top:8px;font-size:11px;color:#6BCF7F;font-weight:600">Ready next day by 4:00 PM - FREE pickup</div>';
       } else {
         sb.innerHTML =
-          '<div class="sb-lbl">🏠 Home Delivery</div>' +
-          '<div class="sb-val">All India 🇮🇳</div>' +
-          '<div class="sb-sub">Courier delivery · 4–5 business days</div>' +
+          '<div class="sb-lbl">Home Delivery</div>' +
+          '<div class="sb-val">All India</div>' +
+          '<div class="sb-sub">Courier delivery - 4 to 5 business days</div>' +
           '<div style="margin-top:8px;font-size:11px;color:var(--muted)">Delivery charges calculated at checkout based on your state</div>';
       }
     }
 
-    
     window.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('of_token');
       if (!token) { location.href = 'login.html?next=cart.html'; return; }
@@ -852,7 +871,7 @@
       OF.refreshBadge();
       if (typeof DeliveryMode !== 'undefined') {
         DeliveryMode.init();
-        window.addEventListener('delivery-mode-changed', function() {
+        window.addEventListener('delivery-mode-changed', function () {
           updateStoreBox();
         });
       }
@@ -866,27 +885,20 @@
 
     function renderPage() {
       const cart = OF.getCart();
-      const ids = Object.keys(cart).filter(id => cart[id] > 0);
+      const keys = Object.keys(cart).filter(k => cart[k] > 0);
 
-      // Delivery info box — All India delivery
-      const sb = document.getElementById('store-box');
-      sb.innerHTML =
-        '<div class="sb-lbl">🇮🇳 Delivery Zone</div>' +
-        '<div class="sb-val">All India</div>' +
-        '<div class="sb-sub">Courier delivery · 4–5 business days</div>' +
-        '<div style="margin-top:8px;font-size:11px;color:var(--muted)">Delivery charges calculated at checkout based on your state</div>';
+      updateStoreBox();
 
-      // Empty state
-      if (!ids.length) {
+      if (!keys.length) {
         document.getElementById('items-lbl').textContent = '';
         document.getElementById('page-sub').textContent = '';
-        document.getElementById('items-list').innerHTML = `
-      <div class="empty-cart">
-        <div>🛍️</div>
-        <h3>Your cart is empty</h3>
-        <p>Add something delicious from our menu!</p>
-        <a href="login.html" class="btn-p">Browse Menu →</a>
-      </div>`;
+        document.getElementById('items-list').innerHTML =
+          '<div class="empty-cart">' +
+          '<div>&#128717;</div>' +
+          '<h3>Your cart is empty</h3>' +
+          '<p>Add something delicious from our menu!</p>' +
+          '<a href="memu.html" class="btn-p">Browse Menu</a>' +
+          '</div>';
         document.getElementById('add-more').innerHTML = '';
         document.getElementById('cp-items-list').innerHTML = '';
         document.getElementById('chk-btn').disabled = true;
@@ -895,71 +907,69 @@
         return;
       }
 
-      document.getElementById('items-lbl').textContent = ids.length + ' item' + (ids.length > 1 ? 's' : '') + ' in cart';
-      document.getElementById('page-sub').textContent = ids.length + ' item' + (ids.length > 1 ? 's' : '');
+      document.getElementById('items-lbl').textContent = keys.length + ' item' + (keys.length > 1 ? 's' : '') + ' in cart';
+      document.getElementById('page-sub').textContent = keys.length + ' item' + (keys.length > 1 ? 's' : '');
 
-      document.getElementById('items-list').innerHTML = ids.map(id => {
-        const p = OF.products.find(x => x.id == id);
-        if (!p) return '';
-        const qty = cart[id];
+      document.getElementById('items-list').innerHTML = keys.map(key => {
+        const info = getItemInfo(key, cart);
         return `<div class="ci">
-      <div class="ci-em">
-  ${p.img 
-    ? `<img src="${p.img}" alt="${p.name}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">` 
-    : p.emoji}
-</div>
-      <div class="ci-info">
-        <div class="ci-name">${p.name}</div>
-        <div class="ci-unit">₹${p.price} per item</div>
-      </div>
-      <div class="ci-right">
-        <div class="ci-price">₹${p.price * qty}</div>
-        <div class="qty-ctrl">
-          <button class="qb" onclick="doQty(${p.id},-1)">−</button>
-          <span class="qn">${qty}</span>
-          <button class="qb" onclick="doQty(${p.id},1)">+</button>
-        </div>
-        <button class="ci-rm" onclick="doRemove(${p.id})">✕ Remove</button>
-      </div>
-    </div>`;
+          <div class="ci-em">
+            ${info.img
+              ? `<img src="${info.img}" alt="${info.name}" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">`
+              : info.emoji}
+          </div>
+          <div class="ci-info">
+            <div class="ci-name">${info.name}</div>
+            <div class="ci-unit">&#8377;${info.price} per item</div>
+          </div>
+          <div class="ci-right">
+            <div class="ci-price">&#8377;${info.price * info.qty}</div>
+            <div class="qty-ctrl">
+              <button class="qb" onclick="doQty('${key}',-1)">&#8722;</button>
+              <span class="qn">${info.qty}</span>
+              <button class="qb" onclick="doQty('${key}',1)">&#43;</button>
+            </div>
+            <button class="ci-rm" onclick="doRemove('${key}')">&#x2715; Remove</button>
+          </div>
+        </div>`;
       }).join('');
 
       document.getElementById('add-more').innerHTML = '<a href="memu.html" class="add-more">+ Add more items</a>';
 
-      document.getElementById('cp-items-list').innerHTML = ids.map(id => {
-        const p = OF.products.find(x => x.id == id);
-        return p ? `<div class="cp-il"><span>
-  ${p.img ? `<img src="${p.img}" alt="" style="width:20px;height:20px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:4px;">` : p.emoji}
-  ${p.name} ×${cart[id]}
-</span><span>₹${p.price * cart[id]}</span></div>` : '';
+      document.getElementById('cp-items-list').innerHTML = keys.map(key => {
+        const info = getItemInfo(key, cart);
+        return `<div class="cp-il">
+          <span>${info.img
+            ? `<img src="${info.img}" alt="" style="width:20px;height:20px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:4px;">`
+            : info.emoji} ${info.name} x${info.qty}</span>
+          <span>&#8377;${info.price * info.qty}</span>
+        </div>`;
       }).join('');
 
       document.getElementById('chk-btn').disabled = false;
-      document.getElementById('chk-btn').textContent = 'Proceed to Checkout →';
+      document.getElementById('chk-btn').textContent = 'Proceed to Checkout';
       updateTotals();
     }
 
     function updateTotals() {
-      const sub = OF.cartTotal();
-      document.getElementById('cp-sub').textContent = '₹' + sub;
-      document.getElementById('cp-total').textContent = '₹' + (sub + 5);
+      const sub = cartTotalNew();
+      document.getElementById('cp-sub').textContent = '&#8377;' + sub;
+      document.getElementById('cp-total').textContent = '&#8377;' + (sub + 5);
     }
 
-    function doQty(id, delta) {
+    function doQty(key, delta) {
       const c = OF.getCart();
-      OF.setQty(id, (c[id] || 0) + delta);
+      const newQty = (c[key] || 0) + delta;
+      if (newQty <= 0) delete c[key]; else c[key] = newQty;
+      OF.saveCart(c);
       OF.refreshBadge();
-      if (typeof DeliveryMode !== 'undefined') {
-        DeliveryMode.init();
-        window.addEventListener('delivery-mode-changed', function() {
-          updateStoreBox();
-        });
-      }
       renderPage();
     }
 
-    function doRemove(id) {
-      OF.setQty(id, 0);
+    function doRemove(key) {
+      const c = OF.getCart();
+      delete c[key];
+      OF.saveCart(c);
       OF.refreshBadge();
       OF.toast('Item removed from cart');
       renderPage();
@@ -967,26 +977,26 @@
 
     function proceedToCheckout() {
       const cart = OF.getCart();
-      const ids = Object.keys(cart).filter(id => cart[id] > 0);
-      if (!ids.length) { OF.toast('Your cart is empty!'); return; }
+      const keys = Object.keys(cart).filter(k => cart[k] > 0);
+      if (!keys.length) { OF.toast('Your cart is empty!'); return; }
 
       const user = OF.getUser();
       let addr = {};
       try { addr = typeof user.address === 'string' ? JSON.parse(user.address) : (user.address || {}); } catch (e) { }
       const addrStr = [addr.house, addr.street, addr.city, addr.state, addr.pincode].filter(Boolean).join(', ');
-      const sub = OF.cartTotal();
+      const sub = cartTotalNew();
 
       const orderData = {
-        items: ids.map(id => {
-          const p = OF.products.find(x => x.id == id);
-          return { id, name: p ? p.name : '?', emoji: p ? p.emoji : '🍽️', img: p ? p.img : '', price: p ? p.price : 0, qty: cart[id] };
+        items: keys.map(key => {
+          const info = getItemInfo(key, cart);
+          return { id: key, name: info.name, emoji: info.emoji, img: info.img, price: info.price, qty: info.qty };
         }),
         subtotal: sub,
         deliveryAddress: addrStr || '',
       };
 
       localStorage.setItem('of_buynow', JSON.stringify(orderData));
-      document.getElementById('chk-btn').textContent = 'Loading…';
+      document.getElementById('chk-btn').textContent = 'Loading...';
       document.getElementById('chk-btn').disabled = true;
       setTimeout(() => location.href = 'Checkout.html', 300);
     }
