@@ -546,7 +546,6 @@ app.put('/api/addresses/:id/default', authMiddleware, async (req, res) => {
 // ════════════════════════════════════════════════════════════════
 app.post('/api/orders', authMiddleware, async (req, res) => {
   try {
-try {
     const { items, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id } = req.body;
     const orderId = 'OF' + Date.now().toString().slice(-6);
     await db.query(
