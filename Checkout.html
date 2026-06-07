@@ -1218,7 +1218,7 @@
       </div>
       <div class="sum-row"><span>Subtotal</span><span id="s-sub">₹0</span></div>
       <div class="sum-row disc-row" id="s-disc-row"><span>Discount</span><span id="s-disc">—</span></div>
-      <div class="sum-row"><span>Platform fee</span><span>₹5</span></div>
+      <div class="sum-row"><span>Platform fee</span><span id="s-platform-fee">₹10</span></div>
       <div class="sum-row" id="s-delivery-row"><span>Delivery charge</span><span id="s-delivery">₹0</span></div>
       <div class="sum-row total-row"><span>Total</span><span id="s-total">₹5</span></div>
 
@@ -1578,6 +1578,7 @@ function updateTotals() {
   const platformFee = calcPlatformFee(sub);
   const total = sub - discount + platformFee + deliveryCharge;
   document.getElementById('s-sub').textContent = '₹' + sub;
+  document.getElementById('s-platform-fee').textContent = '₹' + platformFee;
   const delivRow = document.getElementById('s-delivery-row');
   if (_deliveryMethod === 'pickup') {
     delivRow.style.display = 'none';
