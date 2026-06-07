@@ -1371,7 +1371,7 @@
 
       // Fetch all saved addresses from the API
       try {
-        const r = await fetch('http://localhost:3000/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
+        const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
         const d = await r.json();
         if (d.success) _checkoutAddresses = d.addresses || [];
       } catch (e) { console.warn('Could not load addresses', e); }
@@ -1508,7 +1508,7 @@
         is_default: _checkoutAddresses.length === 0 // first one becomes default
       };
       try {
-        const r = await fetch('http://localhost:3000/api/addresses', {
+        const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify(body)
@@ -1517,7 +1517,7 @@
         if (!d.success) { toast('❌ ' + (d.error || 'Failed to add address')); return; }
         toast('Address added!');
         // Reload addresses
-        const r2 = await fetch('http://localhost:3000/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
+        const r2 = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
         const d2 = await r2.json();
         if (d2.success) _checkoutAddresses = d2.addresses || [];
         _selectedAddrId = d.addressId; // auto-select the new address
@@ -1603,7 +1603,7 @@
     async function hasUserPlacedOrder() {
       const token = localStorage.getItem('of_token'); if (!token) return false;
       try {
-        const res = await fetch('http://localhost:3000/api/orders', { headers: { 'Authorization': 'Bearer ' + token } });
+        const res = await fetch('https://ofoods26-ecommerce.vercel.app/api/orders', { headers: { 'Authorization': 'Bearer ' + token } });
         const data = await res.json();
         return data.success && data.orders && data.orders.length > 0;
       } catch (e) {
@@ -1630,7 +1630,7 @@
         // Try server-side validation first
         const token = localStorage.getItem('of_token');
         try {
-          const vr = await fetch('http://localhost:3000/api/promo/validate', {
+          const vr = await fetch('https://ofoods26-ecommerce.vercel.app/api/promo/validate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
             body: JSON.stringify({ code, subtotal: orderData ? (orderData.subtotal || 0) : 0 })
@@ -1737,7 +1737,7 @@
 
       try {
         // Step 1: Create Razorpay order on server
-        const resp = await fetch('http://localhost:3000/api/razorpay/create-order', {
+        const resp = await fetch('https://ofoods26-ecommerce.vercel.app/api/razorpay/create-order', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify({ amount: total }),
@@ -1776,7 +1776,7 @@
             btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Verifying…';
 
             // Step 3: Verify signature on server, save order to DB
-            const verifyResp = await fetch('http://localhost:3000/api/razorpay/verify', {
+            const verifyResp = await fetch('https://ofoods26-ecommerce.vercel.app/api/razorpay/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
               body: JSON.stringify({
@@ -1876,7 +1876,7 @@ setTimeout(() => {
       };
 
       try {
-        const resp = await fetch('http://localhost:3000/api/orders', {
+        const resp = await fetch('https://ofoods26-ecommerce.vercel.app/api/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
           body: JSON.stringify({
