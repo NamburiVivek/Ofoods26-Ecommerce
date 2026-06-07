@@ -322,7 +322,7 @@ const STORES=[
   {id:'2',name:'O Foods — Guntur',address:'Beside Of Police Station, Guntur - 522002',hours:'Mon–Sun: 10:00 AM – 9:00 PM',phone:'+91 7013158283'},
   {id:'3',name:'O Foods — Vijayawada',address:'Beside Of Police Station, Vijayawada - 520001',hours:'Mon–Sun: 10:00 AM – 9:00 PM',phone:'+91 7842111179'},
 ];
-const API = 'http://localhost:3000';
+const API = 'https://ofoods26-ecommerce.vercel.app';
 
 function getUser(){try{return JSON.parse(localStorage.getItem("of_user")||"null")}catch(e){return null}}
 function saveUser(u){localStorage.setItem("of_user",JSON.stringify(u))}
