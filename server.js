@@ -548,9 +548,10 @@ app.post('/api/orders', authMiddleware, async (req, res) => {
   try {
     const { items, total, store, slot, pickup_date, payment, delivery_address } = req.body;
     const orderId = 'OF' + Date.now().toString().slice(-6);
+   const { items, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id } = req.body;
     await db.query(
-      'INSERT INTO orders (order_id, user_id, items_json, total, store, slot, pickup_date, payment, delivery_address, status, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,NOW())',
-      [orderId, req.user.id, JSON.stringify(items), total, delivery_address || store || '', slot, pickup_date || null, payment, delivery_address || '', 'preparing']
+      'INSERT INTO orders (order_id, user_id, items_json, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id, status, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,NOW())',
+      [orderId, req.user.id, JSON.stringify(items), total, delivery_address || store || '', slot || null, pickup_date || null, payment, delivery_address || '', delivery_method || null, upi_id || null, 'preparing']
     );
     res.json({ success: true, orderId });
   } catch (e) {
@@ -1115,26 +1116,7 @@ await mailer.sendMail({
   `,
 });
         // Admin notification
-await mailer.sendMail({
-  from: `"O Foods" <${process.env.GMAIL_USER}>`,
-  to: 'ofoods26@gmail.com',
-  subject: `NEW ORDER (COD) — ${orderId} | O Foods`,
-  html: `
-    <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
-      <h2 style="color:#d40d0d;">NEW COD ORDER</h2>
-      <p><strong>Order ID:</strong> ${orderId}</p>
-      <p><strong>Customer:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-      <p><strong>Total:</strong> ₹${total}</p>
-      <p><strong>Payment:</strong> ${payment.toUpperCase()}</p>
-      <p><strong>Delivery:</strong> ${addrText}</p>
-      <p><strong>Slot:</strong> ${slot}</p>
-      <hr style="border:1px solid #333;margin:16px 0;">
-      <table style="width:100%;border-collapse:collapse;">${itemsHtml}</table>
-    </div>
-  `,
-});
+
 
         if (phone) {
           await sendSMS(phone,
