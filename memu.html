@@ -377,8 +377,8 @@ function render(){
 
 function makeCard(p,cart){
   const bg=BGSM[p.id%BGSM.length];
-  const inCart=cart[p.id]>0;
-  const cartQty=cart[p.id]||0;
+  const cartQty = Object.keys(cart).filter(k => k == p.id || k.startsWith(p.id + '_')).reduce((sum, k) => sum + (cart[k] || 0), 0);
+const inCart = cartQty > 0;
   return `<a href="product.html?id=${p.id}" class="pc" id="pc-${p.id}">
   <div class="pc-img" style="background:${bg}">
   ${p.img 
