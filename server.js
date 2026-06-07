@@ -546,9 +546,9 @@ app.put('/api/addresses/:id/default', authMiddleware, async (req, res) => {
 // ════════════════════════════════════════════════════════════════
 app.post('/api/orders', authMiddleware, async (req, res) => {
   try {
-    const { items, total, store, slot, pickup_date, payment, delivery_address } = req.body;
+try {
+    const { items, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id } = req.body;
     const orderId = 'OF' + Date.now().toString().slice(-6);
-   const { items, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id } = req.body;
     await db.query(
       'INSERT INTO orders (order_id, user_id, items_json, total, store, slot, pickup_date, payment, delivery_address, delivery_method, upi_id, status, created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,NOW())',
       [orderId, req.user.id, JSON.stringify(items), total, delivery_address || store || '', slot || null, pickup_date || null, payment, delivery_address || '', delivery_method || null, upi_id || null, 'preparing']
