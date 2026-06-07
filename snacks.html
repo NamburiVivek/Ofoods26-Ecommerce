@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="logo2.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snacks & Sweets — O Foods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--nav-bg:#131921;}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px}
+
+#topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
+#topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
+.nav-logo:hover{border-color:#fff}
+.nav-search{flex:1;display:flex;height:44px;margin:0 12px;border-radius:50px;overflow:hidden;min-width:0;background:#fff;border:2px solid transparent;transition:border-color .2s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.nav-search:focus-within{border-color:var(--red);}
+.search-icon-left{display:flex;align-items:center;padding:0 14px;background:#fff;color:#888;flex-shrink:0;}
+.search-input-nav{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#111;background:#fff;padding:0 8px;min-width:0;}
+.search-input-nav::placeholder{color:#999;}
+.search-go{background:#fff;border:none;padding:0 18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee;transition:background .15s;}
+.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap;}
+.nav-item:hover{border-color:#fff}
+.ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+.ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
+.nav-cart-link:hover{border-color:#fff}
+.cart-icon-wrap{position:relative;display:inline-flex}
+#nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;}
+.cart-label{font-size:13px;font-weight:700;color:#fff;padding-bottom:3px}
+.page-header{padding:40px 48px 0;display:flex;align-items:center;gap:16px}
+.ph-icon{font-size:48px}
+.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,56px);font-weight:700;letter-spacing:-1.5px}
+.ph-title span{color:var(--red)}
+.ph-count{font-size:13px;color:var(--muted);margin-top:4px}
+.cat-tabs{display:flex;gap:8px;padding:16px 48px 0;flex-wrap:wrap}
+.cat-tab{padding:8px 20px;border-radius:50px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s}
+.cat-tab:hover{border-color:var(--red);color:var(--red)}
+.cat-tab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:20px 48px 60px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s;text-decoration:none;color:var(--text);display:block;cursor:pointer}
+.pc:hover{transform:translateY(-5px);border-color:rgba(212,13,13,.3)}
+.pc-img{height:210px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative;overflow:hidden}
+.pc-img img{width:100%;height:210px;object-fit:cover}
+.pbdg{position:absolute;top:12px;left:12px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:50px;background:var(--green);color:#fff;z-index:1}
+.pbdg.spicy{background:var(--red)}
+.pbdg.new{background:var(--gold);color:#1A1000}
+.pbdg.sweet{background:#9B4DCA;color:#fff}
+.pc-body{padding:16px 18px}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:5px;line-height:1.2}
+.pc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.pc-foot{display:flex;align-items:center;justify-content:space-between}
+.pc-price{font-size:20px;font-weight:700;color:var(--red)}
+.pc-price small{font-size:11px;font-weight:400;color:var(--muted);display:block;line-height:1.2}
+.pc-cta{font-size:12px;font-weight:600;color:var(--muted);transition:color .2s}
+.pc:hover .pc-cta{color:var(--red)}
+@media(max-width:900px){.prod-grid{padding:16px 20px 40px;grid-template-columns:repeat(2,1fr)}.page-header{padding:32px 20px 0}.cat-tabs{padding:12px 20px 0}}
+@media(max-width:500px){.prod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="topnav-wrapper">
+  <nav id="topnav">
+    <a href="index.html" class="nav-logo"><img src="logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;" onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'"></a>
+    <div class="nav-search">
+      <div class="search-icon-left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      <input type="text" class="search-input-nav" placeholder="Search snacks & sweets..." autocomplete="off" oninput="render(this.value)" />
+      <button class="search-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+    </div>
+    <a href="javascript:void(0)" onclick="requireLogin('profile.html')" class="nav-item" id="nav-user-li">
+      <span class="ni-top">Hello, sign in</span>
+      <span class="ni-bot">Account &amp; Lists</span>
+    </a>
+    <a href="javascript:void(0)" onclick="requireLogin('cart.html')" class="nav-cart-link">
+      <div class="cart-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="nav-badge"></span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+  </nav>
+</div>
+
+<div class="page-header">
+  <span class="ph-icon"></span>
+  <div>
+    <div class="ph-title">Snacks & <span>Sweets</span></div>
+    <div class="ph-count" id="ph-count">10 items available</div>
+  </div>
+</div>
+
+<div class="cat-tabs">
+  <a href="index.html" class="cat-tab">Home</a>
+  <a href="pickles.html" class="cat-tab">Pickles</a>
+  <a href="spices.html" class="cat-tab">Spice Powders</a>
+  <a href="papad.html" class="cat-tab">Chips & Vadiyalu</a>
+  <a href="snacks.html" class="cat-tab active">Snacks & Sweets</a>
+  <a href="all-items.html" class="cat-tab">View All</a>
+</div>
+
+<div class="prod-grid" id="prod-grid"></div>
+
+<script>
+const ITEMS=[
+  {id:70,name:'Boondi Mixture',             price:299, img:'bundhe.png',                      desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.',    badge:'Popular',     type:''},
+  {id:71,name:'Chekkalu (Saggubiyyam)',      price:299, img:'Chekkalu (Saggubiyyam).png',      desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',               badge:'Classic',     type:''},
+  {id:72,name:'Chakaralu',                   price:299, img:'chakaralu.png',                   desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',             badge:'Traditional', type:''},
+  {id:73,name:'Laddu',                       price:249, img:'laddu.png',                       desc:'Soft round sweet made with besan or boondi — a festive favourite.',              badge:'Sweet',       type:'sweet'},
+  {id:74,name:'Gavvalu',                     price:299, img:'gavvalu.png',                     desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',            badge:'Traditional', type:'sweet'},
+  {id:75,name:'Kajalu',                      price:299, img:'kajalu.png',                      desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',                badge:'Festive',     type:'sweet'},
+  {id:76,name:'Mithai Boondi',               price:299, img:'Mithai Boondi.png',               desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',                badge:'Sweet',       type:'sweet'},
+  {id:77,name:'Sununda',                     price:549, img:'sununda.png',                     desc:'Traditional Andhra sweet ball — rich, nutty and festive.',                       badge:'Festive',     type:'sweet'},
+  {id:78,name:'Nuvula Laddu',                price:399, img:'nuvula laddu.png',                desc:'Sesame seed laddu — naturally sweet, nutty and packed with goodness.',            badge:'Sweet',       type:'sweet'},
+  {id:79,name:'Chalimidi',                   price:549, img:'salimidi.png',                    desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',           badge:'Classic',     type:'sweet'},
+];
+
+const BGSM=['#1C1A15','#151C15','#1C1815','#1A1520','#15201A','#1C1515','#181515','#15181A','#1A1C15','#151518'];
+const OF={
+  getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
+  cartKey(){const u=this.getUser();return u?'of_cart_'+u.id:'of_cart_guest'},
+  cartCount(){try{return Object.values(JSON.parse(localStorage.getItem(this.cartKey())||'{}')).reduce((a,b)=>a+b,0)}catch(e){return 0}},
+  refreshBadge(){const el=document.getElementById('nav-badge');if(el){const n=this.cartCount();el.textContent=n;el.style.display=n>0?'flex':'none'}},
+};
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const user=OF.getUser();
+  const li=document.getElementById('nav-user-li');
+  if(user&&li){li.querySelector('.ni-top').textContent='Hello, '+user.name.split(' ')[0];li.querySelector('.ni-bot').textContent='Account & Orders';}
+  OF.refreshBadge();
+  render();
+});
+function render(qOverride){
+  const q=(qOverride||'').toLowerCase().trim();
+  let list=ITEMS.filter(p=>!q||p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q));
+  document.getElementById('ph-count').textContent=list.length+' item'+(list.length!==1?'s':'')+' available';
+  const grid=document.getElementById('prod-grid');
+  if(!list.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px 20px"><div style="font-size:56px;margin-bottom:16px">🔍</div><p style="color:var(--muted);font-size:16px">No items found</p></div>';return;}
+  grid.innerHTML=list.map(p=>`
+    <a href="product.html?id=${p.id}" class="pc">
+      <div class="pc-img" style="background:${BGSM[p.id%BGSM.length]}">
+        <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
+        <div class="pbdg ${p.type}">${p.badge}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-desc">${p.desc}</div>
+        <div class="pc-foot">
+          <div class="pc-price">&#8377;${p.price}<small>per pack</small></div>
+          <div class="pc-cta">View Details &#8250;</div>
+        </div>
+      </div>
+    </a>`).join('');
+}
+function requireLogin(page){
+  const token=localStorage.getItem('of_token');
+  if(!token){location.href='login.html?next='+page;return;}
+  location.href=page;
+}
+</script>
+</body>
+</html>
