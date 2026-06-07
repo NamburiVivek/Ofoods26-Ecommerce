@@ -50,26 +50,8 @@
       visibility: hidden;
     }
 
-    #cur {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: var(--red);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      top: 0;
-      left: 0;
-      transform: translate(-50%, -50%);
-      transition: width .2s, height .2s;
-      will-change: transform
-    }
-
-    #cur.big {
-      width: 36px;
-      height: 36px;
-      background: rgba(212, 13, 13, .2)
-    }
+   #cur { display: none }
+#cur.big { display: none }
 
     #topnav-wrapper {
       position: fixed;
@@ -728,9 +710,9 @@
       <div class="cp-items-list" id="cp-items-list"></div>
 
       <!-- TOTALS -->
-      <div class="cp-row"><span>Subtotal</span><span id="cp-sub">&#8377;0</span></div>
-      <div class="cp-row"><span>Platform fee</span><span>&#8377;5</span></div>
-      <div class="cp-total-row"><span>Estimated Total</span><span id="cp-total">&#8377;5</span></div>
+      <div class="cp-row"><span>Subtotal</span><span id="cp-sub">₹0</span></div>
+      <div class="cp-row"><span>Platform fee</span><span>₹5</span></div>
+      <div class="cp-total-row"><span>Estimated Total</span><span id="cp-total">₹5</span></div>
 
       <button class="btn-checkout" id="chk-btn" onclick="proceedToCheckout()" disabled>Proceed to Checkout &#8594;</button>
     </div>
@@ -920,10 +902,10 @@
           </div>
           <div class="ci-info">
             <div class="ci-name">${info.name}</div>
-            <div class="ci-unit">&#8377;${info.price} per item</div>
+            <div class="ci-unit">₹${info.price} per item</div>
           </div>
           <div class="ci-right">
-            <div class="ci-price">&#8377;${info.price * info.qty}</div>
+            <div class="ci-price">₹${info.price * info.qty}</div>
             <div class="qty-ctrl">
               <button class="qb" onclick="doQty('${key}',-1)">&#8722;</button>
               <span class="qn">${info.qty}</span>
@@ -942,7 +924,7 @@
           <span>${info.img
             ? `<img src="${info.img}" alt="" style="width:20px;height:20px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:4px;">`
             : info.emoji} ${info.name} x${info.qty}</span>
-          <span>&#8377;${info.price * info.qty}</span>
+          <span>₹${info.price * info.qty}</span>
         </div>`;
       }).join('');
 
@@ -953,8 +935,8 @@
 
     function updateTotals() {
       const sub = cartTotalNew();
-      document.getElementById('cp-sub').textContent = '&#8377;' + sub;
-      document.getElementById('cp-total').textContent = '&#8377;' + (sub + 5);
+      document.getElementById('cp-sub').textContent = '₹' + sub;
+      document.getElementById('cp-total').textContent = '₹' + (sub + 5);
     }
 
     function doQty(key, delta) {
