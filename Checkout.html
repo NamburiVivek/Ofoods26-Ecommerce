@@ -1708,7 +1708,11 @@
 
     // ── PLACE ORDER ──────────────────────────────────────────────────
     async function placeOrder() {
-      if (_deliveryMethod === 'home' && !deliveryAddress) { toast('⚠️ Please add a delivery address'); return; }
+  if (_deliveryMethod === 'home' && (!deliveryAddress || !_selectedAddrId)) { 
+    toast('⚠️ Please add a delivery address to continue'); 
+    document.getElementById('delivery-addr-list').scrollIntoView({behavior:'smooth'});
+    return; 
+  }
       if (_deliveryMethod === 'pickup' && !_selectedPickupStore) { toast('⚠️ Please select a pickup store'); return; }
       if (!selPay) { toast('⚠️ Please select a payment method'); return; }
 
