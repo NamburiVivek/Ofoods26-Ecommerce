@@ -249,22 +249,9 @@ const OF={
     name: 'O Foods — Amaravathi',
     address: 'Beside Of Police Station, Amaravathi - 522426',
     hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
-    phone: '+91 9390626483'
+    phone: '+91 7981250665'
   },
-  {
-    id: '2',
-    name: 'O Foods — Guntur',
-    address: 'Beside Of Police Station, Guntur - 522002',
-    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
-    phone: '+91 7013158283'
-  },
-  {
-    id: '3',
-    name: 'O Foods — Vijayawada',
-    address: 'Beside Of Police Station, Vijayawada - 520001',
-    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
-    phone: '+91 7842111179'
-  }
+ 
 ],
   getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
   cartKey(){const u=this.getUser();return u?'of_cart_'+u.id:'of_cart_guest'},
