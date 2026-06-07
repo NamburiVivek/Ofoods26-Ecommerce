@@ -711,7 +711,7 @@
 
       <!-- TOTALS -->
       <div class="cp-row"><span>Subtotal</span><span id="cp-sub">₹0</span></div>
-      <div class="cp-row"><span>Platform fee</span><span>₹5</span></div>
+      <div class="cp-row"><span>Platform fee</span><span id="cp-fee">₹10</span></div>
       <div class="cp-total-row"><span>Estimated Total</span><span id="cp-total">₹5</span></div>
 
       <button class="btn-checkout" id="chk-btn" onclick="proceedToCheckout()" disabled>Proceed to Checkout &#8594;</button>
@@ -885,7 +885,9 @@
         document.getElementById('cp-items-list').innerHTML = '';
         document.getElementById('chk-btn').disabled = true;
         document.getElementById('chk-btn').textContent = 'Cart is empty';
+        document.getElementById('cp-fee').textContent = '₹' + fee;
         updateTotals();
+        
         return;
       }
 
@@ -936,7 +938,7 @@
     function updateTotals() {
       const sub = cartTotalNew();
       document.getElementById('cp-sub').textContent = '₹' + sub;
-      document.getElementById('cp-total').textContent = '₹' + (sub + 5);
+      function calcPlatformFee(sub) {   if (sub <= 500) return 10;   if (sub <= 1000) return 30;   if (sub <= 1500) return 50;   return 50; } const fee = calcPlatformFee(sub); document.getElementById('cp-total').textContent = '₹' + (sub + fee);
     }
 
     function doQty(key, delta) {
