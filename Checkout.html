@@ -1565,10 +1565,32 @@
       } else box.style.display = 'none';
     }
 
-    function updateTotals() {
-      if (!orderData) return;
-      const sub = orderData.subtotal || 0;
-      const total = sub - discount + 5 + deliveryCharge;
+    function calcPlatformFee(sub) {
+  if (sub <= 500) return 10;
+  if (sub <= 1000) return 30;
+  if (sub <= 1500) return 50;
+  return 50;
+}
+
+function updateTotals() {
+  if (!orderData) return;
+  const sub = orderData.subtotal || 0;
+  const platformFee = calcPlatformFee(sub);
+  const total = sub - discount + platformFee + deliveryCharge;
+  document.getElementById('s-sub').textContent = '₹' + sub;
+  const delivRow = document.getElementById('s-delivery-row');
+  if (_deliveryMethod === 'pickup') {
+    delivRow.style.display = 'none';
+  } else {
+    delivRow.style.display = '';
+    document.getElementById('s-delivery').textContent = '₹' + deliveryCharge;
+  }
+  document.getElementById('s-total').textContent = '₹' + total;
+  document.getElementById('pay-amount').textContent = total;
+  const dr = document.getElementById('s-disc-row');
+  if (discount > 0) { dr.style.display = 'flex'; document.getElementById('s-disc').textContent = '-₹' + discount; }
+  else dr.style.display = 'none';
+}
       document.getElementById('s-sub').textContent = '₹' + sub;
       const delivRow = document.getElementById('s-delivery-row');
       if (_deliveryMethod === 'pickup') {
@@ -1721,7 +1743,7 @@
       const token = localStorage.getItem('of_token');
       if (!token) { location.href = 'login.html?next=Checkout.html'; return; }
 
-      const total = (orderData.subtotal || 0) - discount + 5 + deliveryCharge;
+      const platformFee = calcPlatformFee(orderData.subtotal || 0); const total = (orderData.subtotal || 0) - discount + platformFee + deliveryCharge;
 
       // ── Compute pickup date correctly ─────────────────────────────
       const pickupDate = getNextWorkingPickupDate(new Date());
