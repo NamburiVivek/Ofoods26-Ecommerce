@@ -1093,6 +1093,48 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
             </div>
           `,
         });
+        // Send copy to admin
+await mailer.sendMail({
+  from: `"O Foods" <${process.env.GMAIL_USER}>`,
+  to: 'ofoods26@gmail.com',
+  subject: `NEW ORDER — ${orderId} | O Foods`,
+  html: `
+    <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
+      <h2 style="color:#d40d0d;">NEW ORDER RECEIVED</h2>
+      <p><strong>Order ID:</strong> ${orderId}</p>
+      <p><strong>Customer:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+      <p><strong>Payment ID:</strong> ${razorpay_payment_id}</p>
+      <p><strong>Total:</strong> ₹${total}</p>
+      <p><strong>Delivery Address:</strong> ${delivery_address || 'N/A'}</p>
+      <hr style="border:1px solid #333;margin:16px 0;">
+      <table style="width:100%;border-collapse:collapse;">${itemsHtml}</table>
+      <p style="color:#aaa;font-size:12px;">Please pack and dispatch this order.</p>
+    </div>
+  `,
+});
+        // Admin notification
+await mailer.sendMail({
+  from: `"O Foods" <${process.env.GMAIL_USER}>`,
+  to: 'ofoods26@gmail.com',
+  subject: `NEW ORDER (COD) — ${orderId} | O Foods`,
+  html: `
+    <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
+      <h2 style="color:#d40d0d;">NEW COD ORDER</h2>
+      <p><strong>Order ID:</strong> ${orderId}</p>
+      <p><strong>Customer:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+      <p><strong>Total:</strong> ₹${total}</p>
+      <p><strong>Payment:</strong> ${payment.toUpperCase()}</p>
+      <p><strong>Delivery:</strong> ${addrText}</p>
+      <p><strong>Slot:</strong> ${slot}</p>
+      <hr style="border:1px solid #333;margin:16px 0;">
+      <table style="width:100%;border-collapse:collapse;">${itemsHtml}</table>
+    </div>
+  `,
+});
 
         if (phone) {
           await sendSMS(phone,
