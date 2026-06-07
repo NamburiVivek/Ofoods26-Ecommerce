@@ -1592,20 +1592,6 @@ function updateTotals() {
   if (discount > 0) { dr.style.display = 'flex'; document.getElementById('s-disc').textContent = '-₹' + discount; }
   else dr.style.display = 'none';
 }
-      document.getElementById('s-sub').textContent = '₹' + sub;
-      const delivRow = document.getElementById('s-delivery-row');
-      if (_deliveryMethod === 'pickup') {
-        delivRow.style.display = 'none';
-      } else {
-        delivRow.style.display = '';
-        document.getElementById('s-delivery').textContent = '₹' + deliveryCharge;
-      }
-      document.getElementById('s-total').textContent = '₹' + total;
-      document.getElementById('pay-amount').textContent = total;
-      const dr = document.getElementById('s-disc-row');
-      if (discount > 0) { dr.style.display = 'flex'; document.getElementById('s-disc').textContent = '-₹' + discount; }
-      else dr.style.display = 'none';
-    }
 
     function selectPay(type, el) {
       selPay = type;
