@@ -1468,7 +1468,20 @@ if (p.image) {
       const token = localStorage.getItem('of_token');
       if (!token) { window.location.href = 'login.html?next=' + encodeURIComponent(location.href); return; }
       if (!currentProduct || !selectedSize) return;
-      OF.addItem(currentProduct.id, qty);
+      // Store size info in cart
+const cart = OF.getCart();
+const cartKey = currentProduct.id + '_' + selectedSize.label;
+cart[cartKey] = (cart[cartKey] || 0) + qty;
+// Also store price info
+localStorage.setItem('of_cart_meta_' + cartKey, JSON.stringify({
+  name: currentProduct.name + ' (' + selectedSize.label + ')',
+  price: selectedSize.price,
+  emoji: currentProduct.emoji,
+  img: currentProduct.image
+}));
+OF.saveCart(cart);
+OF.refreshBadge();
+OF.toast(currentProduct.name + ' (' + selectedSize.label + ' ×' + qty + ') added!');
       OF.toast(currentProduct.emoji + ' ' + currentProduct.name + ' (' + selectedSize.label + ' ×' + qty + ') added to cart!');
     }
 
