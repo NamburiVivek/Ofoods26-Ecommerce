@@ -954,7 +954,7 @@
     function renderDetails(order) {
       const subtotal = order.subtotal || 0;
       const discount = order.discount || 0;
-      const platformFee = 5;
+      const subtotalForFee = order.subtotal || 0; const platformFee = subtotalForFee <= 500 ? 10 : subtotalForFee <= 1000 ? 30 : 50;
       const deliveryCharge = order.deliveryCharge || 0;
       const total = order.total != null ? order.total : (subtotal - discount + platformFee + deliveryCharge);
       const isPickup = order.deliveryMethod === 'pickup'
