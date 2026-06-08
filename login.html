@@ -592,7 +592,7 @@
               OTP sent to <strong id="l-masked">your email</strong>
               <div class="otp-chips">
                 <span class="chip">Email</span>
-                <span class="chip" id="l-sms-chip" style="display:none">SMS</span>
+                <span class="chip">SMS</span>
               </div>
             </div>
             <div class="otp-row" id="lg">
@@ -901,7 +901,7 @@
         showStep('ls2', 'ls1');
         clearOTP('lg');
         ltInt = startTimer('lt', 'l-resend', ltInt);
-        toast('OTP sent! Check your email & phone.', 'success');
+        toast('OTP sent! Check your email.', 'success');
       } catch (e) {
         toast('Cannot connect to server. Is it running?', 'error'); console.error(e);
       } finally {
