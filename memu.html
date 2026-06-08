@@ -17,6 +17,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 #cur.big{width:36px;height:36px;background:rgba(212,13,13,.2)}
 #topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
 #topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
+  @media(max-width:768px){
+  #topnav{padding:0 6px;gap:2px}
+  .nav-search{margin:0 6px;height:38px}
+  .nav-location{display:none}
+  .ni-top{font-size:10px}
+  .ni-bot{font-size:11px}
+  .cart-label{display:none}
+  .nav-logo img{height:32px}
+}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
 .nav-logo:hover{border-color:#fff}
 .nav-location{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
@@ -112,8 +121,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
   .main{padding:16px 20px}
   .mob-filter{display:flex}
   .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .pc-img{height:130px}
+  .pc-img img{height:130px !important;object-fit:cover}
+  .pc-name{font-size:14px}
+  .pc-desc{font-size:11px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
+  .pc-price{font-size:16px}
 }
-@media(max-width:500px){.prod-grid{grid-template-columns:1fr}}
+@media(max-width:400px){
+  .prod-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
