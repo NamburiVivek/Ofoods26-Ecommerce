@@ -16,6 +16,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
  
 #topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
 #topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
+  @media(max-width:768px){
+  #topnav{padding:0 6px;gap:2px}
+  .nav-search{margin:0 6px;height:38px}
+  .nav-location{display:none}
+  .ni-top{font-size:10px}
+  .ni-bot{font-size:11px}
+  .cart-label{display:none}
+  .nav-logo img{height:32px}
+}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
 .nav-logo:hover{border-color:#fff}
 .nav-search{flex:1;display:flex;height:44px;margin:0 12px;border-radius:50px;overflow:hidden;min-width:0;background:#fff;border:2px solid transparent;transition:border-color .2s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
@@ -89,7 +98,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 <div class="page-header">
   <span class="ph-icon"></span>
   <div>
-    <div class="ph-title">Chips & <span>Vadiyalu</span></div>
+    <div class="ph-title">Chips & Vadiyalu</div>
     <div class="ph-count" id="ph-count">5 items available</div>
   </div>
 </div>
