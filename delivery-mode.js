@@ -433,9 +433,39 @@ const DeliveryMode = {
     if (m) { m.style.animation = 'dm-fadeIn .2s ease reverse'; setTimeout(() => m.remove(), 200); }
   },
 
-  async _saveNewAddr() {
-    const token = DeliveryMode.getToken();
-    if (!token) return;
+ async _saveNewAddr() {
+    try {
+      const token = DeliveryMode.getToken();
+      if (!token) return;
+      const city = document.getElementById('dm-af-city').value.trim();
+      const state = document.getElementById('dm-af-state').value.trim();
+      const pincode = document.getElementById('dm-af-pincode').value.trim();
+      if (!city && !state && !pincode) { DeliveryMode._toast('⚠️ Please fill city, state, or pincode'); return; }
+      const body = {
+        label: document.getElementById('dm-af-label').value,
+        house: document.getElementById('dm-af-house').value.trim(),
+        street: document.getElementById('dm-af-street').value.trim(),
+        city, state, pincode,
+        landmark: document.getElementById('dm-af-landmark').value.trim(),
+        is_default: true
+      };
+      const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify(body)
+      });
+      const d = await r.json();
+      if (!d.success) { DeliveryMode._toast('❌ ' + (d.error || 'Failed')); return; }
+      const p = DeliveryMode.getPrefs();
+      p.addressId = d.addressId;
+      p.deliveryCity = city || state;
+      DeliveryMode.savePrefs(p);
+      DeliveryMode.updateNavBadge();
+      DeliveryMode._closeAddrFormModal();
+      DeliveryMode._toast('✅ Address saved!');
+      window.dispatchEvent(new CustomEvent('delivery-mode-changed', { detail: { mode: 'home' } }));
+    } catch(e) { DeliveryMode._toast('❌ Could not save address'); }
+  },
     const city = document.getElementById('dm-af-city').value.trim();
     const state = document.getElementById('dm-af-state').value.trim();
     const pincode = document.getElementById('dm-af-pincode').value.trim();
