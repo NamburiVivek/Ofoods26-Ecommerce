@@ -513,10 +513,9 @@ window.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('ph-price').innerHTML='₹'+p.sizes[0].price+' <span>onwards</span>';
 
   // Rating overview
-  const reviewCount = p.reviews || Math.floor(p.rating*200 + p.id*7);
   document.getElementById('rp-big').textContent=p.rating.toFixed(1);
   document.getElementById('rp-stars').textContent=starsHTML(p.rating);
-  document.getElementById('rp-count').textContent=reviewCount.toLocaleString()+' ratings';
+  document.getElementById('rp-count').textContent=allReviews.length+' ratings';
 
   // Build reviews
   const base = (REV_TEMPLATES[p.id]||[]).map(r=>({...r}));
