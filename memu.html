@@ -81,7 +81,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 /* CARD */
 .pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;text-decoration:none;color:var(--text);display:block;position:relative}
 .pc:hover{transform:translateY(-5px);border-color:rgba(212,13,13,.3);box-shadow:0 12px 40px rgba(212,13,13,.08)}
-.pc-img{height:175px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative}
+.pc-img{height:175px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative;overflow:hidden}  @media(max-width:900px){   .pc-img{height:130px} }
 .pbdg{position:absolute;top:12px;left:12px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:50px;background:var(--green);color:#fff}
 .pbdg.spicy{background:var(--red)}
 .pbdg.new{background:var(--gold);color:#1A1000}
@@ -386,7 +386,7 @@ const inCart = cartQty > 0;
   return `<a href="product.html?id=${p.id}" class="pc" id="pc-${p.id}">
   <div class="pc-img" style="background:${bg}">
   ${p.img 
-    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:175px;object-fit:cover;border-radius:0;">` 
+    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:0;">` 
     : `<span>${p.emoji}</span>`
   }
   <div class="pbdg ${p.type}">${p.badge}</div>
