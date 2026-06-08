@@ -1064,10 +1064,11 @@
       animation: flash .3s ease-out
     }
 
-@media(max-width:768px) {
+@media(max-width:900px) {
   .product-layout {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
     padding: 0 12px 40px;
     gap: 16px;
   }
