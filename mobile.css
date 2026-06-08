@@ -1,5 +1,5 @@
 /* ── GLOBAL MOBILE FIX ── */
-@media(max-width:768px){
+@media(max-width:900px){
 
   /* Nav */
   #topnav{ padding:0 8px; gap:4px; }
@@ -129,7 +129,7 @@
   /* Single column on very small screens */
 }
 
-@media(max-width:480px){
+@media(max-width:480px){   .cats-grid{ grid-template-columns:repeat(2,1fr) !important; }   .prod-grid{ grid-template-columns:repeat(2,1fr) !important; }
   .cats-grid{ grid-template-columns:repeat(2,1fr) !important; }
   .prod-grid{ grid-template-columns:repeat(2,1fr) !important; }
   .how-grid{ grid-template-columns:1fr !important; }
