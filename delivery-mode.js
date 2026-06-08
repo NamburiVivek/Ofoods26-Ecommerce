@@ -4,9 +4,8 @@
 // ═══════════════════════════════════════════════════════════════
 
 const OFSTORES = [
-  { id: '1', name: 'O Foods — Amaravathi', shortName: 'Amaravathi', address: 'Beside Of Police Station, Amaravathi - 522426', hours: 'Mon–Sun: 10:00 AM – 9:00 PM', phone: '+91 9390626483' },
-  { id: '2', name: 'O Foods — Guntur',     shortName: 'Guntur',     address: 'Beside Of Police Station, Guntur - 522002',     hours: 'Mon–Sun: 10:00 AM – 9:00 PM', phone: '+91 7013158283' },
-  { id: '3', name: 'O Foods — Vijayawada', shortName: 'Vijayawada', address: 'Beside Of Police Station, Vijayawada - 520001', hours: 'Mon–Sun: 10:00 AM – 9:00 PM', phone: '+91 7842111179' },
+  { id: '1', name: 'O Foods — Amaravathi', shortName: 'Amaravathi', address: 'Beside Of Police Station, Amaravathi - 522426', hours: 'Mon–Sun: 10:00 AM – 9:00 PM', phone: '+91 7981250665' },
+ 
 ];
 
 const DeliveryMode = {
@@ -310,7 +309,7 @@ const DeliveryMode = {
     const token = this.getToken();
     if (!token) return;
     // First, try to fetch existing addresses
-    fetch('http://localhost:3000/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } })
+    fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } })
       .then(r => r.json())
       .then(d => {
         if (d.success && d.addresses && d.addresses.length > 0) {
@@ -450,8 +449,7 @@ const DeliveryMode = {
       landmark: document.getElementById('dm-af-landmark').value.trim(),
       is_default: true
     };
-    try {
-      const r = await fetch('http://localhost:3000/api/addresses', {
+    const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify(body)
