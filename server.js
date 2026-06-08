@@ -8,7 +8,6 @@ const mysql      = require('mysql2/promise');
 const bcrypt     = require('bcryptjs');
 const jwt        = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const twilio     = require('twilio');
 const cors       = require('cors');
 const path       = require('path');
 const crypto     = require('crypto'); // ← built-in Node module, no install needed
@@ -197,10 +196,6 @@ const mailer = nodemailer.createTransport({
 });
 
 // ── Twilio client ────────────────────────────────────────────
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
 
 // ── In-memory OTP store (key = email, value = {otp, expires, userData}) ──
 const otpStore = new Map();
@@ -240,21 +235,7 @@ async function sendEmailOTP(email, otp, name = '') {
   });
 }
 
-async function sendSMS(phone, message) {
-  try {
-    let formattedPhone = phone.toString().replace(/\s+/g, '');
-    if (!formattedPhone.startsWith('+')) {
-      formattedPhone = '+91' + formattedPhone;
-    }
-    await twilioClient.messages.create({
-      body: message,
-      from: process.env.TWILIO_PHONE,
-      to: formattedPhone,
-    });
-  } catch (e) {
-    console.warn('SMS send failed (non-fatal):', e.message);
-  }
-}
+
 
 // ════════════════════════════════════════════════════════════════
 //  REGISTER — Step 1: Validate & Send OTP
@@ -281,8 +262,8 @@ app.post('/api/register/send-otp', async (req, res) => {
     // Store pending registration data
     otpStore.set(email, { otp, expires, userData: { name, email, phone, password: hashedPassword } });
 
+    
     await sendEmailOTP(email, otp, name);
-    await sendSMS(phone, `Your O Foods OTP is: ${otp}. Valid for 10 minutes.`);
 
     res.json({ success: true, maskedEmail: maskEmail(email) });
   } catch (e) {
@@ -352,14 +333,13 @@ app.post('/api/login/send-otp', async (req, res) => {
 
     otpStore.set(email, { otp, expires, userData: { id: user.id, name: user.name, email, phone: user.phone } });
 
+    
     await sendEmailOTP(email, otp, user.name);
-    if (user.phone) await sendSMS(user.phone, `Your O Foods OTP is: ${otp}. Valid for 10 minutes.`);
 
-    res.json({
-      success: true,
-      maskedEmail: maskEmail(email),
-      hasPhone: !!user.phone,
-    });
+   res.json({
+  success: true,
+  maskedEmail: maskEmail(email),
+});
   } catch (e) {
     console.error(e);
     res.json({ success: false, error: 'Server error. Please try again.' });
@@ -621,11 +601,7 @@ app.post('/api/notify-order', authMiddleware, async (req, res) => {
       `,
     });
 
-    if (phone) {
-      await sendSMS(phone,
-        `O Foods Order ${orderId} confirmed! Total: Rs.${total}. Payment: ${payment.toUpperCase()}. Delivery slot: ${slot}. We deliver anywhere in India! Thank you!`
-      );
-    }
+   
 
     res.json({ success: true });
   } catch (e) {
@@ -914,22 +890,7 @@ app.post('/api/orders/:orderId/status', authMiddleware, async (req, res) => {
     await db.query('UPDATE orders SET status = ? WHERE order_id = ?', [status, req.params.orderId]);
 
     // Send SMS notification on status change
-    try {
-      const [orderRows] = await db.query('SELECT user_id FROM orders WHERE order_id = ?', [req.params.orderId]);
-      if (orderRows.length) {
-        const [userRows] = await db.query('SELECT phone, name FROM users WHERE id = ?', [orderRows[0].user_id]);
-        if (userRows.length && userRows[0].phone) {
-          const statusMsgs = {
-            dispatched: `Hi ${userRows[0].name}! Your O Foods order ${req.params.orderId} has been dispatched! Track your delivery.`,
-            delivered: `Hi ${userRows[0].name}! Your O Foods order ${req.params.orderId} has been delivered! Enjoy your food! 🎉`,
-            ready: `Hi ${userRows[0].name}! Your O Foods order ${req.params.orderId} is READY for pickup! Show your order ID at the counter.`,
-          };
-          if (statusMsgs[status]) {
-            await sendSMS(userRows[0].phone, statusMsgs[status]);
-          }
-        }
-      }
-    } catch (smsErr) { console.warn('Status SMS failed:', smsErr.message); }
+   
 
     res.json({ success: true, message: 'Order status updated.' });
   } catch (e) {
@@ -1117,11 +1078,7 @@ await mailer.sendMail({
         // Admin notification
 
 
-        if (phone) {
-          await sendSMS(phone,
-            `O Foods Order ${orderId} confirmed! Paid Rs.${total} via Razorpay. Payment ID: ${razorpay_payment_id}. Thank you!`
-          );
-        }
+       
       }
     } catch (notifyErr) {
       console.warn('Razorpay notification failed (non-fatal):', notifyErr.message);
