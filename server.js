@@ -1133,7 +1133,69 @@ await mailer.sendMail({
     res.json({ success: false, error: 'Server error during payment verification.' });
   }
 });
+// ════════════════════════════════════════════════════════════════
+//  CHANGE PASSWORD (logged-in user) — Step 1: Send OTP
+//  POST /api/change-password/send-otp
+// ════════════════════════════════════════════════════════════════
+app.post('/api/change-password/send-otp', authMiddleware, async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT email, name FROM users WHERE id = ?', [req.user.id]);
+    if (!rows.length) return res.json({ success: false, error: 'User not found.' });
 
+    const { email, name } = rows[0];
+    const otp = generateOTP();
+    const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    // Store OTP keyed by user id
+    otpStore.set('changepw_' + req.user.id, { otp, expires });
+
+    await sendEmailOTP(email, otp, name);
+
+    res.json({ success: true, maskedEmail: maskEmail(email) });
+  } catch (e) {
+    console.error('Change password send-otp error:', e);
+    res.json({ success: false, error: 'Server error. Please try again.' });
+  }
+});
+
+// ════════════════════════════════════════════════════════════════
+//  CHANGE PASSWORD (logged-in user) — Step 2: Verify OTP & Update
+//  POST /api/change-password/verify-otp
+//  Body: { otp, newPassword }
+// ════════════════════════════════════════════════════════════════
+app.post('/api/change-password/verify-otp', authMiddleware, async (req, res) => {
+  try {
+    const { otp, newPassword } = req.body;
+
+    if (!otp || !newPassword)
+      return res.json({ success: false, error: 'OTP and new password are required.' });
+
+    if (newPassword.length < 6)
+      return res.json({ success: false, error: 'Password must be at least 6 characters.' });
+
+    const record = otpStore.get('changepw_' + req.user.id);
+    if (!record)
+      return res.json({ success: false, error: 'OTP expired or not found. Please request a new one.' });
+
+    if (Date.now() > record.expires) {
+      otpStore.delete('changepw_' + req.user.id);
+      return res.json({ success: false, error: 'OTP expired. Please request a new one.' });
+    }
+
+    if (record.otp !== otp)
+      return res.json({ success: false, error: 'Invalid OTP. Please try again.' });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await db.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, req.user.id]);
+
+    otpStore.delete('changepw_' + req.user.id);
+
+    res.json({ success: true, message: 'Password changed successfully.' });
+  } catch (e) {
+    console.error('Change password verify-otp error:', e);
+    res.json({ success: false, error: 'Server error. Please try again.' });
+  }
+});
 // ════════════════════════════════════════════════════════════════
 //  START
 // ════════════════════════════════════════════════════════════════
