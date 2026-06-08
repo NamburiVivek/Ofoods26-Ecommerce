@@ -1190,7 +1190,7 @@
           <span class="rating-num" id="rating-num">4.2</span>
         </a>
         <a class="rating-count" id="rating-count-link"></a>
-        <span class="sold-badge" id="sold-badge">🔥 5K+ bought this month</span>
+         
       </div>
 
       <div class="price-block">
@@ -1475,7 +1475,7 @@ if (p.image) {
       document.getElementById('rating-num').textContent = p.rating.toFixed(1);
       const rCount = p.reviews || Math.floor(p.rating * 200 + Math.random() * 100);
       document.getElementById('rating-count-link').textContent = '';
-      document.getElementById('sold-badge').textContent = '🔥 ' + p.sold + ' bought this month';
+       
 
       document.getElementById('det-cat').textContent = p.cat.charAt(0).toUpperCase() + p.cat.slice(1);
       document.getElementById('det-type').textContent = p.type === 'spicy' ? '🌶️ Spicy' : p.type === 'new' ? '✨ New Arrival' : p.type === 'nonveg' ? '🍖 Non-Veg' : 'Regular';
