@@ -41,18 +41,45 @@
   }
 
   /* Product layout (product.html) */
- .product-layout{
+.product-layout{
   display:flex !important;
   flex-direction:column !important;
   padding:0 12px 40px !important;
   gap:16px !important;
+  grid-template-columns:unset !important;
 }
-.img-panel{ order:1; position:static !important; width:100% !important; }
-.prod-info{ order:2; width:100% !important; }
-.buy-panel{ order:3; position:static !important; width:100% !important; }
-.img-main{ height:280px !important; position:relative !important; }
-.weight-pills{ display:flex !important; flex-wrap:wrap !important; gap:8px !important; }
-.wpill{ min-width:70px !important; flex:1 !important; }
+.img-panel{
+  order:1 !important;
+  position:static !important;
+  width:100% !important;
+  grid-column:unset !important;
+}
+.prod-info{
+  order:2 !important;
+  width:100% !important;
+  grid-column:unset !important;
+}
+.buy-panel{
+  order:3 !important;
+  position:static !important;
+  width:100% !important;
+  grid-column:unset !important;
+}
+.img-main{
+  height:280px !important;
+  position:relative !important;
+  width:100% !important;
+}
+.weight-pills{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  gap:8px !important;
+  position:static !important;
+}
+.wpill{
+  min-width:70px !important;
+  flex:1 !important;
+}
   /* Cart */
   .cart-layout{
     grid-template-columns:1fr !important;
