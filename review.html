@@ -521,7 +521,10 @@ window.addEventListener('DOMContentLoaded', ()=>{
   const base = (REV_TEMPLATES[p.id]||[]).map(r=>({...r}));
   const stored = OF.getStoredRevs(p.id);
   allReviews = [...stored, ...base];
-
+  // THEN set the count from actual reviews
+  document.getElementById('rp-big').textContent=p.rating.toFixed(1);
+  document.getElementById('rp-stars').textContent=starsHTML(p.rating);
+  document.getElementById('rp-count').textContent=allReviews.length+' ratings';
   // Add dates to base reviews
   const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   allReviews.forEach((r,i)=>{
