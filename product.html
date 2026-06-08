@@ -1431,7 +1431,7 @@ if (p.image) {
   document.getElementById('rotate-scene').style.display = 'none';
   // Inject image directly into img-main, not inside rotate-scene
   const imgEl = document.createElement('img');
-  imgEl.src = p.image;
+  imgEl.src = encodeURI(p.image);
   imgEl.alt = p.name;
   imgEl.className = 'prod-img-real';
   imgEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:var(--r);z-index:1;display:block;';
