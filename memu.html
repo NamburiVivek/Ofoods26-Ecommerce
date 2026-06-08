@@ -118,16 +118,22 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 @media(max-width:900px){
   .layout{grid-template-columns:1fr}
   .sidebar{display:none}
-  .main{padding:16px 20px}
+  .main{padding:12px 10px}
   .mob-filter{display:flex}
-  .prod-grid{grid-template-columns:repeat(2,1fr)}
-  .pc-img{height:130px}
-  .pc-img img{height:130px !important;object-fit:cover}
-  .pc-name{font-size:14px}
+  .prod-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .pc-img{height:140px}
+  .pc-img img{width:100% !important;height:140px !important;object-fit:cover;display:block}
+  .pc-body{padding:10px 12px}
+  .pc-name{font-size:13px}
   .pc-desc{font-size:11px;-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
-  .pc-price{font-size:16px}
+  .pc-price{font-size:15px}
+  .pc-cta{font-size:11px}
+  .section-head{font-size:16px}
 }
-@media(max-width:400px){
+@media(max-width:360px){
   .prod-grid{grid-template-columns:1fr}
 }
 </style>
