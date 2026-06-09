@@ -918,7 +918,84 @@ app.post('/api/promo/use', authMiddleware, async (req, res) => {
     res.json({ success: false, error: 'Could not record promo usage.' });
   }
 });
+// ════════════════════════════════════════════════════════════════
+//  SEND CONFIRMATION — COD/Pickup orders
+//  POST /api/orders/send-confirmation
+// ════════════════════════════════════════════════════════════════
+app.post('/api/orders/send-confirmation', authMiddleware, async (req, res) => {
+  try {
+    const { orderId, items, total, delivery_address, slot, payment, pickupDateDisplay, promoCode } = req.body;
 
+    const [rows] = await db.query('SELECT name, email, phone FROM users WHERE id = ?', [req.user.id]);
+    if (!rows.length) return res.json({ success: false, error: 'User not found.' });
+
+    const { name, email, phone } = rows[0];
+
+    const itemsHtml = (items || []).map(item =>
+      `<tr>
+        <td style="padding:8px 0;color:#F5F0E8;font-size:13px;">${item.name}</td>
+        <td style="padding:8px 0;color:#F5F0E8;font-size:13px;text-align:center;">×${item.qty}</td>
+        <td style="padding:8px 0;color:#d40d0d;font-size:13px;text-align:right;">₹${item.price * item.qty}</td>
+      </tr>`
+    ).join('');
+
+    const customerMail = {
+      from: `"O Foods" <${process.env.GMAIL_USER}>`,
+      to: email,
+      subject: `Order Confirmed — ${orderId} | O Foods`,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
+          <h2 style="color:#d40d0d;margin-bottom:4px;">O Foods</h2>
+          <p style="color:#7A7068;font-size:13px;margin-bottom:24px;">Pickles · Spices · Snacks</p>
+          <p style="font-size:16px;font-weight:700;">Hi ${name}, your order is confirmed! 🎉</p>
+          <div style="background:#1C1C1C;border-radius:8px;padding:16px;margin:16px 0;">
+            <p style="font-size:12px;color:#7A7068;margin-bottom:4px;">ORDER ID</p>
+            <p style="font-size:20px;font-weight:700;letter-spacing:2px;">${orderId}</p>
+          </div>
+          <table style="width:100%;border-collapse:collapse;margin:16px 0;">${itemsHtml}</table>
+          <hr style="border:1px solid #333;margin:16px 0;">
+          <p style="font-size:14px;">Total: <strong style="color:#d40d0d;">₹${total}</strong></p>
+          <p style="font-size:13px;color:#aaa;">💵 Payment: Cash on Pickup</p>
+          <p style="font-size:13px;color:#aaa;">🏪 Pickup at: ${delivery_address || 'Store'}</p>
+          <p style="font-size:13px;color:#aaa;">📅 Ready by: ${pickupDateDisplay || 'Next working day by 4:00 PM'}</p>
+          ${promoCode ? `<p style="font-size:13px;color:#6BCF7F;">🎉 Promo applied: ${promoCode}</p>` : ''}
+          <hr style="border:1px solid #333;margin:24px 0;">
+          <p style="font-size:11px;color:#555;">© ${new Date().getFullYear()} O Foods. All rights reserved.</p>
+        </div>
+      `,
+    };
+
+    const adminMail = {
+      from: `"O Foods" <${process.env.GMAIL_USER}>`,
+      to: 'ofoods26@gmail.com',
+      subject: `NEW PICKUP ORDER — ${orderId} | O Foods`,
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
+          <h2 style="color:#d40d0d;">NEW PICKUP ORDER</h2>
+          <p><strong>Order ID:</strong> ${orderId}</p>
+          <p><strong>Customer:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+          <p><strong>Payment:</strong> Cash on Pickup</p>
+          <p><strong>Total:</strong> ₹${total}</p>
+          <p><strong>Pickup Location:</strong> ${delivery_address || 'N/A'}</p>
+          <p><strong>Ready by:</strong> ${pickupDateDisplay || 'Next working day by 4:00 PM'}</p>
+          <hr style="border:1px solid #333;margin:16px 0;">
+          <table style="width:100%;border-collapse:collapse;">${itemsHtml}</table>
+          <p style="color:#aaa;font-size:12px;margin-top:16px;">Please prepare this order for pickup.</p>
+        </div>
+      `,
+    };
+
+    await mailer.sendMail(customerMail);
+    await mailer.sendMail(adminMail);
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error('COD confirmation email error:', e);
+    res.json({ success: false, error: 'Email sending failed.' });
+  }
+});
 // ════════════════════════════════════════════════════════════════
 //  RAZORPAY — Expose public key_id to frontend (safe, not secret)
 //  GET /api/razorpay/key
