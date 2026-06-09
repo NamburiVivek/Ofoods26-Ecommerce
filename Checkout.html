@@ -1905,6 +1905,27 @@ setTimeout(() => {
           finalOrder.pickupDate = result.pickupDate;
           finalOrder.pickupDateDisplay = new Date(result.pickupDate).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM';
         }
+
+        // ── SEND EMAIL FOR COD/PICKUP ORDER ──────────────────────────
+        try {
+          await fetch('https://ofoods26-ecommerce.vercel.app/api/orders/send-confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              orderId: finalOrder.id,
+              items: finalOrder.items || [],
+              total,
+              delivery_address: deliveryAddress,
+              deliveryMethod: 'pickup',
+              slot: 'Store Pickup',
+              pickupDate: finalOrder.pickupDate,
+              pickupDateDisplay: finalOrder.pickupDateDisplay,
+              payment: 'cod',
+              promoCode: appliedPromoCode || null,
+            }),
+          });
+        } catch (emailErr) { console.warn('COD email send failed:', emailErr); }
+
       } catch (e) { console.warn('COD order save failed:', e); }
 
       if (appliedPromoCode) markPromoUsed(appliedPromoCode);
