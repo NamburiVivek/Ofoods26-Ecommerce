@@ -117,18 +117,17 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 
 <script>
 const ITEMS=[
-  {id:70,name:'Boondi Mixture',             price:299, img:'bundhe.png',                      desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.',    badge:'Popular',     type:''},
-  {id:71,name:'Chekkalu (Saggubiyyam)',      price:299, img:'Chekkalu (Saggubiyyam).png',      desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',               badge:'Classic',     type:''},
-  {id:72,name:'Chakaralu',                   price:299, img:'chakaralu.png',                   desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',             badge:'Traditional', type:''},
-  {id:73,name:'Laddu',                       price:249, img:'laddu.png',                       desc:'Soft round sweet made with besan or boondi — a festive favourite.',              badge:'Sweet',       type:'sweet'},
-  {id:74,name:'Gavvalu',                     price:299, img:'Gavvalu.png',                     desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',            badge:'Traditional', type:'sweet'},
-  {id:75,name:'Kajalu',                      price:299, img:'kajalu.png',                      desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',                badge:'Festive',     type:'sweet'},
-  {id:76,name:'Mithai Boondi',               price:299, img:'Mithai Boondi.png',               desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',                badge:'Sweet',       type:'sweet'},
-  {id:77,name:'Sununda',                     price:549, img:'sununda.png',                     desc:'Traditional Andhra sweet ball — rich, nutty and festive.',                       badge:'Festive',     type:'sweet'},
-  {id:78,name:'Nuvula Laddu',                price:399, img:'nuvula laddu.png',                desc:'Sesame seed laddu — naturally sweet, nutty and packed with goodness.',            badge:'Sweet',       type:'sweet'},
-  {id:79,name:'Chalimidi',                   price:549, img:'salimidi.png',                    desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',           badge:'Classic',     type:'sweet'},
+  {id:70, name:'Boondi Mixture (బూందీ మిక్చర్)',          price:95,  img:'bundhe.png',                 desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.', badge:'Popular',     type:''},
+  {id:71, name:'Rice Crackers (చెక్కలు)',                  price:95,  img:'Chekkalu (Saggubiyyam).png', desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',           badge:'Classic',     type:''},
+  {id:72, name:'Chakaralu (చక్కరాలు)',                     price:95,  img:'chakaralu.png',              desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',         badge:'Traditional', type:''},
+  {id:73, name:'Gram Flour Laddu (లడ్డూ)',                 price:79,  img:'laddu.png',                  desc:'Soft round sweet made with besan or boondi — a festive favourite.',          badge:'Sweet',       type:'sweet'},
+  {id:74, name:'Shell Shaped Sweet (గవ్వలు)',              price:95,  img:'Gavvalu.png',                desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',        badge:'Traditional', type:'sweet'},
+  {id:75, name:'Crescent Sweet (కాజాలు)',                  price:95,  img:'kajalu.png',                 desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',            badge:'Festive',     type:'sweet'},
+  {id:76, name:'Sweet Boondi (మిఠాయి బూందీ)',              price:95,  img:'Mithai Boondi.png',          desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',            badge:'Sweet',       type:'sweet'},
+  {id:77, name:'Roasted Gram Laddu (సున్నుండలు)',          price:169, img:'sununda.png',                desc:'Traditional Andhra sweet balls made with roasted gram flour and jaggery.',    badge:'Festive',     type:'sweet'},
+  {id:78, name:'Sesame Laddu (నువ్వుల లడ్డూ)',             price:125, img:'nuvula laddu.png',           desc:'Traditional sesame seed laddu — nutty, sweet and nutritious.',               badge:'Sweet',       type:'sweet'},
+  {id:79, name:'Rice Flour Sweet (చలిమిడి)',               price:169, img:'salimidi.png',               desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',       badge:'Classic',     type:'sweet'},
 ];
-
 const BGSM=['#1C1A15','#151C15','#1C1815','#1A1520','#15201A','#1C1515','#181515','#15181A','#1A1C15','#151518'];
 const OF={
   getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
