@@ -263,7 +263,7 @@ app.post('/api/register/send-otp', async (req, res) => {
     otpStore.set(email, { otp, expires, userData: { name, email, phone, password: hashedPassword } });
 
     
-    await sendEmailOTP(email, otp, name);
+    try {   await sendEmailOTP(email, otp, name);   console.log('✅ OTP email sent to:', email); } catch (emailErr) {   console.error('❌ Email sending failed:', emailErr.message); }
 
     res.json({ success: true, maskedEmail: maskEmail(email) });
   } catch (e) {
@@ -1106,7 +1106,7 @@ app.post('/api/change-password/send-otp', authMiddleware, async (req, res) => {
     // Store OTP keyed by user id
     otpStore.set('changepw_' + req.user.id, { otp, expires });
 
-    await sendEmailOTP(email, otp, name);
+    try {   await sendEmailOTP(email, otp, name);   console.log('✅ OTP email sent to:', email); } catch (emailErr) {   console.error('❌ Email sending failed:', emailErr.message); }
 
     res.json({ success: true, maskedEmail: maskEmail(email) });
   } catch (e) {
