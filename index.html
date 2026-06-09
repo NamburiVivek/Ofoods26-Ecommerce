@@ -63,7 +63,7 @@ body{font-family:'Outfit',sans-serif;color:var(--text);overflow-x:hidden;cursor:
 .nav-spacer{height:60px}
 
 /* HERO */
-#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:60px}
+#hero{min-height:auto;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;padding-top:60px}
 #hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 50%,rgba(212,13,13,.12) 0%,transparent 70%)}
  .hero-left{display:flex;flex-direction:column;justify-content:center;padding:1px 56px 10px;position:relative;z-index:1}
 .h-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,6vw,88px);font-weight:700;line-height:1;letter-spacing:-2px;animation:fadeUp .6s .25s both}
@@ -186,7 +186,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
 
 @media(max-width:900px){
   .nav-location{display:none}
-  #hero{grid-template-columns:1fr}.hero-right{display:none}
+  #hero{grid-template-columns:1fr;min-height:auto;padding-bottom:40px}.hero-right{display:none}
   .hero-left{padding:60px 24px}
   section{padding:60px 24px}
   #stores{padding:60px 24px}
@@ -196,6 +196,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
   footer{padding:48px 24px 28px}
   .ft-grid{grid-template-columns:1fr 1fr}
   .store-cards-grid{grid-template-columns:1fr}
+  s.hero-left{padding:40px 24px 20px;}
+  .h-stats{margin-top:24px;padding-top:24px;}
 }
 .hero-product-img {
   width: 180%;
@@ -314,12 +316,12 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       </div>
       <div class="h-stats">
         <div>
-          <div class="stat-n">50+</div>
+          <div class="stat-n">40+</div>
           <div class="stat-l">Products</div>
         </div>
         <div>
           <div class="stat-n">95%</div>
-          <div class="stat-l">On-Time Pickup</div>
+          <div class="stat-l">On-Time Delivery</div>
         </div>
         <div>
           <div class="stat-n">4.8★</div>
