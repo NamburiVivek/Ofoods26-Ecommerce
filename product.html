@@ -1020,6 +1020,40 @@
     .price-flash {
       animation: flash .3s ease-out
     }
+    @media(max-width:480px) {
+  .product-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+    padding: 0 16px 40px !important;
+    gap: 20px !important;
+  }
+  .img-panel { order: 1 !important; position: static !important; width: 100% !important; }
+  .img-main {
+    height: 380px !important;
+    font-size: 100px !important;
+    position: relative !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+  }
+  .sim-img { height: 160px !important; }
+  .prod-info { order: 2 !important; width: 100% !important; padding-top: 0 !important; }
+  .buy-panel { order: 3 !important; position: static !important; width: 100% !important; border-radius: 14px !important; }
+  .prod-name { font-size: 26px !important; letter-spacing: -0.5px !important; }
+  .price-main { font-size: 28px !important; }
+  .price-block { margin-bottom: 14px !important; padding: 14px !important; }
+  .option-block { margin-bottom: 14px !important; }
+  .weight-pills { display: flex !important; flex-wrap: wrap !important; gap: 8px !important; }
+  .wpill { min-width: 70px !important; flex: 1 !important; padding: 10px 8px !important; }
+  .details-block { margin-bottom: 14px !important; }
+  .dr-label { min-width: 100px !important; font-size: 12px !important; }
+  .dr-val { font-size: 12px !important; }
+  .similar-section { padding: 0 16px 40px !important; }
+  .sim-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+  .rotate-scene { width: 100% !important; height: 100% !important; position: absolute !important; inset: 0 !important; }
+  .breadcrumb { display: none !important; }
+}
+
 @media(max-width:1024px) {
   .product-layout {
     display: flex !important;
