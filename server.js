@@ -187,12 +187,16 @@ const db = mysql.createPool({
 })();
 
 // ── Email transporter ────────────────────────────────────────
+// REPLACE WITH:
 const mailer = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.GMAIL_USER,
     pass: process.env.GMAIL_APP_PASSWORD,
   },
+  pool: true,           // reuse connections
+  maxConnections: 5,
+  rateLimit: 10,        // max 10 emails/second
 });
 
 // ── Twilio client ────────────────────────────────────────────
@@ -215,12 +219,13 @@ function maskEmail(email) {
   return user.slice(0, 2) + '***@' + domain;
 }
 
+// REPLACE WITH:
 async function sendEmailOTP(email, otp, name = '') {
   await mailer.sendMail({
-    from: `"O Foods" <${process.env.GMAIL_USER}>`,
+    from: `"OFoods" <${process.env.GMAIL_USER}>`,
     to: email,
-    subject: `${otp} is your O Foods verification code`,
-    text: `Your O Foods OTP is: ${otp}\n\nThis code expires in 10 minutes. Do not share it with anyone.`,
+    subject: `${otp} — your OFoods login code`,
+    text: `Hi ${name || 'there'},\n\nYour OFoods OTP is: ${otp}\n\nThis code expires in 10 minutes.\nDo not share this with anyone.\n\nIf you did not request this, ignore this email.\n\n— O Foods Team`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
         <h2 style="color:#d40d0d;font-size:28px;margin-bottom:4px;">O Foods</h2>
