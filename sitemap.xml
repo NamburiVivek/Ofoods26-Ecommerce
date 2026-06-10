@@ -13,13 +13,6 @@
     <loc>https://ofoods.co.in/cart.html</loc>
   </url>
 
-  <url>
-    <loc>https://ofoods.co.in/Checkout.html</loc>
-  </url>
-
-  <url>
-    <loc>https://ofoods.co.in/conformation.html</loc>
-  </url>
 
   <url>
     <loc>https://ofoods.co.in/login.html</loc>
@@ -41,9 +34,7 @@
     <loc>https://ofoods.co.in/product.html</loc>
   </url>
 
-  <url>
-    <loc>https://ofoods.co.in/profile.html</loc>
-  </url>
+ 
 
   <url>
     <loc>https://ofoods.co.in/review.html</loc>
