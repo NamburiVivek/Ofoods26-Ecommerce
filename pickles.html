@@ -129,22 +129,22 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 
 <script>
 const VEG_ITEMS=[
-  {id:1,  name:'Tomato Pickle (టమాటా పచ్చడి)',                    price:129, img:'tomato.png',                desc:'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil.',                          badge:'Popular',    type:''},
-  {id:2,  name:'Mango Pickle (మామిడికాయ పచ్చడి)',                  price:129, img:'mango.png',                 desc:'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.',                    badge:'Bestseller', type:''},
-  {id:3,  name:'Red Chilli Pickle (పండు మిర్చి పచ్చడి)',            price:109, img:'red chilli.png',            desc:'Bold ripe red chilli pickle with gingelly oil and mustard seeds.',                               badge:'Spicy',      type:'spicy'},
-  {id:4,  name:'Gongura Pickle (గోంగూర పచ్చడి)',                   price:129, img:'gongura.png',               desc:'Zesty gongura pickle in a tangy tamarind and chilli base.',                                     badge:'Classic',    type:''},
-  {id:6,  name:'Gongura & Red Chilli Pickle (గోంగూర మిర్చి పచ్చడి)', price:109, img:'redchilli&pandumirchi.png', desc:'Sorrel leaf and red chilli pickle — bold, sour and addictive.',                                badge:'Spicy',      type:'spicy'},
-  {id:7,  name:'Lemon Pickle (నిమ్మకాయ పచ్చడి)',                   price:129, img:'Lemon.png',                 desc:'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.',                                badge:'Classic',    type:''},
-  {id:8,  name:'Amla Pickle (ఉసిరికాయ పచ్చడి)',                    price:109, img:'amala.png',                 desc:'Indian gooseberry pickle with mustard, chilli and spices.',                                     badge:'Healthy',    type:''},
-  {id:9,  name:'Coriander & Mint Pickle (కొత్తిమీర పుదీనా పచ్చడి)', price:129, img:'kotimerra.png',             desc:'Fresh coriander and mint blended into a vibrant aromatic pickle.',                              badge:'New',        type:'new'},
-  {id:10, name:'Drumstick Pickle (మునగకాయ పచ్చడి)',                price:109, img:'munakaya.png',              desc:'Tender drumstick pieces blended with traditional spices for a rich, authentic homemade pickle.', badge:'New',        type:'new'},
-  {id:11, name:'Raw Tamarind Pickle (చింతకాయ పచ్చడి)',             price:109, img:'chinthakaya.png',           desc:'Tangy raw tamarind blended with premium spices to create a bold and traditional Andhra pickle.',  badge:'New',        type:'new'},
+  {id:1,  name:'Tomato Pickle (టమాటా పచ్చడి)',                    price:179, img:'tomato.png',                desc:'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil.',                          badge:'Popular',    type:''},
+  {id:2,  name:'Mango Pickle (మామిడికాయ పచ్చడి)',                  price:179, img:'mango.png',                 desc:'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.',                    badge:'Bestseller', type:''},
+  {id:3,  name:'Red Chilli Pickle (పండు మిర్చి పచ్చడి)',            price:169, img:'red chilli.png',            desc:'Bold ripe red chilli pickle with gingelly oil and mustard seeds.',                               badge:'Spicy',      type:'spicy'},
+  {id:4,  name:'Gongura Pickle (గోంగూర పచ్చడి)',                   price:169, img:'gongura.png',               desc:'Zesty gongura pickle in a tangy tamarind and chilli base.',                                     badge:'Classic',    type:''},
+  {id:6,  name:'Gongura & Red Chilli Pickle (గోంగూర మిర్చి పచ్చడి)', price:179, img:'redchilli&pandumirchi.png', desc:'Sorrel leaf and red chilli pickle — bold, sour and addictive.',                                badge:'Spicy',      type:'spicy'},
+  {id:7,  name:'Lemon Pickle (నిమ్మకాయ పచ్చడి)',                   price:169, img:'Lemon.png',                 desc:'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.',                                badge:'Classic',    type:''},
+  {id:8,  name:'Amla Pickle (ఉసిరికాయ పచ్చడి)',                    price:179, img:'amala.png',                 desc:'Indian gooseberry pickle with mustard, chilli and spices.',                                     badge:'Healthy',    type:''},
+  {id:9,  name:'Coriander & Mint Pickle (కొత్తిమీర పుదీనా పచ్చడి)', price:179, img:'kotimerra.png',             desc:'Fresh coriander and mint blended into a vibrant aromatic pickle.',                              badge:'New',        type:'new'},
+  {id:10, name:'Drumstick Pickle (మునగకాయ పచ్చడి)',                price:169, img:'munakaya.png',              desc:'Tender drumstick pieces blended with traditional spices for a rich, authentic homemade pickle.', badge:'New',        type:'new'},
+  {id:11, name:'Raw Tamarind Pickle (చింతకాయ పచ్చడి)',             price:169, img:'chinthakaya.png',           desc:'Tangy raw tamarind blended with premium spices to create a bold and traditional Andhra pickle.',  badge:'New',        type:'new'},
 ];
 const NONVEG_ITEMS=[
-  {id:12, name:'Chicken Pickle With Bones (చికెన్ పచ్చడి)',         price:319, img:'chicken bones.png', desc:'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.',   badge:'Spicy',      type:'nonveg'},
+  {id:12, name:'Chicken Pickle With Bones (చికెన్ పచ్చడి)',         price:329, img:'chicken bones.png', desc:'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.',   badge:'Spicy',      type:'nonveg'},
   {id:13, name:'Boneless Chicken Pickle (చికెన్ పచ్చడి బోన్‌లెస్)', price:379, img:'boneless.png',      desc:'Tender boneless chicken chunks in a fiery red chilli & gingelly oil base.', badge:'Bestseller', type:'nonveg'},
-  {id:14, name:'Prawns Pickle (రొయ్యల పచ్చడి)',                     price:529, img:'prawn.png',         desc:'Juicy prawns marinated in coastal Andhra spices — tangy and bold.',         badge:'Premium',    type:'nonveg'},
-  {id:15, name:'Mutton Pickle (మటన్ పచ్చడి)',                       price:679, img:'mutton.png',        desc:'Slow-cooked mutton pieces in a rich spicy pickle masala.',                  badge:'Special',    type:'nonveg'},
+  {id:14, name:'Prawns Pickle (రొయ్యల పచ్చడి)',                     price:509, img:'prawn.png',         desc:'Juicy prawns marinated in coastal Andhra spices — tangy and bold.',         badge:'Premium',    type:'nonveg'},
+  {id:15, name:'Mutton Pickle (మటన్ పచ్చడి)',                       price:629, img:'mutton.png',        desc:'Slow-cooked mutton pieces in a rich spicy pickle masala.',                  badge:'Special',    type:'nonveg'},
 ];
 
 const BGSM=['#1C1A15','#151C15','#1C1815','#1A1520','#15201A','#1C1515','#181515','#15181A','#1A1C15','#151518','#181A15','#1A1518','#1C1A15','#151C15','#1C1815'];
