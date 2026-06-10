@@ -36,7 +36,7 @@ const db = mysql.createPool({
   port:     parseInt(process.env.DB_PORT) || 24711,
   ssl:      { rejectUnauthorized: false },
   waitForConnections: true,
-  connectionLimit: 10,
+  connectionLimit: 75,
 });
 
 // ── Auto-migration: add dob & address columns if missing ────
