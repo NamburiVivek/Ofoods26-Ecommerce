@@ -5,6 +5,7 @@
     { "src": "*.html", "use": "@vercel/static" },
     { "src": "*.png", "use": "@vercel/static" },
     { "src": "*.xml", "use": "@vercel/static" },
+    { "src": "*.txt", "use": "@vercel/static" },
     {
       "src": "*.js",
       "use": "@vercel/static",
@@ -15,10 +16,16 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "server.js" },
+
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
+
     { "src": "/", "dest": "/index.html" },
+
     { "src": "/(.*\\.html)", "dest": "/$1" },
     { "src": "/(.*\\.png)", "dest": "/$1" },
     { "src": "/(.*\\.xml)", "dest": "/$1" },
+    { "src": "/(.*\\.txt)", "dest": "/$1" },
     { "src": "/(.*\\.js)", "dest": "/$1" }
   ]
 }
