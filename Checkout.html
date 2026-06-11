@@ -1149,7 +1149,11 @@
           
         </div>
       </div>
-
+<div id="min-order-hint" style="display:none;margin-bottom:10px;padding:10px 14px;
+  background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.2);
+  border-radius:8px;font-size:12px;color:var(--red);font-weight:600;text-align:center">
+  ⚠️ Minimum order is ₹500
+</div>
       <!-- PAYMENT -->
        <!-- PAYMENT -->
 <div class="card" style="margin-top:28px">
@@ -1675,7 +1679,9 @@ function updateTotals() {
       toast('🎉 Promo applied! ₹' + discount + ' off.');
       updateTotals();
     }
-
+    const hint = document.getElementById('min-order-hint');
+if (hint) hint.style.display = sub < 500 ? 'block' : 'none';
+    
     function showPromoMsg(text, type) {
       const msg = document.getElementById('promo-msg');
       msg.textContent = text;
@@ -1735,13 +1741,16 @@ function updateTotals() {
       const pickupDate = getNextWorkingPickupDate(new Date());
       const pickupDateDisplay = pickupDate.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM';
       const pickupDateString = formatLocalISODate(pickupDate);
-
+  
       // ── CASH ON PICKUP ────────────────────────────────────────────
       if (selPay === 'cod') {
         await completeCODOrder(user, token, total, pickupDateString, pickupDateDisplay);
         return;
       }
-
+      if ((orderData.subtotal || 0) < 500) {
+    toast('⚠️ Minimum order amount is ₹500. Please add more items to continue.');
+    return;
+  }
       // ── RAZORPAY ONLINE PAYMENT ───────────────────────────────────
       const btn = document.getElementById('pay-btn');
       btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Opening payment…';
