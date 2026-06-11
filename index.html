@@ -693,32 +693,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       DeliveryMode.init();
 
       // Update hero content based on delivery mode
-      function updateHeroForMode() {
-        const mode = DeliveryMode.get();
-        const titleEl = document.querySelector('.h-title');
-        const subEl = document.querySelector('.h-sub');
-        const hw1Title = document.querySelectorAll('.hw-title')[0];
-        const hw1Desc = document.querySelectorAll('.hw-desc')[0];
-        const hw4Title = document.querySelectorAll('.hw-title')[3];
-        const hw4Desc = document.querySelectorAll('.hw-desc')[3];
-        if (mode === 'home') {
-          if (titleEl) titleEl.innerHTML = 'Order<br>Fresh,<em>Delivered Fast</em>';
-          if (subEl) subEl.textContent = 'Premium homemade pickles, authentic spices & snacks delivered to your doorstep. All India delivery in 4–5 business days.';
-          if (hw1Title) hw1Title.textContent = 'Create Account';
-          if (hw1Desc) hw1Desc.textContent = 'Sign up to get started and access all features.';
-          if (hw4Title) hw4Title.textContent = 'Receive & Enjoy';
-          if (hw4Desc) hw4Desc.textContent = 'Your order arrives at your doorstep in 4–5 business days.';
-        } else if (mode === 'pickup') {
-          if (titleEl) titleEl.innerHTML = 'Order<br>Fresh,<em>Pickup Fast</em>';
-          if (subEl) subEl.textContent = 'Skip the queue. Order from your nearest O Foods store — premium homemade pickles, authentic spices, crispy papad & more. Ready when you arrive.';
-          if (hw1Title) hw1Title.textContent = 'Pick Your Store';
-          if (hw1Desc) hw1Desc.textContent = 'Select the O Foods location nearest to you from our network.';
-          if (hw4Title) hw4Title.textContent = 'Pickup & Enjoy';
-          if (hw4Desc) hw4Desc.textContent = 'Show your order ID at the counter. Fresh food ready and waiting.';
-        }
-      }
-      updateHeroForMode();
-      window.addEventListener('delivery-mode-changed', updateHeroForMode);
+    
+    
 
       // Trigger search on Enter key
       document.getElementById('search-input').addEventListener('keydown', e => {
