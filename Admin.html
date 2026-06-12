@@ -146,9 +146,23 @@ nav img{
 </div>
 
 <script>
+
 const API = 'https://ofoods26-ecommerce.vercel.app';
 let busy = false;
 
+// ── On load: check for token ──────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('of_token');
+  if (!token) {
+    // Redirect to login, come back after
+    window.location.href = 'login.html?redirect=admin-ship.html';
+  }
+});
+
+function logout() {
+  localStorage.removeItem('of_token');
+  window.location.href = 'login.html';
+}
 function logout() {
   localStorage.removeItem('of_token');
   window.location.href = 'index.html';
