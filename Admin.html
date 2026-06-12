@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Order Shipping | O Foods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo2.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D0D0D; --bg2:#141414; --bg3:#1A1A1A;
+  --card:#1C1C1C; --card2:#222; --border:rgba(255,255,255,.07);
+  --red:#d40d0d; --red2:#e83030;
+  --text:#F5F0E8; --muted:#7A7068; --green:#2D6A35;
+}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  background-image:radial-gradient(ellipse 80% 60% at 70% 0%,rgba(212,13,13,.10) 0%,transparent 70%);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.wrap{width:100%;max-width:520px}
+.back{display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;color:var(--muted);font-size:12px;text-decoration:none;transition:color .2s}
+.back:hover{color:var(--red)}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:36px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;letter-spacing:-.5px;color:#fff;margin-bottom:18px}
+.brand span{color:var(--red)}
+.title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-.5px}
+.title span{color:var(--red)}
+.sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.form-group{margin-bottom:18px}
+.lbl{display:block;font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--muted);margin-bottom:8px;text-transform:uppercase}
+.in{
+  width:100%;background:var(--bg2);
+  border:1.5px solid #2a2a2a;border-radius:8px;
+  padding:12px 14px;font-family:'Outfit',sans-serif;
+  font-size:14px;color:var(--text);outline:none;
+  transition:border-color .2s;
+}
+.in::placeholder{color:#555}
+.in:focus{border-color:var(--red)}
+.btn{
+  width:100%;background:var(--red);color:#fff;border:none;
+  border-radius:50px;padding:14px;
+  font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+  cursor:pointer;transition:all .2s;
+  text-transform:uppercase;letter-spacing:.5px;
+  box-shadow:0 0 30px rgba(212,13,13,.25);
+}
+.btn:hover:not(:disabled){background:var(--red2);box-shadow:0 0 40px rgba(212,13,13,.4)}
+.btn:disabled{background:#3a3a3a;color:#888;cursor:not-allowed;box-shadow:none}
+.result{margin-top:24px;border-radius:10px;padding:16px 18px;font-size:13px;line-height:1.7;display:none}
+.result.show{display:block;animation:fadeUp .25s ease}
+.result.ok{background:rgba(45,106,53,.12);border:1px solid rgba(45,106,53,.35);color:#8ee0a0}
+.result.err{background:rgba(212,13,13,.1);border:1px solid rgba(212,13,13,.3);color:#ff9b9b}
+.result h4{font-size:14px;margin-bottom:10px;color:var(--text);font-weight:700}
+.result .row{display:flex;justify-content:space-between;gap:12px;color:var(--muted);margin-bottom:6px;font-size:12px}
+.result .row b{color:var(--text);font-weight:600;text-align:right}
+.status-line{margin-top:12px;font-size:12px;font-weight:600;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.status-line.ok{color:#6BCF7F}
+.status-line.fail{color:#ff8a8a}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">← Back to Home</a>
+  <div class="card">
+    <div class="brand">O<span>Foods</span> · Admin</div>
+    <div class="title">Order <span>Shipping</span></div>
+    <div class="sub">Enter the Order ID and Courier Tracking ID to mark an order as shipped and notify the customer.</div>
+
+    <div class="form-group">
+      <label class="lbl">Order ID</label>
+      <input class="in" type="text" id="order-id" placeholder="e.g. OF123456" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label class="lbl">Courier Tracking ID</label>
+      <input class="in" type="text" id="tracking-id" placeholder="e.g. D123456789" autocomplete="off">
+    </div>
+
+    <button class="btn" id="btn-proceed" onclick="proceed()">Proceed</button>
+
+    <div class="result" id="result"></div>
+  </div>
+</div>
+
+<script>
+const API = 'https://ofoods26-ecommerce.vercel.app';
+let busy = false;
+
+async function proceed() {
+  if (busy) return;
+
+  const orderId = document.getElementById('order-id').value.trim();
+  const trackingId = document.getElementById('tracking-id').value.trim();
+  const resultEl = document.getElementById('result');
+  const btn = document.getElementById('btn-proceed');
+
+  resultEl.className = 'result';
+  resultEl.innerHTML = '';
+
+  if (!orderId || !trackingId) {
+    resultEl.className = 'result err show';
+    resultEl.innerHTML = 'Please enter both Order ID and Courier Tracking ID.';
+    return;
+  }
+
+  busy = true;
+  btn.disabled = true;
+  btn.textContent = 'Searching…';
+
+  try {
+    const token = localStorage.getItem('of_token');
+    const r = await fetch(`${API}/api/admin/orders/ship`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + (token || '')
+      },
+      body: JSON.stringify({ orderId, trackingId })
+    });
+    const d = await r.json();
+
+    if (!d.success) {
+      resultEl.className = 'result err show';
+      resultEl.innerHTML = d.error || 'No Order ID Found.';
+      return;
+    }
+
+    btn.textContent = 'Sending email…';
+
+    let html = `
+      <h4>Order Found Successfully.</h4>
+      <div class="row"><span>Order ID</span><b>${escapeHtml(d.order.orderId)}</b></div>
+      <div class="row"><span>Tracking ID</span><b>${escapeHtml(trackingId)}</b></div>
+      <div class="row"><span>Customer</span><b>${escapeHtml(d.customer.name)}</b></div>
+      <div class="row"><span>Email</span><b>${escapeHtml(d.customer.email)}</b></div>
+      <div class="row"><span>Phone</span><b>${escapeHtml(d.customer.phone || 'N/A')}</b></div>
+      <div class="row"><span>Address</span><b>${escapeHtml(d.customer.address || 'N/A')}</b></div>
+    `;
+
+    if (d.emailSent) {
+      html += `<div class="status-line ok">✅ Shipment notification email sent successfully.</div>`;
+    } else {
+      html += `<div class="status-line fail">⚠️ Order updated, but email sending failed${d.emailError ? ': ' + escapeHtml(d.emailError) : '.'}</div>`;
+    }
+
+    resultEl.className = 'result ok show';
+    resultEl.innerHTML = html;
+
+  } catch (e) {
+    resultEl.className = 'result err show';
+    resultEl.innerHTML = 'Cannot connect to server. Please try again.';
+    console.error(e);
+  } finally {
+    busy = false;
+    btn.disabled = false;
+    btn.textContent = 'Proceed';
+  }
+}
+
+function escapeHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+}
+
+document.getElementById('tracking-id').addEventListener('keydown', e => {
+  if (e.key === 'Enter') proceed();
+});
+</script>
+</body>
+</html>
