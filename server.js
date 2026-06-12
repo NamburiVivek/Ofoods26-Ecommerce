@@ -89,6 +89,10 @@ const db = mysql.createPool({
         await db.query('ALTER TABLE orders ADD COLUMN razorpay_payment_id VARCHAR(100) DEFAULT NULL');
         console.log('✅  Added razorpay_payment_id column to orders table');
       }
+      if (!orderColNames.includes('tracking_id')) {
+        await db.query('ALTER TABLE orders ADD COLUMN tracking_id VARCHAR(100) DEFAULT NULL');
+        console.log('✅  Added tracking_id column to orders table');
+      }
     } catch (e) {
       console.warn('Orders migration skipped:', e.message);
     }
@@ -1236,9 +1240,164 @@ app.post('/api/change-password/verify-otp', authMiddleware, async (req, res) => 
     res.json({ success: false, error: 'Server error. Please try again.' });
   }
 });
+
+// ════════════════════════════════════════════════════════════════
+//  ADMIN — Ship Order
+// ════════════════════════════════════════════════════════════════
+app.post('/api/admin/orders/ship', authMiddleware, async (req, res) => {
+  try {
+    const { orderId, trackingId } = req.body;
+
+    if (!orderId || !trackingId) {
+      return res.json({ success: false, error: 'Order ID and Tracking ID are required.' });
+    }
+
+    const [orderRows] = await db.query(
+      'SELECT order_id, user_id, status, tracking_id FROM orders WHERE order_id = ?',
+      [orderId.trim()]
+    );
+
+    if (!orderRows.length) {
+      return res.json({ success: false, error: 'No Order ID Found.' });
+    }
+
+    const order = orderRows[0];
+
+    await db.query(
+      'UPDATE orders SET tracking_id = ?, status = ? WHERE order_id = ?',
+      [trackingId.trim(), 'dispatched', order.order_id]
+    );
+
+    const [userRows] = await db.query(
+      'SELECT id, name, email, phone, address FROM users WHERE id = ?',
+      [order.user_id]
+    );
+
+    if (!userRows.length) {
+      return res.json({
+        success: true,
+        order: { orderId: order.order_id },
+        customer: { name: 'Unknown', email: '', phone: '', address: '' },
+        emailSent: false,
+        emailError: 'Customer record not found.'
+      });
+    }
+
+    const user = userRows[0];
+
+    let shippingAddress = '';
+    try {
+      const [orderAddrRows] = await db.query(
+        'SELECT delivery_address FROM orders WHERE order_id = ?',
+        [order.order_id]
+      );
+      if (orderAddrRows.length && orderAddrRows[0].delivery_address) {
+        shippingAddress = orderAddrRows[0].delivery_address;
+      }
+    } catch (e) { /* ignore */ }
+
+    if (!shippingAddress) {
+      try {
+        const [addrRows] = await db.query(
+          'SELECT house, street, city, state, pincode, landmark FROM user_addresses WHERE user_id = ? ORDER BY is_default DESC, created_at DESC LIMIT 1',
+          [user.id]
+        );
+        if (addrRows.length) {
+          const a = addrRows[0];
+          shippingAddress = [a.house, a.street, a.landmark, a.city, a.state, a.pincode]
+            .filter(Boolean).join(', ');
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    if (!shippingAddress && user.address) {
+      try {
+        const parsed = JSON.parse(user.address);
+        shippingAddress = [parsed.house, parsed.street, parsed.landmark, parsed.city, parsed.state, parsed.pincode]
+          .filter(Boolean).join(', ');
+      } catch (e) {
+        shippingAddress = user.address;
+      }
+    }
+
+    const customer = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone || '',
+      address: shippingAddress || 'N/A'
+    };
+
+    let emailSent = false;
+    let emailError = null;
+
+    try {
+      await mailer.sendMail({
+        from: `"O Foods" <${process.env.GMAIL_USER}>`,
+        to: customer.email,
+        subject: 'Your Order Has Been Shipped',
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0D0D0D;color:#F5F0E8;padding:32px;border-radius:12px;">
+            <h2 style="color:#d40d0d;margin-bottom:4px;">O Foods</h2>
+            <p style="color:#7A7068;font-size:13px;margin-bottom:24px;">Pickles · Spices · Snacks</p>
+            <p style="font-size:16px;font-weight:700;">Dear ${customer.name},</p>
+            <p style="font-size:14px;color:#ddd;line-height:1.7;margin:12px 0;">Greetings!</p>
+            <p style="font-size:14px;color:#ddd;line-height:1.7;margin-bottom:20px;">
+              We are happy to inform you that your shipment process has started and your package
+              has been successfully dispatched.
+            </p>
+            <p style="font-size:14px;color:#ddd;line-height:1.7;margin-bottom:8px;">
+              You can find your tracking and delivery details below:
+            </p>
+            <div style="background:#1C1C1C;border-radius:8px;padding:16px;margin:16px 0;">
+              <p style="font-size:13px;color:#7A7068;margin-bottom:6px;">📦 SHIPMENT INFORMATION</p>
+              <p style="font-size:14px;margin-bottom:4px;">Tracking ID: <strong style="color:#d40d0d;">${trackingId.trim()}</strong></p>
+              <p style="font-size:14px;">Courier Partner: <strong>DTDC</strong></p>
+            </div>
+            <div style="background:#1C1C1C;border-radius:8px;padding:16px;margin:16px 0;">
+              <p style="font-size:13px;color:#7A7068;margin-bottom:6px;">👤 CUSTOMER DETAILS</p>
+              <p style="font-size:14px;margin-bottom:4px;">Name: <strong>${customer.name}</strong></p>
+              <p style="font-size:14px;margin-bottom:4px;">Email: <strong>${customer.email}</strong></p>
+              <p style="font-size:14px;margin-bottom:4px;">Contact Number: <strong>${customer.phone || 'N/A'}</strong></p>
+              <p style="font-size:14px;">Shipping Address: <strong>${customer.address}</strong></p>
+            </div>
+            <p style="font-size:13px;color:#aaa;line-height:1.7;margin:16px 0;">
+              You can use the Tracking ID provided above to monitor the journey of your package
+              on the DTDC online tracking portal.
+            </p>
+            <p style="font-size:13px;color:#aaa;line-height:1.7;margin-bottom:24px;">
+              If you need any assistance or have any questions, feel free to contact us.
+            </p>
+            <p style="font-size:14px;">Best Regards,<br>Ofoods Team</p>
+            <hr style="border:1px solid #333;margin:24px 0;">
+            <p style="font-size:11px;color:#555;">© ${new Date().getFullYear()} O Foods. All rights reserved.</p>
+          </div>
+        `,
+      });
+      emailSent = true;
+      console.log(`✅ Shipment email sent to ${customer.email} for order ${order.order_id}`);
+    } catch (mailErr) {
+      emailError = mailErr.message;
+      console.error(`❌ Shipment email failed for order ${order.order_id}:`, mailErr.message);
+    }
+
+    res.json({
+      success: true,
+      order: { orderId: order.order_id },
+      customer,
+      emailSent,
+      emailError
+    });
+
+  } catch (e) {
+    console.error('Admin ship order error:', e);
+    res.json({ success: false, error: 'Server error. Please try again.' });
+  }
+});
+
 // ════════════════════════════════════════════════════════════════
 //  START
 // ════════════════════════════════════════════════════════════════
+
 // ✅ Replace with this
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
