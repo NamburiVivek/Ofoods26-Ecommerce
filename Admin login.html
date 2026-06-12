@@ -111,7 +111,7 @@ function adminLogin() {
 
   if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
     sessionStorage.setItem('of_admin_auth', 'true');
-    window.location.href = 'admin-orders.html';
+    window.location.href = 'Admin.html';
   } else {
     resultEl.className = 'result err show';
     resultEl.innerHTML = 'Invalid email or password.';
