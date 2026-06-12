@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--nav-bg:#131921;}
+:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--.pc{background:var(--card);border:1px solid text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--nav-bg:#131921;}
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px}
  
@@ -56,7 +56,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);over
 .section-divider::after{content:'';flex:1;height:1px;background:var(--border)}
 .section-divider span{color:var(--red)}
 .prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:12px 48px 32px}
-.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s;text-decoration:none;color:var(--text);display:block;cursor:none}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s;text-decoration:none;color:var(--text);display:block}
 .pc:hover{transform:translateY(-5px);border-color:rgba(212,13,13,.3)}
 .pc-img{height:210px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative;overflow:hidden}
 .pc-img img{width:100%;height:210px;object-fit:cover}
