@@ -161,11 +161,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function logout() {
   localStorage.removeItem('of_token');
-  window.location.href = 'login.html';
-}
-function logout() {
-  localStorage.removeItem('of_token');
-  window.location.href = 'index.html';
+  sessionStorage.removeItem('of_admin_auth');
+  window.location.href = 'AdminLogin.html';
 }
 
 async function proceed() {
