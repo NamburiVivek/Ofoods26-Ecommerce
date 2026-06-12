@@ -107,10 +107,13 @@ async function sha256(str) {
   return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
-function adminLogin() {
+const API = 'https://ofoods26-ecommerce.vercel.app';
+
+async function adminLogin() {
   const email = document.getElementById('admin-email').value.trim();
   const password = document.getElementById('admin-password').value;
   const resultEl = document.getElementById('result');
+  const btn = document.getElementById('btn-login');
 
   resultEl.className = 'result';
   resultEl.innerHTML = '';
@@ -121,15 +124,33 @@ function adminLogin() {
     return;
   }
 
-  Promise.all([sha256(email), sha256(password)]).then(([emailHash, passHash]) => {
-    if (emailHash === ADMIN_EMAIL_HASH && passHash === ADMIN_PASSWORD_HASH) {
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+
+  try {
+    const r = await fetch(`${API}/api/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const d = await r.json();
+
+    if (d.success) {
+      // Store token so Admin.html can use it for Bearer auth
+      localStorage.setItem('of_token', d.token);
       sessionStorage.setItem('of_admin_auth', 'true');
       window.location.href = 'Admin.html';
     } else {
       resultEl.className = 'result err show';
-      resultEl.innerHTML = 'Invalid email or password.';
+      resultEl.innerHTML = d.error || 'Invalid email or password.';
     }
-  });
+  } catch (e) {
+    resultEl.className = 'result err show';
+    resultEl.innerHTML = 'Cannot connect to server. Please try again.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign In';
+  }
 }
 
 document.getElementById('admin-password').addEventListener('keydown', e => {
