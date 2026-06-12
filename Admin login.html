@@ -92,8 +92,13 @@ body{
 </div>
 
 <script>
-const ADMIN_EMAIL = 'ofoods@26gmail.com';
-const ADMIN_PASSWORD = 'Ofoods@26';
+const ADMIN_EMAIL_HASH = 'c8275c220a1697f7af49fd5d3e0e9b2cbcca149ba4c047b621eb9799a29a247d';
+const ADMIN_PASSWORD_HASH = 'fad0d7ce16976101b431dfcf43de16e8ef83cac49f411dcab81aa366062e0ec7';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 function adminLogin() {
   const email = document.getElementById('admin-email').value.trim();
@@ -109,13 +114,15 @@ function adminLogin() {
     return;
   }
 
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    sessionStorage.setItem('of_admin_auth', 'true');
-    window.location.href = 'Admin.html';
-  } else {
-    resultEl.className = 'result err show';
-    resultEl.innerHTML = 'Invalid email or password.';
-  }
+  Promise.all([sha256(email), sha256(password)]).then(([emailHash, passHash]) => {
+    if (emailHash === ADMIN_EMAIL_HASH && passHash === ADMIN_PASSWORD_HASH) {
+      sessionStorage.setItem('of_admin_auth', 'true');
+      window.location.href = 'Admin.html';
+    } else {
+      resultEl.className = 'result err show';
+      resultEl.innerHTML = 'Invalid email or password.';
+    }
+  });
 }
 
 document.getElementById('admin-password').addEventListener('keydown', e => {
