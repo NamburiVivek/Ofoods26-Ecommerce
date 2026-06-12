@@ -1240,7 +1240,35 @@ app.post('/api/change-password/verify-otp', authMiddleware, async (req, res) => 
     res.json({ success: false, error: 'Server error. Please try again.' });
   }
 });
+// ── ADMIN TOKEN — No OTP, credential check via env vars ──────
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+
+    if (!adminEmail || !adminPassword) {
+      return res.json({ success: false, error: 'Admin not configured.' });
+    }
+
+    if (email !== adminEmail || password !== adminPassword) {
+      return res.json({ success: false, error: 'Invalid credentials.' });
+    }
+
+    // Issue a JWT with admin flag
+    const token = jwt.sign(
+      { id: 0, email, isAdmin: true },
+      process.env.JWT_SECRET,
+      { expiresIn: '8h' }
+    );
+
+    res.json({ success: true, token });
+  } catch (e) {
+    console.error('Admin login error:', e);
+    res.json({ success: false, error: 'Server error.' });
+  }
+});
 // ════════════════════════════════════════════════════════════════
 //  ADMIN — Ship Order
 // ════════════════════════════════════════════════════════════════
