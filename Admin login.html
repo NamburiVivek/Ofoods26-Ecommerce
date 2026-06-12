@@ -67,10 +67,12 @@ body{
 </style>
 </head>
 <body>
+<div style="position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;z-index:10;">
+  <img src="logo2.png" alt="OFoods" style="height:36px;width:auto;display:block;">
+  <a href="index.html" class="back" style="margin:0;">← Back to Home</a>
+</div>
 <div class="wrap">
-  <a href="index.html" class="back">← Back to Home</a>
   <div class="card">
-    <div class="brand">O<span>Foods</span> · Admin</div>
     <div class="title">Admin <span>Login</span></div>
     <div class="sub">Enter your admin credentials to access the order management panel.</div>
 
@@ -90,7 +92,7 @@ body{
 </div>
 
 <script>
-const ADMIN_EMAIL = 'ofoods@gmail.com';
+const ADMIN_EMAIL = 'ofoods@26gmail.com';
 const ADMIN_PASSWORD = 'Ofoods@26';
 
 function adminLogin() {
