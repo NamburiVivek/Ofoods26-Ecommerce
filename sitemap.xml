@@ -12,8 +12,15 @@
   <url>
     <loc>https://ofoods.co.in/cart.html</loc>
   </url>
+  
+ <url>
+    <loc>https://ofoods.co.in/Admin.html</loc>
+  </url>
 
-
+   <url>
+    <loc>https://ofoods.co.in/Admin login.html</loc>
+  </url>
+  
   <url>
     <loc>https://ofoods.co.in/login.html</loc>
   </url>
