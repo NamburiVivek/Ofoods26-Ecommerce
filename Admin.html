@@ -21,12 +21,48 @@ body{
   background-image:radial-gradient(ellipse 80% 60% at 70% 0%,rgba(212,13,13,.10) 0%,transparent 70%);
   color:var(--text);
   min-height:100vh;
+  display:flex;flex-direction:column;
+  padding:0;
+}
+
+/* ── Navbar ── */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;
+  border-bottom:1px solid var(--border);
+  background:rgba(13,13,13,.85);
+  backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:100;
+}
+nav img{
+  height:36px;width:auto;object-fit:contain;
+  display:block;
+}
+.logout-btn{
+  background:transparent;
+  border:1.5px solid rgba(212,13,13,.5);
+  color:var(--red2);
+  font-family:'Outfit',sans-serif;
+  font-size:12px;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;
+  padding:8px 18px;border-radius:50px;
+  cursor:pointer;
+  transition:all .2s;
+}
+.logout-btn:hover{
+  background:var(--red);
+  border-color:var(--red);
+  color:#fff;
+  box-shadow:0 0 20px rgba(212,13,13,.35);
+}
+
+/* ── Page body ── */
+.page{
+  flex:1;
   display:flex;align-items:center;justify-content:center;
-  padding:24px;
+  padding:40px 24px;
 }
 .wrap{width:100%;max-width:520px}
-.back{display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;color:var(--muted);font-size:12px;text-decoration:none;transition:color .2s}
-.back:hover{color:var(--red)}
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -34,8 +70,6 @@ body{
   padding:36px;
   box-shadow:0 20px 60px rgba(0,0,0,.5);
 }
-.brand{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;letter-spacing:-.5px;color:#fff;margin-bottom:18px}
-.brand span{color:var(--red)}
 .title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;margin-bottom:4px;letter-spacing:-.5px}
 .title span{color:var(--red)}
 .sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6}
@@ -74,31 +108,44 @@ body{
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a href="index.html" class="back">← Back to Home</a>
-  <div class="card">
-    <div class="brand">O<span>Foods</span> · Admin</div>
-    <div class="title">Order <span>Shipping</span></div>
-    <div class="sub">Enter the Order ID and Courier Tracking ID to mark an order as shipped and notify the customer.</div>
 
-    <div class="form-group">
-      <label class="lbl">Order ID</label>
-      <input class="in" type="text" id="order-id" placeholder="e.g. OF123456" autocomplete="off">
+<!-- Navbar -->
+<nav>
+  <img src="logo2.png" alt="OFoods Logo">
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</nav>
+
+<!-- Main content -->
+<div class="page">
+  <div class="wrap">
+    <div class="card">
+      <div class="title">Order <span>Shipping</span></div>
+      <div class="sub">Enter the Order ID and Courier Tracking ID to mark an order as shipped and notify the customer.</div>
+
+      <div class="form-group">
+        <label class="lbl">Order ID</label>
+        <input class="in" type="text" id="order-id" placeholder="e.g. OF123456" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="lbl">Courier Tracking ID</label>
+        <input class="in" type="text" id="tracking-id" placeholder="e.g. D123456789" autocomplete="off">
+      </div>
+
+      <button class="btn" id="btn-proceed" onclick="proceed()">Proceed</button>
+
+      <div class="result" id="result"></div>
     </div>
-    <div class="form-group">
-      <label class="lbl">Courier Tracking ID</label>
-      <input class="in" type="text" id="tracking-id" placeholder="e.g. D123456789" autocomplete="off">
-    </div>
-
-    <button class="btn" id="btn-proceed" onclick="proceed()">Proceed</button>
-
-    <div class="result" id="result"></div>
   </div>
 </div>
 
 <script>
 const API = 'https://ofoods26-ecommerce.vercel.app';
 let busy = false;
+
+function logout() {
+  localStorage.removeItem('of_token');
+  window.location.href = 'index.html';
+}
 
 async function proceed() {
   if (busy) return;
