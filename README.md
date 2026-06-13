@@ -1,68 +1,56 @@
-# O Foods Store
+# O Foods – Full Stack E-Commerce Platform
 
-A full-stack e-commerce platform developed for **O Foods**, a family-owned traditional food business specializing in authentic Indian pickles, snacks, sweets, spice powders, papads, and regional specialty products.
+## 🌐 Live Website
 
-This project was created to digitize and modernize the ordering process for my father's business while providing me with practical experience in full-stack web development, database design, authentication systems, and deployment workflows.
+**Website:** https://www.ofoods.co.in
 
----
+O Foods is a production-ready full-stack e-commerce platform built for a real Andhra food business. The platform enables customers to browse products, place orders, choose between home delivery and store pickup, make online payments, manage accounts, and track orders through a modern shopping experience.
 
-## Project Motivation
-
-O Foods Store was developed as a real-world business solution rather than a demonstration project.
-
-The goal was to provide customers with a seamless online shopping experience while helping a traditional family business expand its digital presence. Through this project, I gained hands-on experience in designing and developing a complete e-commerce application, from frontend user interfaces to backend APIs, database management, authentication, and deployment.
-
-This project demonstrates my ability to apply software engineering principles to solve real business problems and deliver practical solutions.
+The application is actively deployed and supports real business operations.
 
 ---
 
-## Features
+## ✨ Features
 
 ### Customer Features
 
-* User Registration and Authentication
-* Secure Login System
-* Product Search and Browsing
-* Category-Based Product Navigation
+* User Registration & Login
+* Secure JWT Authentication
+* Product Browsing & Search
+* Category-Based Navigation
 * Product Detail Pages
 * Shopping Cart Management
-* Checkout and Order Placement
-* Order Confirmation Workflow
-* Customer Profile Management
-* Product Reviews and Ratings
-* Home Delivery Option
-* Store Pickup Option
-* Multi-Address Support
+* Checkout System
+* Home Delivery
+* Store Pickup Scheduling
+* Razorpay Online Payments
+* Customer Profiles
+* Multiple Saved Addresses
+* Order History
+* Product Reviews & Ratings
+* Mobile Responsive Design
 
 ### Business Features
 
-* Multi-Store Support
+* Admin Authentication
+* Order Management Dashboard
+* Shipment Tracking Management
+* Customer Notification System
+* Email Notifications
+* SMS Notifications
+* Inventory & Product Management
 * Customer Data Management
-* Order Processing System
-* Delivery Preference Management
-* Email Notification Integration
-* SMS Notification Integration
-
-### Technical Features
-
-* RESTful API Architecture
-* JWT Authentication
-* Password Encryption with bcrypt
-* MySQL Database Integration
-* Environment-Based Configuration
-* Automated Database Migration Support
-* Responsive User Interface
-* Cross-Page State Management
 
 ---
 
-## Technology Stack
+## 🛠️ Tech Stack
 
 ### Frontend
 
 * HTML5
 * CSS3
 * JavaScript (Vanilla JS)
+* Responsive Mobile Design
 
 ### Backend
 
@@ -75,85 +63,99 @@ This project demonstrates my ability to apply software engineering principles to
 
 ### Authentication & Security
 
-* JSON Web Tokens (JWT)
-* bcryptjs
+* JWT (JSON Web Tokens)
+* bcryptjs Password Hashing
 
-### Communication Services
+### Payments
+
+* Razorpay
+
+### Notifications
 
 * Nodemailer
-* Twilio
 
-### Development Tools
+### Deployment
 
-* Git
-* GitHub
-* dotenv
-* Nodemon
+* Vercel
 
 ---
 
-## Project Structure
+## 🏗️ System Architecture
 
-```text
-Ofoods-store/
-│
-├── index.html
-├── login.html
-├── menu.html
-├── all-items.html
-├── product.html
-├── cart.html
-├── checkout.html
-├── profile.html
-├── review.html
-├── pickles.html
-├── snacks.html
-├── spices.html
-├── papad.html
-├── confirmation.html
-│
-├── delivery-mode.js
-├── server.js
-│
-├── package.json
-├── package-lock.json
-│
-├── assets/
-│   ├── images/
-│   └── icons/
-│
-└── README.md
-```
-
----
-
-## System Architecture
-
-```text
 Frontend (HTML/CSS/JavaScript)
-            │
-            ▼
-      Express.js API
-            │
-            ▼
-       MySQL Database
-            │
-            ├── Users
-            ├── Orders
-            ├── Products
-            ├── Addresses
-            └── Reviews
-```
+
+↓
+
+Express.js REST API
+
+↓
+
+Authentication Layer (JWT)
+
+↓
+
+Business Logic Layer
+
+↓
+
+MySQL Database
+
+↓
+
+External Services
+
+* Razorpay
+* Nodemailer
+
 
 ---
 
-## Installation
+## 📦 Core Modules
 
-### Clone the Repository
+### User Management
+
+* Registration
+* Login
+* Authentication
+* Profile Management
+* Address Management
+
+### Product Management
+
+* Product Listings
+* Categories
+* Search Functionality
+* Product Details
+
+### Shopping Experience
+
+* Cart Management
+* Checkout Flow
+* Order Placement
+* Payment Processing
+
+### Order Management
+
+* Order Tracking
+* Shipping Updates
+* Delivery Status
+* Pickup Scheduling
+
+### Review System
+
+* Customer Ratings
+* Product Reviews
+
+---
+
+## 🚀 Installation
+
+### Clone Repository
 
 ```bash
-git clone https://github.com/NamburiVivek/Ofoods-store.git
-cd Ofoods-store
+git clone https://github.com/NamburiVivek/Ofoods26-Ecommerce.git
+
+cd Ofoods26-Ecommerce
 ```
 
 ### Install Dependencies
@@ -162,155 +164,118 @@ cd Ofoods-store
 npm install
 ```
 
----
+### Create Environment File
 
-## Environment Variables
-
-Create a `.env` file in the root directory and configure the following variables:
+Create a `.env` file in the root directory:
 
 ```env
-PORT=5000
+DB_HOST=
+DB_PORT=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
 
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_password
-DB_NAME=ofoods
+JWT_SECRET=
 
-JWT_SECRET=your_jwt_secret
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
 
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_email_password
-
-TWILIO_ACCOUNT_SID=your_sid
-TWILIO_AUTH_TOKEN=your_token
-TWILIO_PHONE_NUMBER=your_phone
+EMAIL_USER=
+EMAIL_PASS=
 ```
 
----
-
-## Running the Application
-
-### Development Mode
+### Run Development Server
 
 ```bash
 npm run dev
 ```
 
-### Production Mode
+### Run Production Server
 
 ```bash
 npm start
 ```
 
-The application will be available at:
+---
+
+## 📁 Project Structure
 
 ```text
-http://localhost:5000
+Ofoods26-Ecommerce
+│
+├── server.js
+├── package.json
+├── vercel.json
+│
+├── index.html
+├── menu.html
+├── product.html
+├── cart.html
+├── checkout.html
+├── reviews.html
+├── profile.html
+├── login.html
+│
+├── mobile.css
+├── delivery-mode.js
+├── date-utils.js
+│
+├── images/
+├── assets/
+│
+└── database/
 ```
 
 ---
 
-## Database Setup
+## 🔐 Security Features
 
-Create a MySQL database:
-
-```sql
-CREATE DATABASE ofoods;
-```
-
-Update the database credentials in the `.env` file.
-
-The application automatically performs required database migrations during startup.
+* Password Hashing using bcryptjs
+* JWT-Based Authentication
+* Protected Admin Routes
+* Secure Payment Verification
+* Input Validation
+* Environment Variable Protection
 
 ---
 
-## Deployment
+## 📱 Responsive Design
 
-### Render
+The platform is optimized for:
 
-1. Push the project to GitHub.
-2. Create a new Web Service on Render.
-3. Connect the GitHub repository.
-4. Configure environment variables.
-5. Deploy the application.
+* Desktop
+* Tablet
+* Mobile Devices
 
-### Railway
-
-1. Create a new Railway project.
-2. Connect the GitHub repository.
-3. Configure environment variables.
-4. Deploy the application.
+Responsive layouts have been implemented across product listings, checkout, cart management, profile pages, and administrative modules.
 
 ---
 
-## Screenshots
+## 🎯 Business Impact
 
-Add screenshots of the following pages:
+This project was developed and deployed for a real food business operating in Amaravati, Andhra Pradesh.
 
-* Home Page
-* Login Page
-* Product Listing Page
-* Product Details Page
-* Shopping Cart
-* Checkout Page
-* User Profile
-* Reviews Section
-* Order Confirmation Page
+Key outcomes:
 
----
-
-## Learning Outcomes
-
-Through this project, I gained practical experience in:
-
-* Full-Stack Web Development
-* REST API Design
-* Database Design and Management
-* Authentication and Authorization
-* Secure Password Handling
-* Environment Configuration
-* Responsive Web Design
-* State Management
-* Deployment and Hosting
-* Real-World Software Development Practices
+* Established an online ordering system
+* Enabled digital product discovery
+* Improved customer convenience
+* Supported home delivery and pickup workflows
+* Automated order communication through email and SMS
+* Streamlined business operations
 
 ---
 
-## Future Improvements
-
-* Online Payment Gateway Integration
-* Order Tracking System
-* Admin Dashboard
-* Inventory Management System
-* Product Recommendation Engine
-* Analytics Dashboard
-* Mobile Application Development
-* Cloud Storage Integration
-* Push Notifications
-* Advanced Search and Filtering
-
----
-
-## Security
-
-Sensitive information such as database credentials, JWT secrets, email passwords, and third-party API keys are managed through environment variables and excluded from version control using `.gitignore`.
-
----
-
-## About the Developer
+## 👨‍💻 Developer
 
 **Vivek Namburi**
 
-Engineering Student | Full-Stack Developer
-
-This project was independently designed and developed as both a real-world business solution for a family-owned food business and a practical learning experience in modern web application development.
-
-GitHub: https://github.com/NamburiVivek
+* GitHub: https://github.com/NamburiVivek
+* Website: https://www.ofoods.co.in
 
 ---
 
-## License
+## 📄 License
 
-This project is intended for educational, portfolio, and business use.
-
-© 2025 O Foods Store. All Rights Reserved.
+This project is developed and maintained by the author for O Foods business operations.
+All rights reserved.
