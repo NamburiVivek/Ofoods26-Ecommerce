@@ -7,6 +7,8 @@
     { "src": "*.png", "use": "@vercel/static" },
     { "src": "*.xml", "use": "@vercel/static" },
     { "src": "*.txt", "use": "@vercel/static" },
+    { "src": "*.Webp", "use": "@vercel/static" },
+    
     {
       "src": "*.js",
       "use": "@vercel/static",
@@ -24,6 +26,7 @@
     { "src": "/", "dest": "/index.html" },
 
     { "src": "/(.*\\.html)", "dest": "/$1" },
+     { "src": "/(.*\\.Webp)", "dest": "/$1" },
     { "src": "/(.*\\.css)", "dest": "/$1" },
     { "src": "/(.*\\.png)", "dest": "/$1" },
     { "src": "/(.*\\.xml)", "dest": "/$1" },
