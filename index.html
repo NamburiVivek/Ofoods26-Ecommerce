@@ -676,9 +676,9 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       const dd = document.getElementById('acc-dropdown');
       if (user) {
         document.getElementById('nav-greeting').textContent = `Hello, ${user.name.split(' ')[0]}`;
-        if (dd) dd.innerHTML = `
-          <a href="profile.html">My Orders</a>
-          <a href="profile.html">My Profile</a>
+       if (dd) dd.innerHTML = `
+          <a href="javascript:void(0)" onclick="requireLogin('profile.html')">My Orders</a>
+          <a href="javascript:void(0)" onclick="requireLogin('profile.html')">My Profile</a>
           <hr>
           <button onclick="doLogout()">Sign Out</button>`;
       } else {
