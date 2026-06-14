@@ -253,12 +253,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
 
       <!-- Search Bar -->
       <div class="nav-search">
-        <div class="search-icon-left">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="m21 21-4.35-4.35"/>
-          </svg>
-        </div>
         <input
           type="text"
           class="search-input"
@@ -777,10 +771,13 @@ document.addEventListener('click', (e) => {
     }
 
     /* ── Search ── */
-    function doSearch() {
-      const q = document.getElementById('search-input').value.trim();
-      window.location.href = q ? `all-items.html?q=${encodeURIComponent(q)}` : 'all-items.html';
-    }
+   function doSearch() {
+  const token = localStorage.getItem('of_token');
+  if(!token){ location.href='login.html?next=all-items.html'; return; }
+  const q = document.getElementById('search-input').value.trim();
+  if(!q){ return; } // do nothing if search bar is empty
+  window.location.href = `all-items.html?q=${encodeURIComponent(q)}`;
+}
 
     /* ── Logout ── */
     function doLogout() {
