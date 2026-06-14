@@ -275,7 +275,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       </div>
 
       <!-- Account Menu -->
-      <div class="nav-item" id="nav-account" onclick="handleAccountClick()" style=" position:relative;">
+      <div class="nav-item" id="nav-account" onclick="handleAccountClick(event)" style="position:relative;">
         <span class="ni-top" id="nav-greeting">Hello, sign in</span>
         <span class="ni-bot">Account &amp; Lists ▾</span>
         <div id="acc-dropdown">
@@ -718,12 +718,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
      
 
       // Account dropdown hover behaviour — only when logged in
-      const acc = document.getElementById('nav-account');
-      const d  = document.getElementById('acc-dropdown');
-      if (acc && dd && OF.getUser()) {
-        acc.addEventListener('mouseenter', () => dd.style.display = 'block');
-        acc.addEventListener('mouseleave', () => dd.style.display = 'none');
-      }
+     // Account dropdown — hover on desktop, click on mobile
+const acc = document.getElementById('nav-account');
+if (acc && dd && OF.getUser()) {
+  // Desktop hover
+  acc.addEventListener('mouseenter', () => dd.style.display = 'block');
+  acc.addEventListener('mouseleave', () => dd.style.display = 'none');
+}
+
+// Close dropdown if clicked outside
+document.addEventListener('click', (e) => {
+  const acc = document.getElementById('nav-account');
+  const dd = document.getElementById('acc-dropdown');
+  if (dd && acc && !acc.contains(e.target)) {
+    dd.style.display = 'none';
+  }
+});
 
       // Auto-scroll to stores section if hash present
       if (location.hash === '#stores') {
@@ -788,15 +798,18 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:56px 48p
       location.href=page;
     }
 
-  function handleAccountClick(){
-    const token=localStorage.getItem('of_token');
-    if(!token){ 
-      location.href='login.html'; 
-      return;
-    }
-    const dd = document.getElementById('acc-dropdown');
-    if(dd) dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+  function handleAccountClick(e){
+  const token = localStorage.getItem('of_token');
+  if(!token){ 
+    location.href='login.html'; 
+    return;
   }
+  if(e) e.stopPropagation();
+  const dd = document.getElementById('acc-dropdown');
+  if(dd){
+    dd.style.display = dd.style.display === 'block' ? 'none' : 'block';
+  }
+}
   </script>
 
 </body>
