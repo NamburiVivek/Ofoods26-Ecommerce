@@ -560,7 +560,83 @@ app.get('/api/orders', authMiddleware, async (req, res) => {
     res.json({ success: false, error: 'Could not fetch orders.' });
   }
 });
+// ════════════════════════════════════════════════════════════════
+//  PRODUCTS — Public read, Admin write (single source of truth)
+// ════════════════════════════════════════════════════════════════
 
+// PUBLIC — every page calls this to get live prices
+app.get('/api/products', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT id, name, price, mrp, sizes_json, updated_at FROM products');
+    const products = {};
+    rows.forEach(r => {
+      products[r.id] = {
+        name: r.name,
+        price: parseFloat(r.price),
+        mrp: r.mrp ? parseFloat(r.mrp) : null,
+        sizes: r.sizes_json ? JSON.parse(r.sizes_json) : [],
+        updated_at: r.updated_at
+      };
+    });
+    res.json({ success: true, products });
+  } catch (e) {
+    console.error('Get products error:', e);
+    res.json({ success: false, error: 'Could not load products.' });
+  }
+});
+
+// Admin-only guard (reuses your JWT auth, checks isAdmin flag from /api/admin/login)
+function adminOnly(req, res, next) {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith('Bearer '))
+    return res.status(401).json({ success: false, error: 'Unauthorized.' });
+  try {
+    const decoded = jwt.verify(auth.split(' ')[1], process.env.JWT_SECRET);
+    if (!decoded.isAdmin) return res.status(403).json({ success: false, error: 'Admin access required.' });
+    req.admin = decoded;
+    next();
+  } catch {
+    res.status(401).json({ success: false, error: 'Token invalid or expired.' });
+  }
+}
+
+// ADMIN — list all products (for the Admin.html table)
+app.get('/api/admin/products', adminOnly, async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT id, name, price, mrp, sizes_json, updated_at FROM products ORDER BY id');
+    const products = rows.map(r => ({
+      id: r.id,
+      name: r.name,
+      price: parseFloat(r.price),
+      mrp: r.mrp ? parseFloat(r.mrp) : null,
+      sizes: r.sizes_json ? JSON.parse(r.sizes_json) : [],
+      updated_at: r.updated_at
+    }));
+    res.json({ success: true, products });
+  } catch (e) {
+    res.json({ success: false, error: 'Could not load products.' });
+  }
+});
+
+// ADMIN — update a single product's price(s)
+app.put('/api/admin/products/:id', adminOnly, async (req, res) => {
+  try {
+    const { price, mrp, sizes } = req.body;
+    if (price == null || isNaN(price)) return res.json({ success: false, error: 'Valid price is required.' });
+
+    const [check] = await db.query('SELECT id FROM products WHERE id = ?', [req.params.id]);
+    if (!check.length) return res.json({ success: false, error: 'Product not found.' });
+
+    await db.query(
+      'UPDATE products SET price = ?, mrp = ?, sizes_json = ? WHERE id = ?',
+      [price, mrp || null, JSON.stringify(sizes || []), req.params.id]
+    );
+    res.json({ success: true, message: 'Price updated.' });
+  } catch (e) {
+    console.error('Update product error:', e);
+    res.json({ success: false, error: 'Could not update product.' });
+  }
+});
 // ════════════════════════════════════════════════════════════════
 //  NOTIFY ORDER — Send Email + SMS after order confirmation
 // ════════════════════════════════════════════════════════════════
