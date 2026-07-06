@@ -1098,7 +1098,31 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
         );
       } catch (pe) { console.warn('Promo mark-used error (non-fatal):', pe.message); }
     }
+    // ── Create products table (single source of truth for prices) ────
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS products (
+        id INT PRIMARY KEY,
+        name VARCHAR(255),
+        price DECIMAL(10,2) NOT NULL,
+        mrp DECIMAL(10,2) DEFAULT NULL,
+        sizes_json TEXT DEFAULT NULL,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      )
+    `);
+    console.log('✅  products table ready');
 
+    // ── Seed products table once, from current site prices ────
+    const [existingProducts] = await db.query('SELECT COUNT(*) as cnt FROM products');
+    if (existingProducts[0].cnt === 0) {
+      const seed = require('./products-seed.json');
+      for (const p of seed) {
+        await db.query(
+          'INSERT INTO products (id, name, price, mrp, sizes_json) VALUES (?,?,?,?,?)',
+          [p.id, p.name, p.price, p.mrp || null, JSON.stringify(p.sizes || [])]
+        );
+      }
+      console.log(`✅  Seeded ${seed.length} products`);
+    }
     // ── 4. Send confirmation email + SMS ──────────────────────────
     try {
       const [userRows] = await db.query(
