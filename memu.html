@@ -424,7 +424,7 @@ const inCart = cartQty > 0;
   </a>`;
 }
 
-window.addEventListener('DOMContentLoaded',()=>{
+window.addEventListener('DOMContentLoaded',async ()=>{
   // Allow browsing without login — auth is only required for cart/profile actions
   document.body.style.visibility='visible';
   const user=OF.getUser();
