@@ -1177,6 +1177,9 @@ app.post('/api/razorpay/verify', authMiddleware, async (req, res) => {
       } catch (pe) { console.warn('Promo mark-used error (non-fatal):', pe.message); }
     }
     // ── Inline product seed data (avoids file-bundling issues on serverless) ──
+require('dotenv').config();
+
+// ── Inline product seed data (avoids file-bundling issues on serverless) ──
 const PRODUCT_SEED = require('./products-seed.json');
 
 let _productsTableReady = false;
@@ -1204,6 +1207,8 @@ async function ensureProductsTable() {
   }
   _productsTableReady = true;
 }
+
+const app = express();
     // ── 4. Send confirmation email + SMS ──────────────────────────
     try {
       const [userRows] = await db.query(
