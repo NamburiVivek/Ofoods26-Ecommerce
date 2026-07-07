@@ -567,6 +567,7 @@ app.get('/api/orders', authMiddleware, async (req, res) => {
 // PUBLIC — every page calls this to get live prices
 app.get('/api/products', async (req, res) => {
   try {
+    await ensureProductsTable();
     const [rows] = await db.query('SELECT id, name, price, mrp, sizes_json, updated_at FROM products');
     const products = {};
     rows.forEach(r => {
@@ -603,6 +604,7 @@ function adminOnly(req, res, next) {
 // ADMIN — list all products (for the Admin.html table)
 app.get('/api/admin/products', adminOnly, async (req, res) => {
   try {
+    await ensureProductsTable();
     const [rows] = await db.query('SELECT id, name, price, mrp, sizes_json, updated_at FROM products ORDER BY id');
     const products = rows.map(r => ({
       id: r.id,
