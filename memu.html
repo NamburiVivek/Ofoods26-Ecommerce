@@ -442,8 +442,6 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(params.get('cat')&&CAT_TITLES[params.get('cat')])currentCat=params.get('cat');
   if(params.get('q')){searchQuery=params.get('q');document.getElementById('search-input').value=searchQuery;}
 
-   await loadLivePrices();
-  applyLivePricesFlat(OF.products);
   buildCatButtons();
   document.getElementById('res-title').textContent=CAT_TITLES[currentCat]||'All Products';
   render();
