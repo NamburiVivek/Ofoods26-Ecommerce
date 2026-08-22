@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "backend/server.js", "use": "@vercel/node" },
+    { "src": "frontend/**", "use": "@vercel/static" },
+    { "src": "*.xml", "use": "@vercel/static" },
+    { "src": "*.txt", "use": "@vercel/static" },
+    { "src": "products-seed.json", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "backend/server.js" },
+    { "src": "/robots.txt", "dest": "/robots.txt" },
+    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
+    { "src": "/", "dest": "frontend/index.html" },
+    { "src": "/images/(.*)", "dest": "frontend/images/$1" },
+    { "src": "/(.*\\.html)", "dest": "frontend/$1" },
+    { "src": "/(.*\\.css)", "dest": "frontend/$1" },
+    { "src": "/(.*\\.js)", "dest": "frontend/$1" },
+    { "src": "/(.*\\.Webp)", "dest": "frontend/images/$1" },
+    { "src": "/(.*\\.png)", "dest": "frontend/images/$1" },
+    { "src": "/(.*\\.jpg)", "dest": "frontend/images/$1" },
+    { "src": "/(.*\\.jpeg)", "dest": "frontend/images/$1" },
+    { "src": "/(.*\\.svg)", "dest": "frontend/images/$1" }
+  ]
+}
