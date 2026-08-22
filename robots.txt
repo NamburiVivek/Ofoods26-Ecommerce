@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ofoods.co.in/sitemap.xml
