@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="icon" type="image/png" href="images/logo2.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — O Foods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--r2:12px;--nav-bg:#131921;--nav-strip:#37475A;}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px;visibility:hidden}
+#cur{position:fixed;width:10px;height:10px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9999;top:0;left:0;transform:translate(-50%,-50%);transition:width .2s,height .2s;will-change:transform}
+#cur.big{width:36px;height:36px;background:rgba(212,13,13,.2)}
+#topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
+#topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
+  @media(max-width:768px){
+  #topnav{padding:0 6px;gap:2px}
+  .nav-search{margin:0 6px;height:38px}
+  .nav-location{display:none}
+  .ni-top{font-size:10px}
+  .ni-bot{font-size:11px}
+  .cart-label{display:none}
+  .nav-logo img{height:32px}
+}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
+.nav-logo:hover{border-color:#fff}
+.nav-location{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
+.nav-location:hover{border-color:#fff}
+.loc-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+.loc-bot{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:3px;line-height:1.4}
+.nav-search{flex:1;display:flex;height:44px;margin:0 12px;border-radius:50px;overflow:hidden;min-width:0;background:#fff;border:2px solid transparent;transition:border-color .2s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.nav-search:focus-within{border-color:var(--red);}
+.search-icon-left{display:flex;align-items:center;padding:0 14px;background:#fff;flex-shrink:0;}
+.search-input-nav{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#111;background:#fff;padding:0 8px;min-width:0;}
+.search-input-nav::placeholder{color:#999;}
+.search-go{background:#fff;border:none;padding:0 18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee;transition:background .15s;}
+.search-go:hover{background:#f5f5f5;}
+.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap;}
+.nav-item:hover{border-color:#fff}
+
+.ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+.ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
+.nav-cart-link:hover{border-color:#fff}
+.cart-icon-wrap{position:relative;display:inline-flex}
+#nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;}
+.cart-label{font-size:13px;font-weight:700;color:#fff;padding-bottom:3px}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 60px)}
+
+/* SIDEBAR */
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:28px 20px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;scrollbar-width:none}
+.sidebar::-webkit-scrollbar{display:none}
+.sid-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:14px}
+.cat-btn{width:100%;display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;transition:all .2s;margin-bottom:2px;text-align:left}
+.cat-btn:hover{background:var(--bg3);color:var(--text)}
+.cat-btn.active{background:rgba(212,13,13,.12);color:var(--red);font-weight:600}
+.cat-btn .cbadge{margin-left:auto;background:rgba(255,255,255,.06);color:var(--muted);font-size:10px;font-weight:600;padding:2px 8px;border-radius:50px}
+.cat-btn.active .cbadge{background:rgba(212,13,13,.15);color:var(--red)}
+.sid-div{height:1px;background:var(--border);margin:18px 0}
+.filter-lbl{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;color:var(--muted)}
+.filter-lbl input[type=checkbox]{width:15px;height:15px;accent-color:var(--red)}
+.sort-sel{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:9px 14px;color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='rgba(122,112,104,1)' viewBox='0 0 16 16'%3E%3Cpath d='m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.sort-sel:focus{outline:none;border-color:var(--red)}
+.sort-sel option{background:var(--bg2)}
+
+/* MAIN */
+.main{padding:28px 36px}
+.res-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px}
+.res-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--text)}
+.res-info{font-size:12px;color:var(--muted)}
+
+/* PRODUCT GRID */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+
+/* CARD */
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;text-decoration:none;color:var(--text);display:block;position:relative}
+.pc:hover{transform:translateY(-5px);border-color:rgba(212,13,13,.3);box-shadow:0 12px 40px rgba(212,13,13,.08)}
+.pc-img{height:225px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative;overflow:hidden}
+.pbdg{position:absolute;top:12px;left:12px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:50px;background:var(--green);color:#fff}
+.pbdg.spicy{background:var(--red)}
+.pbdg.new{background:var(--gold);color:#1A1000}
+.pbdg.nonveg{background:#8B0000;color:#fff}
+.pbdg.sweet{background:#9B4DCA;color:#fff}
+.cart-ind{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;border-radius:50px;padding:3px 9px;font-size:10px;font-weight:700;display:none;align-items:center;gap:3px}
+.cart-ind.show{display:flex}
+.pc-body{padding:16px 18px}
+.pc-cat-lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:5px;line-height:1.2}
+.pc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.pc-foot{display:flex;align-items:center;justify-content:space-between}
+.pc-price{font-size:20px;font-weight:700;color:var(--red)}
+.pc-price small{font-size:11px;font-weight:400;color:var(--muted);display:block;line-height:1.2}
+.pc-cta{font-size:12px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:4px;transition:color .2s;white-space:nowrap}
+.pc:hover .pc-cta{color:var(--red)}
+
+/* SECTION HEADINGS in grouped view */
+.section-head{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:700;color:var(--text);margin:20px 0 4px;display:flex;align-items:center;gap:10px;grid-column:1/-1}
+.section-head::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* EMPTY */
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-state div{font-size:56px;margin-bottom:16px}
+.empty-state p{font-size:16px;color:var(--muted);font-weight:500}
+
+/* MOBILE FILTER BAR */
+.mob-filter{display:none;gap:8px;padding:0 0 16px;overflow-x:auto;scrollbar-width:none}
+.mob-filter::-webkit-scrollbar{display:none}
+.mftab{padding:7px 16px;border-radius:50px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;white-space:nowrap;flex-shrink:0;transition:all .2s}
+.mftab:hover{border-color:var(--red);color:var(--red)}
+.mftab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:12px 8px}
+  .mob-filter{display:flex}
+  .prod-grid{
+    display:grid !important;
+    grid-template-columns:repeat(2,1fr) !important;
+    gap:8px !important;
+  }
+  .pc-img{height:350px !important}
+  .pc-img img{
+    width:100% !important;
+    height:350px !important;
+    object-fit:cover !important;
+    display:block !important;
+  }
+  .pc-body{padding:8px 10px}
+  .pc-name{font-size:13px}
+  .pc-desc{
+    font-size:11px;
+    -webkit-line-clamp:2;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+    margin-bottom:8px
+  }
+  .pc-price{font-size:15px}
+  .pc-cta{font-size:11px}
+  .section-head{
+    font-size:16px;
+    grid-column:1/-1 !important;
+  }
+  .pc{border-radius:12px}
+}
+@media(max-width:360px){
+  .prod-grid{grid-template-columns:1fr !important}
+}
+</style>
+</head>
+<body>
+
+<div id="topnav-wrapper">
+  <nav id="topnav">
+    <a href="javascript:void(0)" class="nav-logo"><img src="images/logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;" onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'"></a>
+    <a href="javascript:void(0)" class="nav-location" id="nav-loc-btn">
+      <span class="loc-top" id="nav-loc-top">Select mode</span>
+      <span class="loc-bot">
+        <svg width="10" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span id="nav-loc-name">Tap here ▾</span>
+      </span>
+    </a>
+    <div class="nav-search">
+      <div class="search-icon-left">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <input type="text" class="search-input-nav" id="search-input" placeholder="Search pickles, masalas, vadiyalu..." autocomplete="off" oninput="onSearch(this.value)" />
+      <button class="search-go" onclick="onSearch(document.getElementById('search-input').value)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <a href="javascript:void(0)" onclick="requireLogin('profile.html')" class="nav-item" id="nav-user-li">
+      <span class="ni-top">Hello, sign in</span>
+      <span class="ni-bot">Account &amp; Lists</span>
+    </a>
+    <a href="javascript:void(0)" onclick="requireLogin('cart.html')" class="nav-cart-link">
+      <div class="cart-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        <span id="nav-badge"></span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+  </nav>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sid-title">Categories</div>
+    <div id="cat-list"></div>
+    <div class="sid-div"></div>
+    <div class="sid-title">Filter</div>
+    <label class="filter-lbl"><input type="checkbox" id="veg-f" onchange="render()"> Veg Only</label>
+    <label class="filter-lbl"><input type="checkbox" id="nonveg-f" onchange="render()"> Non-Veg Only</label>
+    <label class="filter-lbl"><input type="checkbox" id="spicy-f" onchange="render()"> Exclude Spicy</label>
+    <div class="sid-div"></div>
+    <div class="sid-title">Sort</div>
+    <select class="sort-sel" id="sort-f" onchange="render()">
+      <option value="">Default</option>
+      <option value="pa">Price: Low → High</option>
+      <option value="pd">Price: High → Low</option>
+      <option value="az">Name A–Z</option>
+    </select>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="mob-filter" id="mob-filter"></div>
+    <div class="res-header">
+      <div class="res-title" id="res-title">All Products</div>
+      <div class="res-info" id="res-info"></div>
+    </div>
+    <div class="prod-grid" id="prod-grid"></div>
+  </main>
+</div>
+
+<script src="delivery-mode.js"></script>
+<script>
+const OF={
+  products:[
+    // ── VEG PICKLES (IDs 1–11) ──────────────────────────────────────────────
+    {id:1,  name:'Tomato Pickle (టమాటా పచ్చడి)',               price:179, img:'images/tomato.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil.',                       badge:'Popular',     type:''},
+    {id:2,  name:'Mango Pickle (మామిడికాయ పచ్చడి)',                price:179, img:'images/mango.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.',                 badge:'Bestseller',  type:''},
+    {id:3,  name:'Red Chilli Pickle (పండు మిర్చి పచ్చడి)',           price:169, img:'images/red chilli.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Bold ripe red chilli pickle with gingelly oil and mustard seeds.',                          badge:'Spicy',       type:'spicy'},
+    {id:4,  name:'Gongura Pickle (గోంగూర పచ్చడి)',              price:169, img:'images/gongura.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Zesty gongura pickle in a tangy tamarind and chilli base.',                                  badge:'Classic',     type:''},
+    {id:6,  name:'Gongura & Red Chilli Pickle (గోంగూర మిర్చి పచ్చడి)', price:179, img:'images/redchilli&pandumirchi.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Sorrel leaf and red chilli pickle — bold, sour and addictive.',                             badge:'Spicy',       type:'spicy'},
+    {id:7,  name:'Lemon Pickle (నిమ్మకాయ పచ్చడి)',                price:169, img:'images/Lemon.Webp', cat:'veg-pickles', catLabel:'Veg Pickle', desc:'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.', badge:'Classic', type:'' },
+    {id:8,  name:'Amla Pickle (ఉసిరికాయ పచ్చడి)',                 price:179, img:'images/amala.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Indian gooseberry pickle with mustard, chilli and spices.',                                 badge:'Healthy',     type:''},
+    {id:9,  name:'Coriander & Mint Pickle (కొత్తిమీర పుదీనా పచ్చడి)',     price:179, img:'images/kotimerra.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Fresh coriander and mint blended into a vibrant aromatic pickle.',                          badge:'New',         type:'new'},
+    {id:10, name:'Drumstick Pickle (మునగకాయ పచ్చడి)',           price:169, img:'images/munakaya.Webp', cat:'veg-pickles',    catLabel:'Veg Pickle',       desc:'Tender drumstick pieces blended with traditional spices for a rich, authentic homemade pickle.',                          badge:'New',         type:'new'},
+    {id:11, name:'Raw Tamarind Pickle (చింతకాయ పచ్చడి)',          price:169, img:'images/chinthakaya.Webp', cat:'veg-pickles', catLabel:'Veg Pickle', desc:'Tangy raw tamarind blended with premium spices to create a bold and traditional Andhra pickle.', badge:'New', type:'new'},
+    // ── NON-VEG PICKLES (IDs 12–15) ────────────────────────────────────────
+    {id:12, name:'Chicken Pickle With Bones (చికెన్ పచ్చడి)', price:329, img:'images/chicken bones.Webp', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle',   desc:'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.',                   badge:'Spicy',       type:'nonveg'},
+    {id:13, name:'Boneless Chicken Pickle (చికెన్ పచ్చడి బోన్‌లెస్)',   price:379, img:'images/boneless.Webp', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle',   desc:'Tender boneless chicken chunks in a fiery red chilli & gingelly oil base.',                 badge:'Bestseller',  type:'nonveg'},
+    {id:14, name:'Prawns Pickle (రొయ్యల పచ్చడి)',               price:509, img:'images/prawn.Webp', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle',   desc:'Juicy prawns marinated in coastal Andhra spices — tangy and bold.',                         badge:'Premium',     type:'nonveg'},
+    {id:15, name:'Mutton Pickle (మటన్ పచ్చడి)',               price:629, img:'images/mutton.Webp', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle',   desc:'Slow-cooked mutton pieces in a rich spicy pickle masala.',                                  badge:'Special',     type:'nonveg'},
+    // ── MASALA POWDERS (IDs 30–35) ──────────────────────────────────────────
+    {id:31, name:'Garam Masala Powder (గరం మసాలా పొడి)',         price:99,  img:'images/garam masala.Webp', cat:'spices',         catLabel:'Masala Powder',    desc:'Whole spices stone-ground: cloves, cinnamon, cardamom & black pepper.',                     badge:'Bestseller',  type:''},
+    {id:32, name:'Sambar Masala Powder (సాంబార్ పొడి)',               price:99,  img:'images/sambar powder.Webp', cat:'spices',         catLabel:'Masala Powder',    desc:'Authentic homestyle blend with coriander, cumin, curry leaves & dry chilli.',                badge:'Classic',     type:''},
+    {id:33, name:'Rasam Powder (రసం పొడి)',                price:89,  img:'images/rasam karam.Webp', cat:'spices',         catLabel:'Masala Powder',    desc:'Tangy, peppery rasam spice blend for authentic South Indian soup.',                         badge:'Popular',     type:''},
+    {id:34, name:'Chicken Masala Powder (చికెన్ మసాలా పొడి)',       price:109,  img:'images/chicken karam.Webp', cat:'spices',         catLabel:'Masala Powder',    desc:'Bold aromatic masala blend crafted for chicken curries and biryanis.',                      badge:'Bestseller',  type:'nonveg'},
+    {id:35, name:'Mutton Masala Powder (మటన్ మసాలా పొడి)',        price:109,  img:'images/mutton karam.Webp', cat:'spices',         catLabel:'Masala Powder',    desc:'Rich, robust mutton masala with whole dry spices for depth of flavour.',                    badge:'Premium',     type:'nonveg'},
+    // ── KARAM POWDERS (IDs 36–44) ───────────────────────────────────────────
+    {id:36, name:'Sambar Chilli Powder (సాంబార్ కారం)',                price:89,  img:'images/Sambar Karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Classic Andhra-style sambar chilli powder with curry leaves & garlic.',                     badge:'Spicy',       type:'spicy'},
+    {id:37, name:'Green Chilli Powder (పచ్చి కారం)',                 price:89,  img:'images/pachi karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Fresh raw green chilli powder blend — fiery and flavourful.',                               badge:'Spicy',       type:'spicy'},
+    {id:38, name:'Curry Leaf Chilli Powder (కరివేపాకు కారం)',            price:89,  img:'images/curry leaf.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Aromatic curry leaf chilli powder — a South Indian staple.',                                badge:'Aromatic',    type:''},
+    {id:39, name:'Coconut Chilli Powder (కొబ్బరి కారం)',               price:89,  img:'images/cobari karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Toasted coconut and red chilli powder blend, great with rice.',                             badge:'Unique',      type:''},
+    {id:40, name:'Dry Roasted Spice Powder (మాడుపు కారం)',                price:89,  img:'images/madupu karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Traditional Andhra dry roasted spice powder for rice and curries.',                         badge:'Classic',     type:''},
+    {id:41, name:'Drumstick Leaf Powder (మునగాకు కారం)',              price:89,  img:'images/munagaku karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Nutritious drumstick leaf chilli powder packed with iron and vitamins.',                    badge:'Healthy',     type:'new'},
+    {id:42, name:'Idli Chilli Powder (ఇడ్లీ కారం)',                  price:99,  img:'images/Idly karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Classic South Indian idly chilli powder — perfect with ghee on idly.',                     badge:'Essential',   type:''},
+    {id:43, name:'Idli Chutney Powder (ఇడ్లీ చట్నీ పొడి)',           price:89,  img:'images/Idly Chutney Podi.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Urad dal chutney powder, great with idly, dosa and hot rice with oil.',                    badge:'Popular',     type:''},
+    {id:44, name:'Sesame Chilli Powder (నువ్వుల కారం)',               price:89,  img:'images/nuvula karam.Webp', cat:'spices',         catLabel:'Karam Powder',     desc:'Toasted sesame seed powder with chilli — nutty, rich and fragrant.',                       badge:'Unique',      type:''},
+    // ── CHIPS & VADIYALU (IDs 50–59) ────────────────────────────────────────
+    {id:50, name:'Rice Flour Wafers (బియ్యం పిండి వడియాలు)',       price:129,  img:'images/biyam pindi vadiyalu.Webp', cat:'chips',          catLabel:'Chips & Vadiyalu', desc:'Classic sun-dried rice flour wafers — crispy, light and perfect with rice.',                 badge:'Classic',     type:''},
+    {id:51, name:'Semolina Wafers (రవ్వ వడియాలు)',              price:179, img:'images/rava vadiyalu.Webp', cat:'chips',          catLabel:'Chips & Vadiyalu', desc:'Semolina sun-dried chips with subtle spices — a South Indian staple.',                      badge:'Popular',     type:''},
+    {id:52, name:'Tomato Wafers (టమాటా వడియాలు)',             price:159, img:'images/tomato vadiyalu.Webp', cat:'chips',          catLabel:'Chips & Vadiyalu', desc:'Tangy tomato-flavoured sun-dried chips — great with rice and dal.',                         badge:'Tangy',       type:''},
+    {id:58, name:'Beetroot Wafers (బీట్‌రూట్ వడియాలు)',           price:159, img:'images/beetroot vadiyalu.Webp', cat:'chips',          catLabel:'Chips & Vadiyalu', desc:'Beautiful ruby-red beetroot chips — naturally sweet and earthy.',                           badge:'New',         type:'new'},
+    {id:59, name:'Carrot Wafers (క్యారెట్ వడియాలు)',             price:139, img:'images/carrat vadiyalu.Webp', cat:'chips',          catLabel:'Chips & Vadiyalu', desc:'Lightly spiced carrot sun-dried chips — wholesome and crunchy.',                           badge:'Healthy',     type:''},
+    // ── SNACKS (IDs 70–72) ──────────────────────────────────────────────────
+    {id:70, name:'Boondi Mixture (బూందీ మిక్చర్)',              price:109,  img:'images/bundhe.Webp', cat:'snacks',         catLabel:'Hot Snack',        desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.',                 badge:'Popular',     type:''},
+    {id:71, name:'Rice Crackers (చెక్కలు)',       price:89,  img:'images/Chekkalu (Saggubiyyam).Webp', cat:'snacks',         catLabel:'Hot Snack',        desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',                          badge:'Classic',     type:''},
+    {id:72, name:'Chakaralu (చక్కరాలు)',                 price:109,  img:'images/chakaralu.Webp', cat:'snacks',         catLabel:'Hot Snack',        desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',                        badge:'Traditional', type:''},
+    // ── SWEETS (IDs 73–79) ──────────────────────────────────────────────────
+    {id:73, name:'Gram Flour Laddu (లడ్డూ)',                       price:109,  img:'images/laddu.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Soft round sweet made with besan or boondi — a festive favourite.',                         badge:'Sweet',       type:'sweet'},
+    {id:74, name:'Shell Shaped Sweet (గవ్వలు)',                     price:119,  img:'images/Gavvalu.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',                      badge:'Traditional', type:'sweet'},
+    {id:75, name:'Crescent Sweet (కాజాలు)',                      price:109,  img:'images/kajalu.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',                          badge:'Festive',     type:'sweet'},
+    {id:76, name:'Sweet Boondi (మిఠాయి బూందీ)',               price:129,  img:'images/Mithai Boondi.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',                          badge:'Sweet',       type:'sweet'},
+    {id:77, name:'Roasted Gram Laddu (సున్నుండలు)',                     price:209, img:'images/sununda.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Traditional Andhra sweet balls made with roasted gram flour and jaggery.',                   badge:'Festive',     type:'sweet'},
+    {id:78, name:'Sesame Laddu (నువ్వుల లడ్డూ)',                price:159, img:'images/nuvula laddu.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Traditional sesame seed laddu — nutty, sweet and nutritious.',                             badge:'Sweet',       type:'sweet'},
+    {id:79, name:'Rice Flour Sweet (చలిమిడి)',                  price:179, img:'images/salimidi.Webp', cat:'snacks',         catLabel:'Sweet',            desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',                          badge:'Sweet',       type:'sweet'},
+  ],
+  stores:[
+  {
+    id: '1',
+    name: 'O Foods — Amaravathi',
+    address: 'Beside Of Police Station, Amaravathi - 522426',
+    hours: 'Mon–Sun: 10:00 AM – 9:00 PM',
+    phone: '+91 7981250665'
+  },
+ 
+],
+  getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
+  cartKey(){const u=this.getUser();return u?'of_cart_'+u.id:'of_cart_guest'},
+  getCart(){try{return JSON.parse(localStorage.getItem(this.cartKey())||'{}')}catch(e){return{}}},
+  saveCart(c){localStorage.setItem(this.cartKey(),JSON.stringify(c))},
+  cartCount(){return Object.values(this.getCart()).reduce((a,b)=>a+b,0)},
+  refreshBadge(){const el=document.getElementById('nav-badge');if(el){const n=this.cartCount();el.textContent=n;el.style.display=n>0?'flex':'none'}},
+  getPrefs(){try{return JSON.parse(localStorage.getItem('of_prefs')||'{}')}catch(e){return{}}},
+};
+
+const CATS=[
+  {key:'all',           icon:'🍽️', name:'All Products'},
+  {key:'veg-pickles',   icon:'🥗', name:'Veg Pickles'},
+  {key:'nonveg-pickles',icon:'🍗', name:'Non-Veg Pickles'},
+  {key:'spices',        icon:'🌶️', name:'Masala Powders'},
+  {key:'chips',         icon:'🍟', name:'Chips & Vadiyalu'},
+  {key:'snacks',        icon:'🍬', name:'Snacks & Sweets'},
+];
+
+const CAT_TITLES={
+  'all':'All Products','veg-pickles':'Veg Pickles','nonveg-pickles':'Non-Veg Pickles',
+  'spices':'Masala Powders','chips':'Chips & Vadiyalu','snacks':'Snacks & Sweets',
+};
+
+// Veg-safe product IDs (no meat/seafood)
+const VEG_CATS=['veg-pickles','chips'];
+const VEG_IDS=[30,31,32,33,36,37,38,39,40,41,42,43,44,70,71,72,73,74,75,76,77,78,79];
+
+const BGSM=['#1C1A15','#151C15','#1C1815','#1A1520','#15201A','#1C1515','#181515','#15181A','#1A1C15','#151518','#181A15','#1A1518','#1C1A15','#151C15','#1C1815','#1A1520','#1C1A15','#151C15','#1C1815','#1A1520'];
+
+let currentCat='all';
+let searchQuery='';
+
+function onSearch(val){searchQuery=val;render();}
+
+function setCat(key){
+  currentCat=key;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat===key));
+  document.querySelectorAll('.mftab').forEach(b=>b.classList.toggle('active',b.dataset.cat===key));
+  document.getElementById('res-title').textContent=CAT_TITLES[key]||'Products';
+  render();
+}
+
+function buildCatButtons(){
+  document.getElementById('cat-list').innerHTML=CATS.map(c=>{
+    const cnt=c.key==='all'?OF.products.length:OF.products.filter(p=>p.cat===c.key).length;
+    return `<button class="cat-btn${c.key===currentCat?' active':''}" data-cat="${c.key}" onclick="setCat('${c.key}')">
+      ${c.icon} ${c.name}<span class="cbadge">${cnt}</span>
+    </button>`;
+  }).join('');
+
+  document.getElementById('mob-filter').innerHTML=CATS.map(c=>
+    `<button class="mftab${c.key===currentCat?' active':''}" data-cat="${c.key}" onclick="setCat('${c.key}')">${c.icon} ${c.name}</button>`
+  ).join('');
+}
+
+function render(){
+  const q=searchQuery.toLowerCase().trim();
+  const vegOnly=document.getElementById('veg-f').checked;
+  const nonVegOnly=document.getElementById('nonveg-f').checked;
+  const noSpicy=document.getElementById('spicy-f').checked;
+  const sort=document.getElementById('sort-f').value;
+  const cart=OF.getCart();
+
+  let list=OF.products.filter(p=>{
+    if(currentCat!=='all'&&p.cat!==currentCat)return false;
+    if(vegOnly){
+      const isVeg=VEG_CATS.includes(p.cat)||VEG_IDS.includes(p.id);
+      if(!isVeg)return false;
+    }
+    if(nonVegOnly&&p.type!=='nonveg')return false;
+    if(noSpicy&&p.type==='spicy')return false;
+    if(q&&!p.name.toLowerCase().includes(q)&&!p.desc.toLowerCase().includes(q)&&!p.catLabel.toLowerCase().includes(q))return false;
+    return true;
+  });
+
+  if(sort==='pa')list.sort((a,b)=>a.price-b.price);
+  else if(sort==='pd')list.sort((a,b)=>b.price-a.price);
+  else if(sort==='az')list.sort((a,b)=>a.name.localeCompare(b.name));
+
+  document.getElementById('res-info').textContent=list.length+' item'+(list.length!==1?'s':'')+' found';
+
+  const grid=document.getElementById('prod-grid');
+  if(!list.length){
+    grid.innerHTML='<div class="empty-state"><div>🔍</div><p>No items match your search</p></div>';
+    return;
+  }
+
+  // Grouped view only when on "All" with no active filters/search
+  if(currentCat==='all'&&!q&&!vegOnly&&!nonVegOnly&&sort===''){
+    const groups=[
+      {key:'veg-pickles',   label:'Veg Pickles'},
+      {key:'nonveg-pickles',label:'Non-Veg Pickles'},
+      {key:'spices',        label:'Masala & Karam Powders'},
+      {key:'chips',         label:'Chips & Vadiyalu'},
+      {key:'snacks',        label:'Snacks & Sweets'},
+    ];
+    let html='';
+    groups.forEach(g=>{
+      const grpItems=list.filter(p=>p.cat===g.key);
+      if(!grpItems.length)return;
+      html+=`<div class="section-head">${g.label}</div>`;
+      html+=grpItems.map(p=>makeCard(p,cart)).join('');
+    });
+    grid.innerHTML=html;
+  } else {
+    grid.innerHTML=list.map(p=>makeCard(p,cart)).join('');
+  }
+}
+
+function makeCard(p,cart){
+  const bg=BGSM[p.id%BGSM.length];
+  const cartQty = Object.keys(cart).filter(k => k == p.id || k.startsWith(p.id + '_')).reduce((sum, k) => sum + (cart[k] || 0), 0);
+const inCart = cartQty > 0;
+  return `<a href="product.html?id=${p.id}" class="pc" id="pc-${p.id}">
+  <div class="pc-img" style="background:${bg}">
+  ${p.img 
+    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:0;">` 
+    : `<span>${p.emoji}</span>`
+  }
+  <div class="pbdg ${p.type}">${p.badge}</div>
+  <div class="cart-ind${inCart?' show':''}">&#128722; ${cartQty}</div>
+</div>
+    <div class="pc-body">
+      <div class="pc-cat-lbl">${p.catLabel}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-desc">${p.desc}</div>
+      <div class="pc-foot">
+        <div class="pc-price">&#8377;${p.price}<small>onwards</small></div>
+        <div class="pc-cta">View Details &#8594;</div>
+      </div>
+    </div>
+  </a>`;
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  // Allow browsing without login — auth is only required for cart/profile actions
+  document.body.style.visibility='visible';
+  const user=OF.getUser();
+  const li=document.getElementById('nav-user-li');
+  if(user&&li){li.querySelector('.ni-top').textContent='Hello, '+user.name.split(' ')[0];li.querySelector('.ni-bot').textContent='Account & Orders';}
+  OF.refreshBadge();
+
+  const prefs=OF.getPrefs();
+  const store=OF.stores.find(s=>s.id===prefs.store)||OF.stores[0];
+
+  // Init DeliveryMode (handles nav badge, location switcher, first-login)
+  DeliveryMode.init();
+
+  const params=new URLSearchParams(location.search);
+  if(params.get('cat')&&CAT_TITLES[params.get('cat')])currentCat=params.get('cat');
+  if(params.get('q')){searchQuery=params.get('q');document.getElementById('search-input').value=searchQuery;}
+
+  buildCatButtons();
+  document.getElementById('res-title').textContent=CAT_TITLES[currentCat]||'All Products';
+  render();
+
+  if(params.get('focus')){
+    setTimeout(()=>{const el=document.getElementById('pc-'+params.get('focus'));if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},400);
+  }
+
+  const cur=document.getElementById('cur');
+  document.addEventListener('mousemove',e=>{cur.style.transform='translate('+e.clientX+'px,'+e.clientY+'px) translate(-50%,-50%)'});
+  document.addEventListener('mouseover',e=>{cur.classList.toggle('big',!!e.target.closest('a,button,select,input'))});
+});
+function requireLogin(page){
+  const token=localStorage.getItem('of_token');
+  if(!token){location.href='login.html?next='+page;return;}
+  location.href=page;
+}
+
+/* ── Store Modal ── */
+function openStoreModal(){
+  const modal=document.getElementById('store-modal');
+  modal.style.display='flex';
+  const prefs=OF.getPrefs();
+  document.getElementById('store-modal-list').innerHTML=OF.stores.map(s=>`
+    <div onclick="selectStoreModal('${s.id}')" style="padding:16px;border-radius:12px;border:2px solid ${prefs.store===s.id?'var(--red)':'var(--border)'};background:${prefs.store===s.id?'rgba(212,13,13,.08)':'var(--bg2)'};margin-bottom:10px;cursor:pointer;transition:all .2s">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:20px">📍</span>
+        <div style="flex:1">
+          <div style="font-weight:600;font-size:14px;color:var(--text)">${s.name.replace('O Foods — ','')}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">${s.address}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">🟢 ${s.hours}</div>
+        </div>
+        ${prefs.store===s.id?'<span style="color:var(--red);font-size:20px;font-weight:700">✓</span>':''}
+      </div>
+    </div>
+  `).join('');
+  document.addEventListener('keydown', escStoreModal);
+}
+function closeStoreModal(){
+  document.getElementById('store-modal').style.display='none';
+  document.removeEventListener('keydown', escStoreModal);
+}
+function escStoreModal(e){if(e.key==='Escape')closeStoreModal();}
+function selectStoreModal(id){
+  const p=OF.getPrefs(); p.store=id; localStorage.setItem('of_prefs',JSON.stringify(p));
+  const store=OF.stores.find(s=>s.id===id);
+  if(store) document.getElementById('nav-loc-name').textContent=store.name.replace('O Foods — ','');
+  closeStoreModal();
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var sm=document.getElementById('store-modal');
+  if(sm) sm.addEventListener('click',function(e){if(e.target===this)closeStoreModal();});
+});
+</script>
+
+</body>
+</html>

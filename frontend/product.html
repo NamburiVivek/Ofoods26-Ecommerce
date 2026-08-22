@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="mobile.css">
+  <link rel="icon" type="image/png" href="images/logo2.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — O Foods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0D0D0D;
+      --bg2: #141414;
+      --bg3: #1A1A1A;
+      --red: #d40d0d;
+      --red2: #e83030;
+      --gold: #E8B84B;
+      --green: #2D6A35;
+      --text: #F5F0E8;
+      --muted: #7A7068;
+      --border: rgba(255, 255, 255, 0.07);
+      --card: #1C1C1C;
+      --r: 18px;
+      --r2: 12px;
+      --nav-bg: #131921;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      padding-top: 60px;
+      cursor: default
+    }
+
+    #topnav-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500
+    }
+
+    #topnav {
+      background: var(--nav-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      height: 60px;
+      gap: 2px;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -.5px;
+      padding: 5px 9px;
+      border: 2px solid transparent;
+      border-radius: 3px;
+      flex-shrink: 0;
+      transition: border-color .15s;
+    }
+
+    .nav-logo:hover {
+      border-color: #fff
+    }
+
+    /* ── DELIVERY BADGE ── */
+    .nav-delivery {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5px 9px;
+      border: 2px solid transparent;
+      border-radius: 3px;
+      flex-shrink: 0;
+      transition: border-color .15s
+    }
+
+    .nav-delivery:hover {
+      border-color: #fff
+    }
+
+    .nd-top {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.3
+    }
+
+    .nd-bot {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      line-height: 1.4
+    }
+
+    .nav-search {
+      flex: 1;
+      display: flex;
+      height: 44px;
+      margin: 0 12px;
+      border-radius: 50px;
+      overflow: hidden;
+      min-width: 0;
+      background: #fff;
+      border: 2px solid transparent;
+      transition: border-color .2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .3);
+    }
+
+    .nav-search:focus-within {
+      border-color: var(--red);
+    }
+
+    .search-icon-left {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      background: #fff;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    .search-input-nav {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      color: #111;
+      background: #fff;
+      padding: 0 8px;
+      min-width: 0;
+    }
+
+    .search-input-nav::placeholder {
+      color: #999;
+    }
+
+    .search-go {
+      background: #fff;
+      border: none;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-left: 1px solid #eee;
+      transition: background .15s;
+    }
+
+    .search-go:hover {
+      background: #f5f5f5;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5px 9px;
+      border: 2px solid transparent;
+      border-radius: 3px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: border-color .15s;
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      border-color: #fff
+    }
+
+    .ni-top {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .65);
+      line-height: 1.3
+    }
+
+    .ni-bot {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4
+    }
+
+    .nav-cart-link {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      padding: 5px 9px;
+      border: 2px solid transparent;
+      border-radius: 3px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: border-color .15s;
+    }
+
+    .nav-cart-link:hover {
+      border-color: #fff
+    }
+
+    .cart-icon-wrap {
+      position: relative;
+      display: inline-flex
+    }
+
+    #nav-badge {
+      position: absolute;
+      top: -4px;
+      right: -5px;
+      background: var(--red);
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 11px;
+      font-weight: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      padding-bottom: 3px
+    }
+
+   .breadcrumb {
+  display: none;
+}
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s
+    }
+
+    .breadcrumb a:hover {
+      color: var(--red)
+    }
+
+    .breadcrumb span {
+      color: var(--text);
+      font-weight: 500
+    }
+
+    /* MAIN PRODUCT LAYOUT */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr 340px;
+      gap: 32px;
+      padding: 0 48px 60px;
+      align-items: start
+    }
+
+    /* LEFT — IMAGE PANEL */
+    .img-panel {
+      position: sticky;
+      top: 72px
+    }
+
+    .img-main {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 140px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s
+    }
+
+    .img-main:hover {
+      border-color: rgba(212, 13, 13, .3)
+    }
+
+    .img-main::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 60% 40%, rgba(212, 13, 13, .06) 0%, transparent 65%);
+      pointer-events: none
+    }
+
+    .badge-lg {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: var(--green);
+      color: #fff
+    }
+
+    .badge-lg.spicy {
+      background: var(--red)
+    }
+
+    .badge-lg.new {
+      background: var(--gold);
+      color: #1A1000
+    }
+
+    /* MIDDLE — PRODUCT INFO */
+    .prod-info {
+      padding-top: 8px
+    }
+
+    .prod-cat-tag {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--red);
+      margin-bottom: 10px
+    }
+
+    .prod-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 14px
+    }
+
+    /* RATING */
+    .prod-rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap
+    }
+
+    .stars-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: opacity .2s
+    }
+
+    .stars-link:hover {
+      opacity: .75
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 16px;
+      letter-spacing: 1px
+    }
+
+    .rating-num {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      border-bottom: 1px dotted var(--muted)
+    }
+
+    .rating-count {
+      font-size: 13px;
+      color: var(--red);
+      text-decoration: underline;
+    }
+
+    .sold-badge {
+      background: rgba(45, 106, 53, .2);
+      border: 1px solid rgba(45, 106, 53, .3);
+      border-radius: 50px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #6BCF7F
+    }
+
+    .price-block {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 20px;
+      margin-bottom: 24px
+    }
+
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap
+    }
+
+    .price-main {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--red);
+      transition: all .3s
+    }
+
+    .price-mrp {
+      font-size: 15px;
+      color: var(--muted);
+      text-decoration: line-through
+    }
+
+    .price-save {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6BCF7F;
+      background: rgba(45, 106, 53, .15);
+      border-radius: 50px;
+      padding: 3px 10px
+    }
+
+    .price-sub {
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    /* OFFERS */
+    .offers-block {
+      margin-bottom: 24px
+    }
+
+    .offers-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .offer-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 14px
+    }
+
+    .oc-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px
+    }
+
+    .oc-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 8px
+    }
+
+    .oc-link {
+      font-size: 11px;
+      color: var(--red);
+      font-weight: 600;
+    }
+
+    /* WEIGHT/SIZE OPTIONS */
+    .option-block {
+      margin-bottom: 24px
+    }
+
+    .option-label {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--muted)
+    }
+
+    .option-label span {
+      color: var(--text);
+      font-weight: 700
+    }
+
+    .weight-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .wpill {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      transition: all .2s;
+      text-align: center;
+      min-width: 90px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .wpill:hover {
+      border-color: var(--red)
+    }
+
+    .wpill.active {
+      border-color: var(--red);
+      background: rgba(212, 13, 13, .08)
+    }
+
+    .wpill.active::after {
+      content: '✓';
+      position: absolute;
+      top: 5px;
+      right: 7px;
+      font-size: 10px;
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .wpill-weight {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px
+    }
+
+    .wpill-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--red)
+    }
+
+    .wpill-mrp {
+      font-size: 10px;
+      color: var(--muted);
+      text-decoration: line-through
+    }
+
+    /* PRODUCT DETAILS */
+    .details-block {
+      margin-bottom: 24px
+    }
+
+    .desc-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      margin-bottom: 12px
+    }
+
+    .detail-row {
+      display: flex;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px
+    }
+
+    .detail-row:last-child {
+      border-bottom: none
+    }
+
+    .dr-label {
+      color: var(--muted);
+      min-width: 120px;
+      flex-shrink: 0
+    }
+
+    .dr-val {
+      color: var(--text);
+      font-weight: 500
+    }
+
+    /* DESCRIPTION */
+    .desc-block {
+      margin-bottom: 24px
+    }
+
+    .desc-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+      opacity: .85
+    }
+
+    /* RIGHT — BUY PANEL */
+    .buy-panel {
+      position: sticky;
+      top: 72px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 24px
+    }
+
+    .bp-price {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--red);
+      margin-bottom: 4px;
+      transition: all .3s
+    }
+
+    .bp-mrp {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px
+    }
+
+    .bp-mrp s {
+      color: var(--muted)
+    }
+
+    .bp-save {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6BCF7F;
+      margin-bottom: 16px
+    }
+
+    .bp-instock {
+      font-size: 14px;
+      font-weight: 700;
+      color: #6BCF7F;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .stock-dot {
+      width: 8px;
+      height: 8px;
+      background: #6BCF7F;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    /* DELIVERY BOX */
+    .delivery-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r2);
+      padding: 14px;
+      margin-bottom: 16px
+    }
+
+    .db-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 12px;
+      margin-bottom: 8px;
+      gap: 8px
+    }
+
+    .db-row:last-child {
+      margin-bottom: 0
+    }
+
+    .db-label {
+      color: var(--muted);
+      flex-shrink: 0
+    }
+
+    .db-val {
+      font-weight: 600;
+      color: var(--text);
+      text-align: right
+    }
+
+    .db-val.green {
+      color: #6BCF7F
+    }
+
+    .db-val.red-link {
+      color: var(--red);
+      cursor: pointer
+    }
+
+    .db-val.red-link:hover {
+      text-decoration: underline
+    }
+
+    /* QTY + BUTTONS */
+    .qty-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px
+    }
+
+    .qty-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500
+    }
+
+    .qty-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 14px
+    }
+
+    .qb {
+      width: 28px;
+      height: 28px;
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      transition: color .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer
+    }
+
+    .qb:hover {
+      color: var(--red)
+    }
+
+    .qn {
+      font-weight: 700;
+      font-size: 15px;
+      min-width: 22px;
+      text-align: center
+    }
+
+    .btn-cart {
+      width: 100%;
+      background: var(--gold);
+      color: #1A1000;
+      border: none;
+      border-radius: var(--r2);
+      padding: 15px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all .2s;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: .3px;
+      cursor: pointer
+    }
+
+    .btn-cart:hover {
+      background: #f0c55a;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(232, 184, 75, .25)
+    }
+
+    .btn-buy {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: var(--r2);
+      padding: 15px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      transition: all .2s;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      letter-spacing: .3px;
+      box-shadow: 0 0 28px rgba(212, 13, 13, .25);
+      cursor: pointer
+    }
+
+    .btn-buy:hover {
+      background: var(--red2);
+      transform: translateY(-1px)
+    }
+
+    .bp-selected-size {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      background: var(--bg2);
+      border-radius: 8px;
+      border: 1px solid var(--border)
+    }
+
+    .bp-selected-size span {
+      color: var(--text);
+      font-weight: 600
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 50px;
+      padding: 13px 28px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .5);
+      z-index: 9998;
+      pointer-events: none;
+      transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+      white-space: nowrap
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0)
+    }
+
+    /* SIMILAR ITEMS */
+    .similar-section {
+      padding: 0 48px 60px
+    }
+
+    .sim-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 20px
+    }
+
+    .sim-title span {
+      color: var(--red)
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px
+    }
+
+    .sim-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform .25s, border-color .25s;
+      display: block
+    }
+
+    .sim-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(212, 13, 13, .3)
+    }
+
+    .sim-img {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px
+    }
+
+    .sim-body {
+      padding: 14px
+    }
+
+    .sim-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.2
+    }
+
+    .sim-price {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--red)
+    }
+
+    /* price flash animation */
+    @keyframes flash {
+      0% {
+        transform: scale(1.08);
+        color: #ff4444
+      }
+
+      100% {
+        transform: scale(1);
+        color: var(--red)
+      }
+    }
+
+    /* ── 360° ROTATION SYSTEM ── */
+    .img-main {
+      cursor: grab;
+      user-select: none;
+      perspective: 600px
+    }
+
+    .img-main:active {
+      cursor: grabbing
+    }
+
+    .rotate-scene {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: none
+    }
+
+    .rotate-scene.auto-spin {
+      animation: autoSpin 12s linear infinite
+    }
+
+    @keyframes autoSpin {
+      from {
+        transform: rotateY(0deg)
+      }
+
+      to {
+        transform: rotateY(360deg)
+      }
+    }
+
+    .product-emoji-3d {
+      font-size: 140px;
+      display: block;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 40px rgba(212, 13, 13, .15));
+      transform-style: preserve-3d;
+      transition: filter .3s
+    }
+
+    .rotate-hint {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(0, 0, 0, .4);
+      backdrop-filter: blur(6px);
+      padding: 4px 12px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+      letter-spacing: .3px;
+      transition: opacity .5s;
+      white-space: nowrap
+    }
+
+    .rotate-hint.hidden {
+      opacity: 0
+    }
+
+    .price-flash {
+      animation: flash .3s ease-out
+    }
+
+@media(max-width:1024px) {
+  .product-layout {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+    padding: 0 16px 40px !important;
+    gap: 20px !important;
+  }
+  .img-panel {
+    order: 1 !important;
+    position: static !important;
+    width: 100% !important;
+  }
+  .img-main {
+    height: 420px !important;
+    font-size: 100px !important;
+    position: relative !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+  }
+  .sim-img {
+    height: 250px !important;  /* ← change this value */
+}
+  .prod-info {
+    order: 2 !important;
+    width: 100% !important;
+    padding-top: 0 !important;
+  }
+  .buy-panel {
+    order: 3 !important;
+    position: static !important;
+    width: 100% !important;
+    border-radius: 14px !important;
+  }
+  .prod-name {
+    font-size: 26px !important;
+    letter-spacing: -0.5px !important;
+  }
+  .price-main {
+    font-size: 28px !important;
+  }
+  .price-block {
+    margin-bottom: 14px !important;
+    padding: 14px !important;
+  }
+  .option-block {
+    margin-bottom: 14px !important;
+  }
+  .weight-pills {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+  .wpill {
+    min-width: 70px !important;
+    flex: 1 !important;
+    padding: 10px 8px !important;
+  }
+  .details-block {
+    margin-bottom: 14px !important;
+  }
+  .dr-label {
+    min-width: 100px !important;
+    font-size: 12px !important;
+  }
+  .dr-val {
+    font-size: 12px !important;
+  }
+  .similar-section {
+    padding: 0 16px 40px !important;
+  }
+  .sim-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .rotate-scene {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute !important;
+    inset: 0 !important;
+  }
+  .breadcrumb {
+    display: none !important;
+  }
+}
+  </style>
+</head>
+
+<body>
+
+  <div id="topnav-wrapper">
+    <nav id="topnav">
+      <a href="javascript:history.back()" class="nav-logo">
+        <img src="images/logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;"
+          onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'">
+      </a>
+
+      <!-- DELIVERY BADGE (wired by DeliveryMode.init) -->
+      <a href="javascript:void(0)" class="nav-delivery" id="nav-loc-btn">
+        <span class="nd-top" id="nav-loc-top">Select mode</span>
+        <span class="nd-bot">
+          <svg width="10" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+          </svg>
+          <span id="nav-loc-name">Tap here ▾</span>
+        </span>
+      </a>
+
+      <div class="nav-search">
+        <div class="search-icon-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+        </div>
+        <input type="text" class="search-input-nav" placeholder="Search products..." autocomplete="off" />
+        <button class="search-go">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+        </button>
+      </div>
+
+      <a href="javascript:void(0)" onclick="requireLogin('profile.html')" class="nav-item" id="nav-user-li">
+        <span class="ni-top">Hello, sign in</span>
+        <span class="ni-bot">Account &amp; Lists</span>
+      </a>
+      <a href="javascript:void(0)" onclick="requireLogin('cart.html')" class="nav-cart-link">
+        <div class="cart-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <path d="M16 10a4 4 0 01-8 0" />
+          </svg>
+          <span id="nav-badge"></span>
+        </div>
+        <span class="cart-label">Cart</span>
+      </a>
+    </nav>
+  </div>
+
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> ›
+    <a href="#" id="bc-cat-link">Category</a> ›
+    <span id="bc-name">Product</span>
+  </div>
+
+  <div class="product-layout">
+    <!-- LEFT: IMAGE -->
+    <div class="img-panel">
+      <div class="img-main" id="img-main">
+        <div class="rotate-scene" id="rotate-scene">
+          <span class="product-emoji-3d" id="prod-emoji">🍋</span>
+        </div>
+        <div class="badge-lg" id="prod-badge">Popular</div>
+        
+      </div>
+    </div>
+
+    <!-- MIDDLE: INFO -->
+    <div class="prod-info">
+      <div class="prod-cat-tag" id="prod-cat">Pickles</div>
+      <div class="prod-name" id="prod-name">Product Name</div>
+
+      <div class="prod-rating">
+        <a class="stars-link" id="stars-link" href="#">
+          <span class="stars" id="stars-display">★★★★☆</span>
+          <span class="rating-num" id="rating-num">4.2</span>
+        </a>
+        <a class="rating-count" id="rating-count-link"></a>
+         
+      </div>
+
+      <div class="price-block">
+        <div class="price-row">
+          <span class="price-main" id="pp-price">₹149</span>
+          <span class="price-mrp" id="pp-mrp">₹249</span>
+          <span class="price-save" id="pp-save">Save 40%</span>
+        </div>
+      </div>
+
+      
+
+      <div class="option-block">
+        <div class="option-label">Size: <span id="selected-weight-label">—</span></div>
+        <div class="weight-pills" id="weight-pills"></div>
+      </div>
+
+      <div class="details-block">
+        <div class="desc-title">Product Details</div>
+        <div class="detail-row"><span class="dr-label">Category</span><span class="dr-val" id="det-cat">—</span></div>
+        <div class="detail-row"><span class="dr-label">Type</span><span class="dr-val" id="det-type">—</span></div>
+        <div class="detail-row"><span class="dr-label">Shelf Life</span><span class="dr-val" id="det-shelf">—</span>
+        </div>
+        <div class="detail-row"><span class="dr-label">Storage</span><span class="dr-val">Cool, dry place. Refrigerate
+            after opening.</span></div>
+        <div class="detail-row"><span class="dr-label">Made In</span><span class="dr-val">India 🇮🇳</span></div>
+        <div class="detail-row"><span class="dr-label">No Preservatives</span><span class="dr-val">100% Natural</span>
+        </div>
+      </div>
+
+      <div class="desc-block">
+        <div class="desc-title">About this item</div>
+        <div class="desc-text" id="prod-desc">—</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: BUY PANEL -->
+    <div class="buy-panel">
+      <div class="bp-price" id="bp-price">₹149</div>
+      <div class="bp-mrp">M.R.P.: <s id="bp-mrp-val">₹249</s></div>
+      <div class="bp-save" id="bp-save">You save ₹100 (40%)</div>
+
+      <div class="bp-selected-size">Selected: <span id="bp-size-label">—</span></div>
+
+      <div class="bp-instock"><span class="stock-dot"></span> In Stock</div>
+
+      <div class="delivery-box">
+        <div class="db-row">
+          <span class="db-label">📦 Delivery</span>
+          <span class="db-val green">All India 🇮🇳</span>
+        </div>
+        <div class="db-row"><span class="db-label">🚚 Delivery in</span><span class="db-val green">4–5 business
+            days</span></div>
+        <div class="db-row"><span class="db-label">💰 Delivery charge</span><span class="db-val">₹110–₹200 <small
+              style="color:var(--muted)">(South)</small> · ₹200–₹300 <small
+              style="color:var(--muted)">(North)</small></span></div>
+        <div class="db-row"><span class="db-label">✅ Sold by</span><span class="db-val">O Foods Official</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px">
+          <div
+            style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px">
+            🏪 Nearest Store</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div id="prod-store-info" style="font-size:12px;font-weight:600;color:var(--text);line-height:1.5">Loading…
+            </div>
+            <button onclick="openStoreModal()"
+              style="flex-shrink:0;background:rgba(212,13,13,.08);border:1px solid rgba(212,13,13,.25);color:var(--red);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s"
+              onmouseover="this.style.background='rgba(212,13,13,.18)'"
+              onmouseout="this.style.background='rgba(212,13,13,.08)'">Change</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORE SELECTOR MODAL -->
+      <div id="store-modal"
+        style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center">
+        <div
+          style="background:#1C1C1C;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:28px 28px 20px;max-width:420px;width:90%;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.7)">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;margin-bottom:18px">Select
+            <span style="color:var(--red)">Store</span>
+          </div>
+          <div id="modal-store-list" style="display:grid;gap:8px"></div>
+          <button onclick="closeStoreModal()"
+            style="margin-top:16px;width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--muted);border-radius:10px;padding:10px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s"
+            onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">Close</button>
+        </div>
+      </div>
+
+      <div class="qty-row">
+        <span class="qty-label">Qty:</span>
+        <div class="qty-ctrl">
+          <button class="qb" onclick="changeQty(-1)">−</button>
+          <span class="qn" id="qty-display">1</span>
+          <button class="qb" onclick="changeQty(1)">+</button>
+        </div>
+      </div>
+
+      <button class="btn-cart" onclick="addToCart()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 01-8 0" />
+        </svg>
+        Add to Cart
+      </button>
+      <button class="btn-buy" onclick="buyNow()">
+        Buy Now →
+      </button>
+    </div>
+  </div>
+
+  <div class="similar-section">
+    <div class="sim-title">Similar Items<span></span></div>
+    <div class="sim-grid" id="sim-grid"></div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="delivery-mode.js"></script>
+  <script>
+const ALL_PRODUCTS = [
+  { id: 1, name: 'Tomato Pickle (టమాటా పచ్చడి)', emoji: '🍅', image: 'images/tomato.Webp', desc: 'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil. Made in small batches using fresh tomatoes, cold-pressed sesame oil, and hand-ground spices. No preservatives, no artificial colours.', badge: 'Popular', type: '', cat: 'pickles', shelf: '9 months', rating: 4.4, sold: '5K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 2, name: 'Mango Pickle (మామిడికాయ పచ్చడి)', emoji: '🥭', image: 'images/mango.Webp', desc: 'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.', badge: 'Bestseller', type: '', cat: 'pickles', shelf: '12 months', rating: 4.5, sold: '8K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 3, name: 'Red Chilli Pickle (పండు మిర్చి పచ్చడి)', emoji: '🌶️', image: 'images/red chilli.Webp', desc: 'Bold ripe red chilli pickle with gingelly oil and mustard seeds.', badge: 'Spicy', type: 'spicy', cat: 'pickles', shelf: '10 months', rating: 4.3, sold: '4K+', sizes: [{ label: '250g', price: 169, mrp: 199 }, { label: '500g', price: 329, mrp: 389 }, { label: '1kg', price: 649, mrp: 759 }] },
+
+  { id: 4, name: 'Gongura Pickle (గోంగూర పచ్చడి)', emoji: '🫚', image: 'images/gongura.Webp', desc: 'Zesty gongura pickle in a tangy tamarind and chilli base.', badge: 'Classic', type: '', cat: 'pickles', shelf: '9 months', rating: 4.2, sold: '3K+', sizes: [{ label: '250g', price: 169, mrp: 199 }, { label: '500g', price: 329, mrp: 389 }, { label: '1kg', price: 649, mrp: 759 }] },
+
+  { id: 6, name: 'Gongura & Red Chilli Pickle (గోంగూర మిర్చి పచ్చడి)', emoji: '🌿', image: 'images/redchilli&pandumirchi.Webp', desc: 'Sorrel leaf and red chilli pickle — bold, sour and addictive.', badge: 'Spicy', type: 'spicy', cat: 'pickles', shelf: '10 months', rating: 4.6, sold: '7K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 7, name: 'Lemon Pickle (నిమ్మకాయ పచ్చడి)', emoji: '🍋', image: 'images/Lemon.Webp', desc: 'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.', badge: 'Classic', type: '', cat: 'pickles', shelf: '9 months', rating: 4.3, sold: '5K+', sizes: [{ label: '250g', price: 169, mrp: 199 }, { label: '500g', price: 329, mrp: 389 }, { label: '1kg', price: 649, mrp: 759 }] },
+
+  { id: 8, name: 'Amla Pickle (ఉసిరికాయ పచ్చడి)', emoji: '🫒', image: 'images/amala.Webp', desc: 'Indian gooseberry pickle with mustard, chilli and spices.', badge: 'Healthy', type: '', cat: 'pickles', shelf: '10 months', rating: 4.2, sold: '3K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 9, name: 'Coriander & Mint Pickle (కొత్తిమీర పుదీనా పచ్చడి)', emoji: '🌱', image: 'images/kotimerra.Webp', desc: 'Fresh coriander and mint blended into a vibrant aromatic pickle.', badge: 'New', type: 'new', cat: 'pickles', shelf: '6 months', rating: 4.0, sold: '2K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 10, name: 'Drumstick Pickle (మునగకాయ పచ్చడి)', emoji: '🥒', image: 'images/munakaya.Webp', desc: 'Tender drumstick (Munagakaya) pickle blended with traditional spices for a rich homemade taste.', badge: 'Traditional', type: '', cat: 'pickles', shelf: '10 months', rating: 4.3, sold: '2K+', sizes: [{ label: '250g', price: 169, mrp: 199 }, { label: '500g', price: 329, mrp: 389 }, { label: '1kg', price: 649, mrp: 759 }] },
+
+  { id: 11, name: 'Raw Tamarind Pickle (చింతకాయ పచ్చడి)', emoji: '🌿', image: 'images/chinthakaya.Webp', desc: 'Authentic tamarind (Chintakaya) pickle packed with tangy, spicy and traditional Andhra flavors.', badge: 'Popular', type: '', cat: 'pickles', shelf: '10 months', rating: 4.5, sold: '4K+', sizes: [{ label: '250g', price: 169, mrp: 199 }, { label: '500g', price: 329, mrp: 389 }, { label: '1kg', price: 649, mrp: 759 }] },
+
+  { id: 12, name: 'Chicken Pickle With Bones (చికెన్ పచ్చడి)', emoji: '🍗', image: 'images/chicken bones.Webp', desc: 'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.', badge: 'Spicy', type: 'nonveg', cat: 'pickles', shelf: '3 months', rating: 4.6, sold: '6K+', sizes: [{ label: '250g', price: 329, mrp: 409 }, { label: '500g', price: 659, mrp: 809 }, { label: '1kg', price: 1299, mrp: 1599 }] },
+
+  { id: 13, name: 'Boneless Chicken Pickle (చికెన్ పచ్చడి బోన్‌లెస్)', emoji: '🍖', image: 'images/boneless.Webp', desc: 'Tender boneless chicken chunks in a fiery red chilli & gingelly oil base.', badge: 'Bestseller', type: 'nonveg', cat: 'pickles', shelf: '3 months', rating: 4.7, sold: '9K+', sizes: [{ label: '250g', price: 379, mrp: 489 }, { label: '500g', price: 759, mrp: 969 }, { label: '1kg', price: 1499, mrp: 1919 }] },
+
+  { id: 14, name: 'Prawns Pickle (రొయ్యల పచ్చడి)', emoji: '🦐', image: 'images/prawn.Webp', desc: 'Juicy prawns marinated in coastal Andhra spices — tangy and bold.', badge: 'Premium', type: 'nonveg', cat: 'pickles', shelf: '2 months', rating: 4.5, sold: '4K+', sizes: [{ label: '250g', price: 509, mrp: 689 }, { label: '500g', price: 1009, mrp: 1369 }, { label: '1kg', price: 1999, mrp: 2719 }] },
+
+  { id: 15, name: 'Mutton Pickle (మటన్ పచ్చడి)', emoji: '🥩', image: 'images/mutton.Webp', desc: 'Slow-cooked mutton pieces in a rich spicy pickle masala.', badge: 'Special', type: 'nonveg', cat: 'pickles', shelf: '2 months', rating: 4.6, sold: '5K+', sizes: [{ label: '250g', price: 629, mrp: 889 }, { label: '500g', price: 1259, mrp: 1769 }, { label: '1kg', price: 2499, mrp: 3519 }] },
+
+  { id: 31, name: 'Garam Masala Powder (గరం మసాలా పొడి)', emoji: '✨', image: 'images/garam masala.Webp', desc: 'Whole spices stone-ground: cloves, cinnamon, cardamom & black pepper.', badge: 'Bestseller', type: '', cat: 'spices', shelf: '24 months', rating: 4.6, sold: '10K+', sizes: [{ label: '100g', price: 99, mrp: 119 }, { label: '250g', price: 189, mrp: 229 }, { label: '500g', price: 379, mrp: 449 }, { label: '1kg', price: 749, mrp: 879 }] },
+
+  { id: 32, name: 'Sambar Masala Powder (సాంబార్ పొడి)', emoji: '🟤', image: 'images/sambar powder.Webp', desc: 'Authentic homestyle blend with coriander, cumin, curry leaves & dry chilli.', badge: 'Classic', type: '', cat: 'spices', shelf: '18 months', rating: 4.4, sold: '7K+', sizes: [{ label: '100g', price: 99, mrp: 119 }, { label: '250g', price: 189, mrp: 229 }, { label: '500g', price: 379, mrp: 449 }, { label: '1kg', price: 749, mrp: 879 }] },
+
+  { id: 33, name: 'Rasam Powder (రసం పొడి)', emoji: '🌿', image: 'images/rasam karam.Webp', desc: 'Tangy, peppery rasam spice blend for authentic South Indian soup.', badge: 'Popular', type: '', cat: 'spices', shelf: '18 months', rating: 4.3, sold: '4K+', sizes: [{ label: '100g', price: 89, mrp: 119 }, { label: '250g', price: 179, mrp: 229 }, { label: '500g', price: 359, mrp: 449 }, { label: '1kg', price: 699, mrp: 879 }] },
+
+  { id: 34, name: 'Chicken Masala Powder (చికెన్ మసాలా పొడి)', emoji: '🍗', image: 'images/chicken karam.Webp', desc: 'Bold aromatic masala blend crafted for chicken curries and biryanis.', badge: 'Bestseller', type: 'nonveg', cat: 'spices', shelf: '18 months', rating: 4.5, sold: '8K+', sizes: [{ label: '100g', price: 109, mrp: 129 }, { label: '250g', price: 209, mrp: 259 }, { label: '500g', price: 409, mrp: 509 }, { label: '1kg', price: 799, mrp: 999 }] },
+
+  { id: 35, name: 'Mutton Masala Powder (మటన్ మసాలా పొడి)', emoji: '🥩', image: 'images/mutton karam.Webp', desc: 'Rich, robust mutton masala with whole dry spices for depth of flavour.', badge: 'Premium', type: 'nonveg', cat: 'spices', shelf: '18 months', rating: 4.4, sold: '4K+', sizes: [{ label: '100g', price: 109, mrp: 129 }, { label: '250g', price: 209, mrp: 259 }, { label: '500g', price: 409, mrp: 509 }, { label: '1kg', price: 799, mrp: 999 }] },
+
+  { id: 36, name: 'Sambar Chilli Powder (సాంబార్ కారం)', emoji: '🌶️', image: 'images/Sambar Karam.Webp', desc: 'Classic Andhra-style sambar chilli powder with curry leaves & garlic.', badge: 'Spicy', type: 'spicy', cat: 'spices', shelf: '12 months', rating: 4.5, sold: '6K+', sizes: [{ label: '100g', price: 89, mrp: 129 }, { label: '250g', price: 179, mrp: 249 }, { label: '500g', price: 359, mrp: 489 }, { label: '1kg', price: 699, mrp: 959 }] },
+
+  { id: 37, name: 'Green Chilli Powder (పచ్చి కారం)', emoji: '🌱', image: 'images/pachi karam.Webp', desc: 'Fresh raw green chilli powder blend — fiery and flavourful.', badge: 'Spicy', type: 'spicy', cat: 'spices', shelf: '10 months', rating: 4.3, sold: '4K+', sizes: [{ label: '100g', price: 89, mrp: 109 }, { label: '250g', price: 169, mrp: 209 }, { label: '500g', price: 329, mrp: 409 }, { label: '1kg', price: 649, mrp: 799 }] },
+
+  { id: 38, name: 'Curry Leaf Chilli Powder (కరివేపాకు కారం)', emoji: '🍃', image: 'images/curry leaf.Webp', desc: 'Aromatic curry leaf chilli powder — a South Indian staple.', badge: 'Aromatic', type: '', cat: 'spices', shelf: '12 months', rating: 4.4, sold: '5K+', sizes: [{ label: '100g', price: 89, mrp: 119 }, { label: '250g', price: 179, mrp: 229 }, { label: '500g', price: 359, mrp: 449 }, { label: '1kg', price: 699, mrp: 879 }] },
+
+  { id: 39, name: 'Coconut Chilli Powder (కొబ్బరి కారం)', emoji: '🥥', image: 'images/cobari karam.Webp', desc: 'Toasted coconut and red chilli powder blend, great with rice.', badge: 'Unique', type: '', cat: 'spices', shelf: '10 months', rating: 4.3, sold: '3K+', sizes: [{ label: '100g', price: 89, mrp: 119 }, { label: '250g', price: 169, mrp: 229 }, { label: '500g', price: 329, mrp: 449 }, { label: '1kg', price: 649, mrp: 879 }] },
+
+  { id: 40, name: 'Dry Roasted Spice Powder (మాడుపు కారం)', emoji: '🟠', image: 'images/madupu karam.Webp', desc: 'Traditional Andhra dry roasted spice powder for rice and curries.', badge: 'Classic', type: '', cat: 'spices', shelf: '12 months', rating: 4.2, sold: '3K+', sizes: [{ label: '100g', price: 89, mrp: 119 }, { label: '250g', price: 179, mrp: 229 }, { label: '500g', price: 359, mrp: 449 }, { label: '1kg', price: 699, mrp: 879 }] },
+
+  { id: 41, name: 'Drumstick Leaf Powder (మునగాకు కారం)', emoji: '🌿', image: 'images/munagaku karam.Webp', desc: 'Nutritious drumstick leaf chilli powder packed with iron and vitamins.', badge: 'Healthy', type: 'new', cat: 'spices', shelf: '10 months', rating: 4.1, sold: '2K+', sizes: [{ label: '100g', price: 89, mrp: 109 }, { label: '250g', price: 169, mrp: 209 }, { label: '500g', price: 329, mrp: 409 }, { label: '1kg', price: 649, mrp: 799 }] },
+
+  { id: 42, name: 'Idli Chilli Powder (ఇడ్లీ కారం)', emoji: '🍚', image: 'images/Idly karam.Webp', desc: 'Classic South Indian idly chilli powder — perfect with ghee on idly.', badge: 'Essential', type: '', cat: 'spices', shelf: '12 months', rating: 4.4, sold: '6K+', sizes: [{ label: '100g', price: 99, mrp: 119 }, { label: '250g', price: 189, mrp: 229 }, { label: '500g', price: 379, mrp: 449 }, { label: '1kg', price: 749, mrp: 879 }] },
+
+  { id: 43, name: 'Idli Chutney Powder (ఇడ్లీ చట్నీ పొడి)', emoji: '🫙', image: 'images/Idly Chutney Podi.Webp', desc: 'Urad dal chutney powder, great with idly, dosa and hot rice with oil.', badge: 'Popular', type: '', cat: 'spices', shelf: '12 months', rating: 4.5, sold: '7K+', sizes: [{ label: '100g', price: 89, mrp: 109 }, { label: '250g', price: 169, mrp: 209 }, { label: '500g', price: 329, mrp: 409 }, { label: '1kg', price: 649, mrp: 799 }] },
+
+  { id: 44, name: 'Sesame Chilli Powder (నువ్వుల కారం)', emoji: '🟡', image: 'images/nuvula karam.Webp', desc: 'Toasted sesame seed powder with chilli — nutty, rich and fragrant.', badge: 'Unique', type: '', cat: 'spices', shelf: '10 months', rating: 4.3, sold: '3K+', sizes: [{ label: '100g', price: 89, mrp: 119 }, { label: '250g', price: 179, mrp: 229 }, { label: '500g', price: 359, mrp: 449 }, { label: '1kg', price: 699, mrp: 879 }] },
+
+  { id: 50, name: 'Rice Flour Wafers (బియ్యం పిండి వడియాలు)', emoji: '⬜', image: 'images/biyam pindi vadiyalu.Webp', desc: 'Classic sun-dried rice flour wafers — crispy, light and perfect with rice.', badge: 'Classic', type: '', cat: 'papad', shelf: '6 months', rating: 4.2, sold: '4K+', sizes: [{ label: '250g', price: 129, mrp: 159 }, { label: '500g', price: 259, mrp: 309 }, { label: '1kg', price: 499, mrp: 599 }] },
+
+  { id: 51, name: 'Semolina Wafers (రవ్వ వడియాలు)', emoji: '🟡', image: 'images/rava vadiyalu.Webp', desc: 'Semolina sun-dried chips with subtle spices — a South Indian staple.', badge: 'Popular', type: '', cat: 'papad', shelf: '6 months', rating: 4.3, sold: '4K+', sizes: [{ label: '250g', price: 179, mrp: 209 }, { label: '500g', price: 359, mrp: 419 }, { label: '1kg', price: 699, mrp: 819 }] },
+
+  { id: 52, name: 'Tomato Wafers (టమాటా వడియాలు)', emoji: '🍅', image: 'images/tomato vadiyalu.Webp', desc: 'Tangy tomato-flavoured sun-dried chips — great with rice and dal.', badge: 'Tangy', type: '', cat: 'papad', shelf: '6 months', rating: 4.3, sold: '4K+', sizes: [{ label: '250g', price: 159, mrp: 189 }, { label: '500g', price: 309, mrp: 369 }, { label: '1kg', price: 599, mrp: 719 }] },
+
+  { id: 58, name: 'Beetroot Wafers (బీట్‌రూట్ వడియాలు)', emoji: '🟣', image: 'images/beetroot vadiyalu.Webp', desc: 'Beautiful ruby-red beetroot chips — naturally sweet and earthy.', badge: 'New', type: 'new', cat: 'papad', shelf: '6 months', rating: 4.1, sold: '2K+', sizes: [{ label: '250g', price: 159, mrp: 189 }, { label: '500g', price: 309, mrp: 369 }, { label: '1kg', price: 599, mrp: 719 }] },
+
+  { id: 59, name: 'Carrot Wafers (క్యారెట్ వడియాలు)', emoji: '🥕', image: 'images/carrat vadiyalu.Webp', desc: 'Lightly spiced carrot sun-dried chips — wholesome and crunchy.', badge: 'Healthy', type: '', cat: 'papad', shelf: '6 months', rating: 4.2, sold: '3K+', sizes: [{ label: '250g', price: 139, mrp: 189 }, { label: '500g', price: 279, mrp: 369 }, { label: '1kg', price: 549, mrp: 719 }] },
+
+  { id: 70, name: 'Boondi Mixture (బూందీ మిక్చర్)', emoji: '🟡', image: 'images/bundhe.Webp', desc: 'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.', badge: 'Popular', type: '', cat: 'snacks', shelf: '3 months', rating: 4.4, sold: '5K+', sizes: [{ label: '250g', price: 109, mrp: 129 }, { label: '500g', price: 209, mrp: 249 }, { label: '1kg', price: 399, mrp: 479 }] },
+
+  { id: 71, name: 'Rice Crackers (చెక్కలు)', emoji: '⬜', image: 'images/Chekkalu (Saggubiyyam).Webp', desc: 'Crispy sago/rice flour cookies — a classic Andhra teatime snack.', badge: 'Classic', type: '', cat: 'snacks', shelf: '3 months', rating: 4.3, sold: '4K+', sizes: [{ label: '250g', price: 89, mrp: 129 }, { label: '500g', price: 179, mrp: 249 }, { label: '1kg', price: 349, mrp: 479 }] },
+
+  { id: 72, name: 'Crispy Dal Rings (చక్కరాలు)', emoji: '🟤', image: 'images/chakaralu.Webp', desc: 'Traditional urad and chana dal crispy rings — crunchy and savoury.', badge: 'Traditional', type: '', cat: 'snacks', shelf: '3 months', rating: 4.3, sold: '3K+', sizes: [{ label: '250g', price: 109, mrp: 129 }, { label: '500g', price: 209, mrp: 249 }, { label: '1kg', price: 399, mrp: 479 }] },
+
+  { id: 73, name: 'Gram Flour Laddu (లడ్డూ)', emoji: '🟠', image: 'images/laddu.Webp', desc: 'Soft round sweet made with besan or boondi — a festive favourite.', badge: 'Sweet', type: 'sweet', cat: 'snacks', shelf: '2 months', rating: 4.5, sold: '6K+', sizes: [{ label: '250g', price: 109, mrp: 129 }, { label: '500g', price: 209, mrp: 249 }, { label: '1kg', price: 399, mrp: 479 }] },
+
+  { id: 74, name: 'Shell Shaped Sweet (గవ్వలు)', emoji: '🐚', image: 'images/Gavvalu.Webp', desc: 'Shell-shaped crispy sweet snack made from maida with jaggery syrup.', badge: 'Traditional', type: 'sweet', cat: 'snacks', shelf: '3 months', rating: 4.3, sold: '4K+', sizes: [{ label: '250g', price: 119, mrp: 129 }, { label: '500g', price: 229, mrp: 249 }, { label: '1kg', price: 449, mrp: 479 }] },
+
+  { id: 75, name: 'Crescent Sweet (కాజాలు)', emoji: '🌙', image: 'images/kajalu.Webp', desc: 'Crescent moon-shaped crispy sweet — light and delicately sweet.', badge: 'Festive', type: 'sweet', cat: 'snacks', shelf: '3 months', rating: 4.2, sold: '3K+', sizes: [{ label: '250g', price: 109, mrp: 129 }, { label: '500g', price: 209, mrp: 249 }, { label: '1kg', price: 399, mrp: 479 }] },
+
+  { id: 76, name: 'Sweet Boondi (మిఠాయి బూందీ)', emoji: '🟠', image: 'images/Mithai Boondi.Webp', desc: 'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.', badge: 'Sweet', type: 'sweet', cat: 'snacks', shelf: '2 months', rating: 4.4, sold: '5K+', sizes: [{ label: '250g', price: 129, mrp: 159 }, { label: '500g', price: 259, mrp: 309 }, { label: '1kg', price: 499, mrp: 599 }] },
+
+  { id: 77, name: 'Roasted Gram Laddu (సున్నుండలు)', emoji: '🌙', image: 'images/sununda.Webp', desc: 'Traditional Andhra sweet balls made with roasted gram flour and jaggery.', badge: 'Festive', type: 'sweet', cat: 'snacks', shelf: '2 months', rating: 4.3, sold: '3K+', sizes: [{ label: '250g', price: 209, mrp: 239 }, { label: '500g', price: 409, mrp: 479 }, { label: '1kg', price: 799, mrp: 949 }] },
+
+  { id: 78, name: 'Sesame Laddu (నువ్వుల లడ్డూ)', emoji: '🟠', image: 'images/nuvula laddu.Webp', desc: 'Traditional sesame seed laddu — nutty, sweet and nutritious.', badge: 'Sweet', type: 'sweet', cat: 'snacks', shelf: '2 months', rating: 4.4, sold: '4K+', sizes: [{ label: '250g', price: 159, mrp: 189 }, { label: '500g', price: 309, mrp: 369 }, { label: '1kg', price: 599, mrp: 719 }] },
+
+  { id: 79, name: 'Rice Flour Sweet (చలిమిడి)', emoji: '🟡', image: 'images/salimidi.Webp', desc: 'Traditional Andhra rice flour sweet with coconut — soft and aromatic.', badge: 'Classic', type: 'sweet', cat: 'snacks', shelf: '2 months', rating: 4.3, sold: '3K+', sizes: [{ label: '250g', price: 179, mrp: 229 }, { label: '500g', price: 359, mrp: 449 }, { label: '1kg', price: 699, mrp: 879 }] },
+];
+    const CAT_PAGES = { pickles: 'pickles.html', spices: 'spices.html', papad: 'papad.html', snacks: 'snacks.html' };
+    const BGSM = ['#1C1A15', '#151C15', '#1C1815', '#1A1520', '#15201A', '#1C1515', '#181515', '#15181A', '#1A1C15', '#151518', '#181A15', '#1A1518', '#1C1A15', '#151C15', '#1C1815', '#1A1520', '#1C1A15', '#151C15', '#1C1815', '#1A1520'];
+
+    const OF = {
+      getUser() { try { return JSON.parse(localStorage.getItem('of_user') || 'null') } catch (e) { return null } },
+      cartKey() { const u = this.getUser(); return u ? 'of_cart_' + u.id : 'of_cart_guest' },
+      getCart() { try { return JSON.parse(localStorage.getItem(this.cartKey()) || '{}') } catch (e) { return {} } },
+      saveCart(c) { localStorage.setItem(this.cartKey(), JSON.stringify(c)) },
+      addItem(id, q) { const c = this.getCart(); c[id] = (c[id] || 0) + q; this.saveCart(c); this.refreshBadge() },
+      cartCount() { return Object.values(this.getCart()).reduce((a, b) => a + b, 0) },
+      refreshBadge() { const el = document.getElementById('nav-badge'); if (el) { const n = this.cartCount(); el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none' } },
+      getPrefs() { try { return JSON.parse(localStorage.getItem('of_prefs') || '{}') } catch (e) { return {} } },
+      savePrefs(p) { localStorage.setItem('of_prefs', JSON.stringify(p)) },
+      _tt: null,
+      toast(msg) { const t = document.getElementById('toast'); if (!t) return; t.innerHTML = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), 2800) },
+    };
+
+    /* ═══════════════════════════════════════════════
+       PRODUCT RENDER
+    ═══════════════════════════════════════════════ */
+    let currentProduct = null;
+    let selectedSize = null;
+    let qty = 1;
+
+    function starsHTML(rating) {
+      const full = Math.floor(rating);
+      const half = rating % 1 >= 0.3 && rating % 1 < 0.8;
+      const empty = 5 - full - (half ? 1 : 0);
+      return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+    }
+
+    function renderProduct(p) {
+      currentProduct = p;
+      document.title = p.name + ' — O Foods';
+
+      document.getElementById('bc-cat-link').textContent = p.cat.charAt(0).toUpperCase() + p.cat.slice(1);
+      document.getElementById('bc-cat-link').href = CAT_PAGES[p.cat] || 'index.html';
+      document.getElementById('bc-name').textContent = p.name;
+
+    const emojiEl = document.getElementById('prod-emoji');
+const imgMain = document.getElementById('img-main');
+
+// Remove any old injected image
+const oldImg = imgMain.querySelector('.prod-img-real');
+if (oldImg) oldImg.remove();
+
+if (p.image) {
+  // Hide the emoji/rotate scene entirely
+  document.getElementById('rotate-scene').style.display = 'none';
+  // Inject image directly into img-main, not inside rotate-scene
+  const imgEl = document.createElement('img');
+  imgEl.src = encodeURI(p.image);
+  imgEl.alt = p.name;
+  imgEl.className = 'prod-img-real';
+  imgEl.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--r);z-index:1;display:block;';
+  imgMain.appendChild(imgEl);
+} else {
+  document.getElementById('rotate-scene').style.display = 'flex';
+  emojiEl.style.cssText = 'font-size:140px;';
+  emojiEl.textContent = p.emoji;
+}
+      document.getElementById('img-main').style.background = BGSM[(p.id - 1) % BGSM.length];
+      const bdg = document.getElementById('prod-badge');
+      bdg.textContent = p.badge;
+      bdg.className = 'badge-lg ' + (p.type || '');
+
+      document.getElementById('prod-cat').textContent = '';
+      document.getElementById('prod-name').textContent = p.name;
+
+      const revUrl = `review.html?id=${p.id}`;
+      document.getElementById('stars-link').href = revUrl;
+      document.getElementById('rating-count-link').href = revUrl;
+      document.getElementById('stars-display').textContent = starsHTML(p.rating);
+
+      document.getElementById('rating-num').textContent = p.rating.toFixed(1);
+      const rCount = p.reviews || Math.floor(p.rating * 200 + Math.random() * 100);
+      document.getElementById('rating-count-link').textContent = '';
+       
+
+      document.getElementById('det-cat').textContent = p.cat.charAt(0).toUpperCase() + p.cat.slice(1);
+      document.getElementById('det-type').textContent = p.type === 'spicy' ? '🌶️ Spicy' : p.type === 'new' ? '✨ New Arrival' : p.type === 'nonveg' ? '🍖 Non-Veg' : 'Regular';
+      document.getElementById('det-shelf').textContent = p.shelf;
+      document.getElementById('prod-desc').textContent = p.desc;
+
+      renderWeightPills(p, 1);
+      renderSimilar(p);
+    }
+
+    function renderWeightPills(p, defaultIdx) {
+      document.getElementById('weight-pills').innerHTML = p.sizes.map((s, i) => `
+    <div class="wpill${i === defaultIdx ? ' active' : ''}" onclick="selectWeight(${i})">
+      <div class="wpill-weight">${s.label}</div>
+      <div class="wpill-price">₹${s.price}</div>
+      <div class="wpill-mrp">₹${s.mrp}</div>
+    </div>
+  `).join('');
+      selectWeight(defaultIdx, false);
+    }
+
+    function selectWeight(idx, animate = true) {
+      const p = currentProduct;
+      const size = p.sizes[idx];
+      selectedSize = { ...size, idx };
+
+      document.querySelectorAll('.wpill').forEach((el, i) => el.classList.toggle('active', i === idx));
+
+      const savePct = Math.round((1 - size.price / size.mrp) * 100);
+
+      document.getElementById('pp-price').textContent = '₹' + size.price;
+      document.getElementById('pp-mrp').textContent = '₹' + size.mrp;
+      document.getElementById('pp-save').textContent = 'Save ' + savePct + '%';
+      document.getElementById('selected-weight-label').textContent = size.label;
+
+      const bpPrice = document.getElementById('bp-price');
+      bpPrice.textContent = '₹' + size.price;
+      document.getElementById('bp-mrp-val').textContent = '₹' + size.mrp;
+      document.getElementById('bp-save').textContent = 'You save ₹' + (size.mrp - size.price) + ' (' + savePct + '%)';
+      document.getElementById('bp-size-label').textContent = size.label + ' — ₹' + size.price;
+
+      if (animate) {
+        bpPrice.classList.remove('price-flash');
+        void bpPrice.offsetWidth;
+        bpPrice.classList.add('price-flash');
+      }
+    }
+
+    function changeQty(delta) {
+      qty = Math.max(1, Math.min(10, qty + delta));
+      document.getElementById('qty-display').textContent = qty;
+    }
+
+    function addToCart() {
+      const token = localStorage.getItem('of_token');
+      if (!token) { window.location.href = 'login.html?next=' + encodeURIComponent(location.href); return; }
+      if (!currentProduct || !selectedSize) return;
+      // Store size info in cart
+const cart = OF.getCart();
+const cartKey = currentProduct.id + '_' + selectedSize.label;
+cart[cartKey] = (cart[cartKey] || 0) + qty;
+// Also store price info
+localStorage.setItem('of_cart_meta_' + cartKey, JSON.stringify({
+  name: currentProduct.name + ' (' + selectedSize.label + ')',
+  price: selectedSize.price,
+  emoji: currentProduct.emoji,
+  img: currentProduct.image
+}));
+OF.saveCart(cart);
+OF.refreshBadge();
+
+      OF.toast(currentProduct.emoji + ' ' + currentProduct.name + ' (' + selectedSize.label + ' ×' + qty + ') added to cart!');
+    }
+
+    function buyNow() {
+      const token = localStorage.getItem('of_token');
+      if (!token) { window.location.href = 'login.html?next=' + encodeURIComponent(location.href); return; }
+      if (!currentProduct || !selectedSize) return;
+      // Load user's saved address for delivery
+      const user = OF.getUser();
+      let addr = {};
+      try { addr = typeof user.address === 'string' ? JSON.parse(user.address) : (user.address || {}); } catch (e) { }
+      const addrStr = [addr.house, addr.street, addr.city, addr.state, addr.pincode].filter(Boolean).join(', ');
+      const buyNowOrder = {
+        id: 'OF' + Date.now().toString().slice(-6),
+        date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        items: [{ id: currentProduct.id, name: currentProduct.name, emoji: currentProduct.emoji, img: currentProduct.image, price: selectedSize.price, qty: qty, size: selectedSize.label }],
+        subtotal: selectedSize.price * qty,
+        discount: 0,
+        total: selectedSize.price * qty + 5,
+        status: 'preparing',
+        deliveryAddress: addrStr || '',
+      };
+      localStorage.setItem('of_buynow', JSON.stringify(buyNowOrder));
+      window.location.href = 'Checkout.html';
+    }
+
+    function renderSimilar(p) {
+      const isNonveg = p.type === 'nonveg';
+      let similar = ALL_PRODUCTS.filter(x => {
+        if (x.id === p.id) return false;
+        if (x.cat !== p.cat) return false;
+        if (p.cat === 'pickles' || p.cat === 'spices') { return isNonveg ? x.type === 'nonveg' : x.type !== 'nonveg' }
+        if (p.type === 'spicy' || p.type === 'sweet') { return x.type === p.type }
+        return true;
+      }).slice(0, 4);
+      if (!similar.length) similar = ALL_PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+      const grid = document.getElementById('sim-grid');
+      if (!similar.length) { grid.innerHTML = '<p style="color:var(--muted);padding:20px 0;font-size:14px">No similar items found.</p>'; return; }
+      grid.innerHTML = similar.map(s => `
+    <a href="product.html?id=${s.id}" class="sim-card">
+     <div class="sim-img" style="background:${BGSM[(s.id-1)%BGSM.length]}">
+  ${s.image
+    ? `<img src="${s.image}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;">`
+    : s.emoji}
+</div>
+      <div class="sim-body">
+        <div class="sim-name">${s.name}</div>
+        <div class="sim-price">₹${s.sizes[0].price} <span style="font-size:11px;font-weight:400;color:var(--muted)">onwards</span></div>
+      </div>
+    </a>
+  `).join('');
+    }
+
+    /* ═══════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════ */
+    window.addEventListener('DOMContentLoaded', () => {
+      const user = OF.getUser();
+      const li = document.getElementById('nav-user-li');
+      if (user && li) {
+        li.querySelector('.ni-top').textContent = 'Hello, ' + user.name.split(' ')[0];
+        li.querySelector('.ni-bot').textContent = 'Account & Orders';
+      }
+      OF.refreshBadge();
+
+      // Init DeliveryMode
+      DeliveryMode.init();
+
+      const id = parseInt(new URLSearchParams(window.location.search).get('id')) || 1;
+      const product = ALL_PRODUCTS.find(p => p.id === id) || ALL_PRODUCTS[0];
+      renderProduct(product);
+      initRotation();
+
+      // Update delivery box based on mode
+      function updateDeliveryBox() {
+        const mode = DeliveryMode.get();
+        const dbox = document.querySelector('.delivery-box');
+        if (!dbox) return;
+        if (mode === 'pickup') {
+          const store = DeliveryMode.getSelectedStore();
+          dbox.innerHTML = `
+        <div class="db-row"><span class="db-label">Pickup from</span><span class="db-val green">${store.shortName || store.name}</span></div>
+        <div class="db-row"><span class="db-label">Ready by</span><span class="db-val green">Tomorrow 4:00 PM</span></div>
+        <div class="db-row"><span class="db-label">Pickup fee</span><span class="db-val green">FREE</span></div>
+        <div class="db-row"><span class="db-label">Sold by</span><span class="db-val">O Foods Official</span></div>
+        <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px">🏪 Store Details</div>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">
+            <div style="font-size:12px;font-weight:600;color:var(--text);line-height:1.5">
+              <span style="color:var(--text)">${store.name}</span><br>
+              <span style="font-size:11px;font-weight:400;color:var(--muted)">${store.address}</span><br>
+              <span style="font-size:11px;color:var(--muted)">${store.phone}</span>
+            </div>
+            <button onclick="DeliveryMode.showStoreSelector()" style="flex-shrink:0;background:rgba(212,13,13,.08);border:1px solid rgba(212,13,13,.25);color:var(--red);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s">Change</button>
+          </div>
+        </div>`;
+        } else {
+          dbox.innerHTML = `
+        <div class="db-row"><span class="db-label">Delivery</span><span class="db-val green">All India 🇮🇳</span></div>
+        <div class="db-row"><span class="db-label">Delivery in</span><span class="db-val green">4–5 business days</span></div>
+       <div class="db-row"><span class="db-label">Home Delivery Charge</span><span class="db-val">₹50</span></div>
+        <div class="db-row"><span class="db-label">Sold by</span><span class="db-val">O Foods Official</span></div>`;
+        }
+      }
+      updateDeliveryBox();
+      window.addEventListener('delivery-mode-changed', updateDeliveryBox);
+
+    });
+
+    // ── 360° PRODUCT ROTATION ────────────────────────────────────────
+  function initRotation() {
+  const imgMain = document.getElementById('img-main');
+  const scene = document.getElementById('rotate-scene');
+  const hint = document.getElementById('rotate-hint');
+  if (!imgMain || !scene) return;
+  if (currentProduct && currentProduct.image) return;
+
+      let rotY = 0, rotX = 0;
+      let velY = 0, velX = 0;
+      let isDragging = false;
+      let lastX = 0, lastY = 0;
+      let autoSpinning = true;
+      let hintHidden = false;
+      let idleTimer = null;
+      let rafId = null;
+      let spinAngle = 0;
+
+      function applyTransform() {
+        scene.style.transform = "rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
+      }
+
+      function startAutoSpin() {
+        autoSpinning = true;
+        const animate = () => {
+          if (!autoSpinning) return;
+          spinAngle += 0.4;
+          rotY = spinAngle;
+          rotX *= 0.96;
+          applyTransform();
+          rafId = requestAnimationFrame(animate);
+        };
+        spinAngle = rotY;
+        rafId = requestAnimationFrame(animate);
+      }
+
+      function stopAutoSpin() {
+        autoSpinning = false;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      function scheduleAutoSpin() {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () {
+          if (!isDragging) startAutoSpin();
+        }, 3000);
+      }
+
+      function applyInertia() {
+        if (isDragging || autoSpinning) return;
+        velY *= 0.93; velX *= 0.93;
+        rotY += velY; rotX += velX;
+        rotX = Math.max(-30, Math.min(30, rotX));
+        applyTransform();
+        if (Math.abs(velY) > 0.1 || Math.abs(velX) > 0.1) {
+          rafId = requestAnimationFrame(applyInertia);
+        } else {
+          scheduleAutoSpin();
+        }
+      }
+
+      imgMain.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        stopAutoSpin();
+        isDragging = true;
+        lastX = e.clientX; lastY = e.clientY;
+        velY = 0; velX = 0;
+        if (!hintHidden) { hint.classList.add('hidden'); hintHidden = true; }
+      });
+      document.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+        var dx = e.clientX - lastX;
+        var dy = e.clientY - lastY;
+        velY = dx * 0.4; velX = dy * 0.2;
+        rotY += velY; rotX += velX;
+        rotX = Math.max(-30, Math.min(30, rotX));
+        lastX = e.clientX; lastY = e.clientY;
+        applyTransform();
+      });
+      document.addEventListener('mouseup', function () {
+        if (!isDragging) return;
+        isDragging = false;
+        rafId = requestAnimationFrame(applyInertia);
+      });
+      imgMain.addEventListener('touchstart', function (e) {
+        stopAutoSpin();
+        isDragging = true;
+        lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+        velY = 0; velX = 0;
+        if (!hintHidden) { hint.classList.add('hidden'); hintHidden = true; }
+      }, { passive: true });
+      imgMain.addEventListener('touchmove', function (e) {
+        if (!isDragging) return;
+        var dx = e.touches[0].clientX - lastX;
+        var dy = e.touches[0].clientY - lastY;
+        velY = dx * 0.4; velX = dy * 0.2;
+        rotY += velY; rotX += velX;
+        rotX = Math.max(-30, Math.min(30, rotX));
+        lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+        applyTransform();
+      }, { passive: true });
+      imgMain.addEventListener('touchend', function () {
+        isDragging = false;
+        rafId = requestAnimationFrame(applyInertia);
+      });
+
+      startAutoSpin();
+
+      window._resetRotation = function () {
+        stopAutoSpin();
+        rotY = 0; rotX = 0; velY = 0; velX = 0; spinAngle = 0;
+        applyTransform();
+        hintHidden = false;
+        hint.classList.remove('hidden');
+        setTimeout(function () { startAutoSpin(); }, 500);
+      };
+    }
+
+
+    function requireLogin(page) {
+      const token = localStorage.getItem('of_token');
+      if (!token) { location.href = 'login.html?next=' + page; return; }
+      location.href = page;
+    }
+
+    // ── STORE SELECTOR ──────────────────────────────────────────────
+    const STORES = [
+      { id: '1', name: 'OFoods — Amaravathi', address: 'Beside Of Police Station, Amaravathi - 522426', phone: '+91 7981250665' },
+    ];
+
+    let selectedStoreId = localStorage.getItem('of_selected_store') || '1';
+
+    function getSelectedStore() {
+      return STORES.find(s => s.id === selectedStoreId) || STORES[0];
+    }
+
+    function renderProdStoreInfo() {
+      const s = getSelectedStore();
+      const el = document.getElementById('prod-store-info');
+      if (el) el.innerHTML = `<span style="color:var(--text)">${s.name}</span><br><span style="font-size:11px;font-weight:400;color:var(--muted)">${s.address}</span><br><span style="font-size:11px;color:var(--muted)">${s.phone}</span>`;
+    }
+
+    function openStoreModal() {
+      const modal = document.getElementById('store-modal');
+      if (!modal) return;
+      renderModalStoreList();
+      modal.style.display = 'flex';
+    }
+
+    function closeStoreModal() {
+      const modal = document.getElementById('store-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function renderModalStoreList() {
+      const list = document.getElementById('modal-store-list');
+      if (!list) return;
+      list.innerHTML = STORES.map(s => {
+        const sel = s.id === selectedStoreId;
+        return `<div onclick="selectStore('${s.id}')" style="padding:14px 16px;border-radius:12px;border:1.5px solid ${sel ? 'var(--red)' : 'rgba(255,255,255,0.07)'};background:${sel ? 'rgba(212,13,13,0.06)' : '#141414'};cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .2s" onmouseover="this.style.borderColor='rgba(212,13,13,.5)'" onmouseout="this.style.borderColor='${sel ? 'var(--red)' : 'rgba(255,255,255,0.07)'}'" >
+      <div style="width:36px;height:36px;border-radius:9px;background:#1A1A1A;border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🏪</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:var(--text)">${s.name}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${s.address}</div>
+        <div style="font-size:11px;color:var(--muted)">${s.phone}</div>
+      </div>
+      <div style="width:20px;height:20px;border-radius:50%;border:1.5px solid ${sel ? 'var(--red)' : 'rgba(255,255,255,.2)'};background:${sel ? 'var(--red)' : 'transparent'};display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0">${sel ? '✓' : ''}</div>
+    </div>`;
+      }).join('');
+    }
+
+    function selectStore(id) {
+      selectedStoreId = id;
+      localStorage.setItem('of_selected_store', id);
+      renderProdStoreInfo();
+      closeStoreModal();
+    }
+
+    // Close modal on backdrop click
+    document.addEventListener('click', e => {
+      const modal = document.getElementById('store-modal');
+      if (modal && e.target === modal) closeStoreModal();
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="icon" type="image/png" href="images/logo2.png">
+  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Items — O Foods</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0D0D0D;--bg2:#141414;--bg3:#1A1A1A;--red:#d40d0d;--red2:#e83030;--gold:#E8B84B;--green:#2D6A35;--text:#F5F0E8;--muted:#7A7068;--border:rgba(255,255,255,0.07);--card:#1C1C1C;--r:18px;--nav-bg:#131921;}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;padding-top:60px}
+
+#topnav-wrapper{position:fixed;top:0;left:0;right:0;z-index:500}
+#topnav{background:var(--nav-bg);display:flex;align-items:center;padding:0 10px;height:60px;gap:2px;}
+  @media(max-width:768px){
+  #topnav{padding:0 6px;gap:2px}
+  .nav-search{margin:0 6px;height:38px}
+  .nav-location{display:none}
+  .ni-top{font-size:10px}
+  .ni-bot{font-size:11px}
+  .cart-label{display:none}
+  .nav-logo img{height:32px}
+}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.5px;padding:5px 9px;border:2px solid transparent;border-radius:3px;flex-shrink:0;transition:border-color .15s;}
+.nav-logo:hover{border-color:#fff}
+.nav-search{flex:1;display:flex;height:44px;margin:0 12px;border-radius:50px;overflow:hidden;min-width:0;background:#fff;border:2px solid transparent;transition:border-color .2s;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.nav-search:focus-within{border-color:var(--red);}
+.search-icon-left{display:flex;align-items:center;padding:0 14px;background:#fff;color:#888;flex-shrink:0;}
+.search-input-nav{flex:1;border:none;outline:none;font-family:'Outfit',sans-serif;font-size:15px;color:#111;background:#fff;padding:0 8px;min-width:0;}
+.search-input-nav::placeholder{color:#999;}
+.search-go{background:#fff;border:none;padding:0 18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border-left:1px solid #eee;transition:background .15s;}
+.nav-item{display:flex;flex-direction:column;justify-content:center;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;white-space:nowrap;}
+.nav-item:hover{border-color:#fff}
+.ni-top{font-size:11px;color:rgba(255,255,255,.65);line-height:1.3}
+.ni-bot{font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+.nav-cart-link{display:flex;align-items:flex-end;gap:4px;padding:5px 9px;border:2px solid transparent;border-radius:3px;text-decoration:none;flex-shrink:0;transition:border-color .15s;}
+.nav-cart-link:hover{border-color:#fff}
+.cart-icon-wrap{position:relative;display:inline-flex}
+#nav-badge{position:absolute;top:-4px;right:-5px;background:var(--red);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;}
+.cart-label{font-size:13px;font-weight:700;color:#fff;padding-bottom:3px}
+.page-header{padding:40px 48px 0;display:flex;align-items:center;gap:16px}
+.ph-icon{font-size:48px}
+.ph-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,56px);font-weight:700;letter-spacing:-1.5px}
+.ph-title span{color:var(--red)}
+.ph-count{font-size:13px;color:var(--muted);margin-top:4px}
+.cat-tabs{display:flex;gap:8px;padding:16px 48px 0;flex-wrap:wrap}
+.cat-tab{padding:8px 20px;border-radius:50px;border:1px solid var(--border);background:var(--card);color:var(--muted);font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s}
+.cat-tab:hover{border-color:var(--red);color:var(--red)}
+.cat-tab.active{background:var(--red);border-color:var(--red);color:#fff;font-weight:600}
+.filter-bar{padding:12px 48px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-btn{padding:6px 16px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Outfit',sans-serif;font-size:12px;font-weight:500;transition:all .2s;cursor:pointer}
+.filter-btn:hover{border-color:var(--red);color:var(--red)}
+.filter-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.filter-label{font-size:12px;color:var(--muted);margin-right:4px}
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;padding:12px 48px 60px}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:transform .25s,border-color .25s;text-decoration:none;color:var(--text);display:block;cursor:pointer}
+.pc:hover{transform:translateY(-5px);border-color:rgba(212,13,13,.3)}
+.pc-img{height:210px;display:flex;align-items:center;justify-content:center;font-size:66px;position:relative;overflow:hidden}
+.pc-img img{width:100%;height:210px;object-fit:cover}
+.pbdg{position:absolute;top:12px;left:12px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:50px;background:var(--green);color:#fff;z-index:1}
+.pbdg.spicy{background:var(--red)}
+.pbdg.new{background:var(--gold);color:#1A1000}
+.pbdg.nonveg{background:#8B0000;color:#fff}
+.pbdg.sweet{background:#9B4DCA;color:#fff}
+.pc-body{padding:16px 18px}
+.pc-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;margin-bottom:5px;line-height:1.2}
+.pc-cat{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.pc-desc{font-size:12px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.pc-foot{display:flex;align-items:center;justify-content:space-between}
+.pc-price{font-size:20px;font-weight:700;color:var(--red)}
+.pc-price small{font-size:11px;font-weight:400;color:var(--muted);display:block;line-height:1.2}
+.pc-cta{font-size:12px;font-weight:600;color:var(--muted);transition:color .2s}
+.pc:hover .pc-cta{color:var(--red)}
+@media(max-width:900px){.prod-grid{padding:12px 20px 40px;grid-template-columns:repeat(2,1fr)}.page-header{padding:32px 20px 0}.cat-tabs{padding:12px 20px 0}.filter-bar{padding:8px 20px}}
+@media(max-width:500px){.prod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="topnav-wrapper">
+  <nav id="topnav">
+    <a href="javascript:history.back()" class="nav-logo"><img src="images/logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;" onerror="this.outerHTML='<span style=\'font-family:Cormorant Garamond,serif;font-size:22px;font-weight:700;color:#fff\'>O<span style=\'color:#d40d0d\'>Foods</span></span>'"></a>
+    <div class="nav-search">
+      <div class="search-icon-left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      <input type="text" class="search-input-nav" placeholder="Search all products..." autocomplete="off" oninput="render(this.value)" id="search-main"/>
+      <button class="search-go"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+    </div>
+    <a href="javascript:void(0)" onclick="requireLogin('profile.html')" class="nav-item" id="nav-user-li">
+      <span class="ni-top">Hello, sign in</span>
+      <span class="ni-bot">Account &amp; Lists</span>
+    </a>
+    <a href="javascript:void(0)" onclick="requireLogin('cart.html')" class="nav-cart-link">
+      <div class="cart-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="nav-badge"></span>
+      </div>
+      <span class="cart-label">Cart</span>
+    </a>
+  </nav>
+</div>
+
+<div class="page-header">
+  <span class="ph-icon"></span>
+  <div>
+    <div class="ph-title">All Products</div>
+    <div class="ph-count" id="ph-count">Loading...</div>
+  </div>
+</div>
+
+<div class="cat-tabs">
+  <a href="index.html" class="cat-tab">Home</a>
+  <a href="pickles.html" class="cat-tab">Pickles</a>
+  <a href="spices.html" class="cat-tab">Masala Powders</a>
+  <a href="papad.html" class="cat-tab">Chips & Vadiyalu</a>
+  <a href="snacks.html" class="cat-tab">Snacks & Sweets</a>
+  <a href="all-items.html" class="cat-tab active">View All</a>
+</div>
+
+
+
+<div class="prod-grid" id="prod-grid"></div>
+
+<script>
+const ITEMS=[
+  // VEG PICKLES
+  {id:1,  name:'Tomato Pickle (టమాటా పచ్చడి)',               price:179,  img:'images/tomato.Webp',                desc:'Tangy sun-dried tomato pickle with red chilli, mustard & sesame oil.',                           badge:'Popular',    type:'',       cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:2,  name:'Mango Pickle (మామిడికాయ పచ్చడి)',                price:179,  img:'images/mango.Webp',                 desc:'Traditional Andhra raw mango pickle with mustard, red chilli & sesame oil.',                     badge:'Bestseller', type:'',       cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:3,  name:'Red Chilli Pickle (పండు మిర్చి పచ్చడి)',           price:169,  img:'images/red chilli.Webp',            desc:'Bold ripe red chilli pickle with gingelly oil and mustard seeds.',                                badge:'Spicy',      type:'spicy',  cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:4,  name:'Gongura Pickle (గోంగూర పచ్చడి)',              price:169,  img:'images/gongura.Webp',               desc:'Zesty gongura pickle in a tangy tamarind and chilli base.',                                      badge:'Classic',    type:'',       cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:6,  name:'Gongura & Red Chilli Pickle (గోంగూర మిర్చి పచ్చడి)', price:179,  img:'images/redchilli&pandumirchi.Webp', desc:'Sorrel leaf and red chilli pickle — bold, sour and addictive.',                                 badge:'Spicy',      type:'spicy',  cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:7,  name:'Lemon Pickle (నిమ్మకాయ పచ్చడి)',                price:169,  img:'images/Lemon.Webp',                 desc:'Sun-cured lemon wedges in a tangy spiced brine with fenugreek.',                                 badge:'Classic',    type:'',       cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:8,  name:'Amla Pickle (ఉసిరికాయ పచ్చడి)',                 price:179,  img:'images/amala.Webp',                 desc:'Indian gooseberry pickle with mustard, chilli and spices.',                                      badge:'Healthy',    type:'',       cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:9,  name:'Coriander & Mint Pickle (కొత్తిమీర పుదీనా పచ్చడి)',     price:179,  img:'images/kotimerra.Webp',             desc:'Fresh coriander and mint blended into a vibrant aromatic pickle.',                               badge:'New',        type:'new',    cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:10, name:'Drumstick Pickle (మునగకాయ పచ్చడి)',           price:169,  img:'images/munakaya.Webp',              desc:'Tender drumstick pieces blended with traditional spices for a rich, authentic homemade pickle.',  badge:'New',        type:'new',    cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  {id:11, name:'Raw Tamarind Pickle (చింతకాయ పచ్చడి)',          price:169,  img:'images/chinthakaya.Webp',           desc:'Tangy raw tamarind blended with premium spices to create a bold and traditional Andhra pickle.',  badge:'New',        type:'new',    cat:'veg-pickles',    catLabel:'Veg Pickle'},
+  // NON-VEG PICKLES
+  {id:12, name:'Chicken Pickle With Bones (చికెన్ పచ్చడి)', price:329,  img:'images/chicken bones.Webp',         desc:'Country chicken pieces slow-cooked in spicy Andhra marinade with bones.',                        badge:'Spicy',      type:'nonveg', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle'},
+  {id:13, name:'Boneless Chicken Pickle (చికెన్ పచ్చడి బోన్‌లెస్)',   price:379, img:'images/boneless.Webp',              desc:'Tender boneless chicken chunks in a fiery red chilli & gingelly oil base.',                      badge:'Bestseller', type:'nonveg', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle'},
+  {id:14, name:'Prawns Pickle (రొయ్యల పచ్చడి)',               price:509, img:'images/prawn.Webp',                 desc:'Juicy prawns marinated in coastal Andhra spices — tangy and bold.',                              badge:'Premium',    type:'nonveg', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle'},
+  {id:15, name:'Mutton Pickle (మటన్ పచ్చడి)',               price:629, img:'images/mutton.Webp',                desc:'Slow-cooked mutton pieces in a rich spicy pickle masala.',                                        badge:'Special',    type:'nonveg', cat:'nonveg-pickles', catLabel:'Non-Veg Pickle'},
+  // MASALA POWDERS
+  {id:31, name:'Garam Masala Powder (గరం మసాలా పొడి)',         price:99,  img:'images/garam masala.Webp',          desc:'Whole spices stone-ground: cloves, cinnamon, cardamom & black pepper.',                          badge:'Bestseller', type:'',       cat:'spices',         catLabel:'Masala Powder'},
+  {id:32, name:'Sambar Masala Powder (సాంబార్ పొడి)',               price:99,  img:'images/sambar powder.Webp',         desc:'Authentic homestyle blend with coriander, cumin, curry leaves & dry chilli.',                    badge:'Classic',    type:'',       cat:'spices',         catLabel:'Masala Powder'},
+  {id:33, name:'Rasam Powder (రసం పొడి)',                price:89,  img:'images/rasam karam.Webp',           desc:'Tangy, peppery rasam spice blend for authentic South Indian soup.',                               badge:'Popular',    type:'',       cat:'spices',         catLabel:'Masala Powder'},
+  {id:34, name:'Chicken Masala Powder (చికెన్ మసాలా పొడి)',       price:109,  img:'images/chicken karam.Webp',         desc:'Bold aromatic masala blend crafted for chicken curries and biryanis.',                           badge:'Bestseller', type:'nonveg', cat:'spices',         catLabel:'Masala Powder'},
+  {id:35, name:'Mutton Masala Powder (మటన్ మసాలా పొడి)',        price:109,  img:'images/mutton karam.Webp',          desc:'Rich, robust mutton masala with whole dry spices for depth of flavour.',                         badge:'Premium',    type:'nonveg', cat:'spices',         catLabel:'Masala Powder'},
+  // KARAM POWDERS
+  {id:36, name:'Sambar Chilli Powder (సాంబార్ కారం)',                price:89,  img:'images/Sambar Karam.Webp',          desc:'Classic Andhra-style sambar chilli powder with curry leaves & garlic.',                          badge:'Spicy',      type:'spicy',  cat:'spices',         catLabel:'Karam Powder'},
+  {id:37, name:'Green Chilli Powder (పచ్చి కారం)',                 price:89,  img:'images/pachi karam.Webp',           desc:'Fresh raw green chilli powder blend — fiery and flavourful.',                                    badge:'Spicy',      type:'spicy',  cat:'spices',         catLabel:'Karam Powder'},
+  {id:38, name:'Curry Leaf Chilli Powder (కరివేపాకు కారం)',            price:89,  img:'images/curry leaf.Webp',            desc:'Aromatic curry leaf chilli powder — a South Indian staple.',                                     badge:'Aromatic',   type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  {id:39, name:'Coconut Chilli Powder (కొబ్బరి కారం)',               price:89,  img:'images/cobari karam.Webp',          desc:'Toasted coconut and red chilli powder blend, great with rice.',                                  badge:'Unique',     type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  {id:40, name:'Dry Roasted Spice Powder (మాడుపు కారం)',                price:89,  img:'images/madupu karam.Webp',          desc:'Traditional Andhra dry roasted spice powder for rice and curries.',                              badge:'Classic',    type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  {id:41, name:'Drumstick Leaf Powder (మునగాకు కారం)',              price:89,  img:'images/munagaku karam.Webp',        desc:'Nutritious drumstick leaf chilli powder packed with iron and vitamins.',                         badge:'Healthy',    type:'new',    cat:'spices',         catLabel:'Karam Powder'},
+  {id:42, name:'Idli Chilli Powder (ఇడ్లీ కారం)',                  price:99,  img:'images/Idly karam.Webp',            desc:'Classic South Indian idly chilli powder — perfect with ghee on idly.',                          badge:'Essential',  type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  {id:43, name:'Idli Chutney Powder (ఇడ్లీ చట్నీ పొడి)',           price:89,  img:'images/Idly Chutney Podi.Webp',    desc:'Urad dal chutney powder, great with idly, dosa and hot rice with oil.',                         badge:'Popular',    type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  {id:44, name:'Sesame Chilli Powder (నువ్వుల కారం)',               price:89,  img:'images/nuvula karam.Webp',          desc:'Toasted sesame seed powder with chilli — nutty, rich and fragrant.',                            badge:'Unique',     type:'',       cat:'spices',         catLabel:'Karam Powder'},
+  // CHIPS & VADIYALU
+  {id:50, name:'Rice Flour Wafers (బియ్యం పిండి వడియాలు)',       price:129,  img:'images/biyam pindi vadiyalu.Webp',  desc:'Classic sun-dried rice flour wafers — crispy, light and perfect with rice.',                    badge:'Classic',    type:'',       cat:'chips',          catLabel:'Chips & Vadiyalu'},
+  {id:51, name:'Semolina Wafers (రవ్వ వడియాలు)',              price:179, img:'images/rava vadiyalu.Webp',          desc:'Semolina sun-dried chips with subtle spices — a South Indian staple.',                          badge:'Popular',    type:'',       cat:'chips',          catLabel:'Chips & Vadiyalu'},
+  {id:52, name:'Tomato Wafers (టమాటా వడియాలు)',             price:159, img:'images/tomato vadiyalu.Webp',        desc:'Tangy tomato-flavoured sun-dried chips — great with rice and dal.',                             badge:'Tangy',      type:'',       cat:'chips',          catLabel:'Chips & Vadiyalu'},
+  {id:58, name:'Beetroot Wafers (బీట్‌రూట్ వడియాలు)',           price:159, img:'images/beetroot vadiyalu.Webp',      desc:'Beautiful ruby-red beetroot chips — naturally sweet and earthy.',                               badge:'New',        type:'new',    cat:'chips',          catLabel:'Chips & Vadiyalu'},
+  {id:59, name:'Carrot Wafers (క్యారెట్ వడియాలు)',             price:139, img:'images/carrat vadiyalu.Webp',        desc:'Lightly spiced carrot sun-dried chips — wholesome and crunchy.',                                badge:'Healthy',    type:'',       cat:'chips',          catLabel:'Chips & Vadiyalu'},
+  // SNACKS
+  {id:70, name:'Boondi Mixture (బూందీ మిక్చర్)',              price:109,  img:'images/bundhe.Webp',                 desc:'Crunchy chickpea flour boondi tossed with spiced mixture, peanuts and sev.',                   badge:'Popular',     type:'',      cat:'snacks',         catLabel:'Hot Snack'},
+  {id:71, name:'Rice Crackers (చెక్కలు)',       price:89,  img:'images/Chekkalu (Saggubiyyam).Webp',desc:'Crispy sago/rice flour cookies — a classic Andhra teatime snack.',                              badge:'Classic',     type:'',      cat:'snacks',         catLabel:'Hot Snack'},
+  {id:72, name:'Chakaralu (చక్కరాలు)',                   price:109,  img:'images/chakaralu.Webp',              desc:'Traditional urad and chana dal crispy rings — crunchy and savoury.',                           badge:'Traditional', type:'',      cat:'snacks',         catLabel:'Hot Snack'},
+  // SWEETS
+  {id:73, name:'Gram Flour Laddu (లడ్డూ)',                       price:109,  img:'images/laddu.Webp',                  desc:'Soft round sweet made with besan or boondi — a festive favourite.',                             badge:'Sweet',       type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:74, name:'Shell Shaped Sweet (గవ్వలు)',                     price:119,  img:'images/Gavvalu.Webp',                desc:'Shell-shaped crispy sweet snack made from maida with jaggery syrup.',                           badge:'Traditional', type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:75, name:'Crescent Sweet (కాజాలు)',                      price:109,  img:'images/kajalu.Webp',                 desc:'Crescent moon-shaped crispy sweet — light and delicately sweet.',                               badge:'Festive',     type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:76, name:'Sweet Boondi (మిఠాయి బూందీ)',               price:129,  img:'images/Mithai Boondi.Webp',          desc:'Sweet saffron-infused boondi — tiny sugar-coated pearls of joy.',                              badge:'Sweet',       type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:77, name:'Roasted Gram Laddu (సున్నుండలు)',                     price:209, img:'images/sununda.Webp',                desc:'Traditional Andhra sweet balls made with roasted gram flour and jaggery.',                   badge:'Festive',     type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:78, name:'Sesame Laddu (నువ్వుల లడ్డూ)',                price:159, img:'images/nuvula laddu.Webp',           desc:'Traditional sesame seed laddu — nutty, sweet and nutritious.',                                  badge:'Sweet',       type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+  {id:79, name:'Rice Flour Sweet (చలిమిడి)',                  price:179, img:'images/salimidi.Webp',               desc:'Traditional Andhra rice flour sweet with coconut — soft and aromatic.',                         badge:'Classic',     type:'sweet', cat:'snacks',         catLabel:'Sweet'},
+];
+const BGSM=['#1C1A15','#151C15','#1C1815','#1A1520','#15201A','#1C1515','#181515','#15181A','#1A1C15','#151518','#181A15','#1A1518','#1C1A15','#151C15','#1C1815'];
+let activeFilter='all';
+const OF={
+  getUser(){try{return JSON.parse(localStorage.getItem('of_user')||'null')}catch(e){return null}},
+  cartKey(){const u=this.getUser();return u?'of_cart_'+u.id:'of_cart_guest'},
+  cartCount(){try{return Object.values(JSON.parse(localStorage.getItem(this.cartKey())||'{}')).reduce((a,b)=>a+b,0)}catch(e){return 0}},
+  refreshBadge(){const el=document.getElementById('nav-badge');if(el){const n=this.cartCount();el.textContent=n;el.style.display=n>0?'flex':'none'}},
+};
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const user=OF.getUser();
+  const li=document.getElementById('nav-user-li');
+  if(user&&li){li.querySelector('.ni-top').textContent='Hello, '+user.name.split(' ')[0];li.querySelector('.ni-bot').textContent='Account & Orders';}
+  OF.refreshBadge();
+  const q=new URLSearchParams(location.search).get('q')||'';
+  if(q){document.getElementById('search-main').value=q;}
+  render(q);
+ 
+});
+function setFilter(f,btn){
+  activeFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render(document.getElementById('search-main').value||'');
+}
+
+function render(qOverride){
+  const q=(qOverride||'').toLowerCase().trim();
+  let list=ITEMS.filter(p=>{
+    const matchQ=!q||p.name.toLowerCase().includes(q)||p.desc.toLowerCase().includes(q);
+    const matchF=activeFilter==='all'||p.cat===activeFilter;
+    return matchQ&&matchF;
+  });
+  document.getElementById('ph-count').textContent=list.length+' item'+(list.length!==1?'s':'')+' available';
+  const grid=document.getElementById('prod-grid');
+  if(!list.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:80px 20px"><div style="font-size:56px;margin-bottom:16px">🔍</div><p style="color:var(--muted);font-size:16px">No items found</p></div>';return;}
+  grid.innerHTML=list.map(p=>`
+    <a href="product.html?id=${p.id}" class="pc">
+      <div class="pc-img" style="background:${BGSM[p.id%BGSM.length]}">
+        <img src="${p.img}" alt="${p.name}" onerror="this.style.display='none'">
+        <div class="pbdg ${p.type}">${p.badge}</div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">${p.catLabel}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-desc">${p.desc}</div>
+        <div class="pc-foot">
+          <div class="pc-price">&#8377;${p.price}<small>per pack</small></div>
+          <div class="pc-cta">View Details &#8250;</div>
+        </div>
+      </div>
+    </a>`).join('');
+}
+function requireLogin(page){
+  const token=localStorage.getItem('of_token');
+  if(!token){location.href='login.html?next='+page;return;}
+  location.href=page;
+}
+</script>
+</body>
+</html>

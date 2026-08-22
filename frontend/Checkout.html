@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — O Foods</title>
+  <link rel="icon" type="image/png" href="images/logo2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="mobile.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0A0A0A;
+      --bg2: #111111;
+      --bg3: #181818;
+      --card: #141414;
+      --card2: #1E1E1E;
+      --red: #C8102E;
+      --red2: #E8284A;
+      --red-glow: rgba(200, 16, 46, 0.18);
+      --gold: #D4A847;
+      --green: #27AE60;
+      --text: #F0EBE3;
+      --text2: #A89F95;
+      --text3: #5C554E;
+      --border: rgba(255, 255, 255, 0.06);
+      --border2: rgba(255, 255, 255, 0.12);
+      --r: 16px;
+      --r2: 10px;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      padding-top: 68px;
+      min-height: 100vh
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .4
+    }
+
+    /* NAVBAR */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 500;
+      height: 68px;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      gap: 24px
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -.5px
+    }
+
+    .nav-logo em {
+      color: var(--red);
+      font-style: normal
+    }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%)
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--text3)
+    }
+
+    .step.active {
+      color: var(--text)
+    }
+
+    .step.done {
+      color: var(--green)
+    }
+
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      transition: all .3s
+    }
+
+    .step.active .step-num {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(200, 16, 46, 0.5)
+    }
+
+    .step.done .step-num {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff
+    }
+
+    .step-line {
+      width: 48px;
+      height: 1px;
+      background: var(--border2);
+      margin: 0 8px
+    }
+
+    .step.done+.step-line {
+      background: var(--green)
+    }
+
+    .nav-secure {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .secure-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s ease-in-out infinite
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    /* LAYOUT */
+    .wrap {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 28px;
+      align-items: start;
+      position: relative;
+      z-index: 1
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px 32px;
+      margin-bottom: 20px
+    }
+
+    .card:last-child {
+      margin-bottom: 0
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text)
+    }
+
+    .card-title .icon {
+      width: 36px;
+      height: 36px;
+      background: var(--red-glow);
+      border: 1px solid rgba(200, 16, 46, 0.25);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0
+    }
+
+    .card-title mark {
+      background: none;
+      color: var(--red);
+      font-style: italic
+    }
+
+    /* STORE */
+    .store-grid {
+      display: grid;
+      gap: 8px
+    }
+
+    .store-opt {
+      padding: 14px 18px;
+      border-radius: var(--r2);
+      border: 1.5px solid var(--border);
+      background: var(--bg2);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .store-opt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(39, 174, 96, 0.08);}
+
+    .store-opt:hover::before {
+      opacity: 1
+    }
+
+    .store-opt:hover {
+      border-color: rgba(200, 16, 46, 0.35)
+    }
+
+    .store-opt.sel {
+  border-color: var(--green);
+  background: rgba(39, 174, 96, 0.06)
+}
+
+    .store-opt.sel::before {
+      opacity: 1
+    }
+
+    .store-pin {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      position: relative;
+      z-index: 1
+    }
+
+    .store-info {
+      flex: 1;
+      position: relative;
+      z-index: 1
+    }
+
+    .store-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3
+    }
+
+    .store-addr {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 2px
+    }
+
+    .store-check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      transition: all .2s;
+      position: relative;
+      z-index: 1
+    }
+
+    .store-opt.sel .store-check {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff
+}
+
+    /* DATE & SLOTS */
+    .slot-sub {
+      font-size: 12px;
+      color: var(--text3);
+      margin-bottom: 14px
+    }
+
+    .slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px
+    }
+
+    .slot {
+      background: var(--bg2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text3);
+      transition: all .2s;
+      text-align: center;
+      line-height: 1.35
+    }
+
+    .slot:hover:not(:disabled) {
+      border-color: rgba(200, 16, 46, 0.4);
+      color: var(--text);
+      background: var(--bg3)
+    }
+
+    .slot.sel {
+      background: rgba(200, 16, 46, 0.1);
+      border-color: var(--red);
+      color: var(--red);
+      font-weight: 700
+    }
+
+    .slot:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+      text-decoration: line-through
+    }
+
+    .slot-confirm {
+      margin-top: 14px;
+      display: none;
+      padding: 10px 16px;
+      background: rgba(39, 174, 96, 0.08);
+      border: 1px solid rgba(39, 174, 96, 0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #4CD47A;
+      letter-spacing: .3px
+    }
+
+    /* TIMING BOX */
+    .timing-box {
+      margin-top: 14px;
+      background: rgba(39, 174, 96, 0.05);
+      border: 1px solid rgba(39, 174, 96, 0.15);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 11px;
+      color: #4CD47A;
+      line-height: 1.8;
+      display: none
+    }
+
+    .timing-box strong {
+      color: #6BD47A
+    }
+
+    /* PAYMENT */
+    .pay-opts {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 20px
+    }
+
+    .pay-opt {
+      padding: 16px 20px;
+      border-radius: var(--r2);
+      border: 1.5px solid var(--border);
+      background: var(--bg2);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .pay-opt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(39, 174, 96, 0.08);
+      opacity: 0;
+      transition: opacity .2s
+    }
+
+    
+    .pay-opt.sel::before {
+      opacity: 1
+    }
+
+    .pay-opt:hover {
+      border-color: rgba(200, 16, 46, 0.35)
+    }
+
+    .pay-opt.sel {
+  border-color: var(--green)
+}
+
+    .pay-icon-wrap {
+      width: 38px;
+      height: 38px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1
+    }
+
+    .pay-info {
+      flex: 1;
+      position: relative;
+      z-index: 1
+    }
+
+    .pay-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .pay-desc {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 3px
+    }
+
+    .pay-radio {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border2);
+      margin-left: auto;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .2s;
+      position: relative;
+      z-index: 1;
+      margin-top: 2px
+    }
+
+    .pay-opt.sel .pay-radio {
+      background: var(--red);
+      border-color: var(--red)
+    }
+
+    .pay-opt.sel .pay-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #fff
+    }
+
+    .upi-expand {
+      display: none;
+      margin-top: 14px;
+      padding: 16px;
+      background: var(--bg3);
+      border-radius: 8px;
+      border: 1px solid var(--border)
+    }
+
+    .upi-expand label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      display: block;
+      margin-bottom: 8px
+    }
+
+    .upi-expand input {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 7px;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s
+    }
+
+    .upi-expand input:focus {
+      border-color: var(--red)
+    }
+
+    .upi-expand input::placeholder {
+      color: var(--text3)
+    }
+
+    .upi-apps {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap
+    }
+
+    .upi-app {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 5px 12px;
+      font-size: 11px;
+      color: var(--text2);
+      display: flex;
+      align-items: center;
+      gap: 5px
+    }
+
+    /* PAY BUTTON */
+    .btn-pay {
+      width: 100%;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: var(--r2);
+      padding: 17px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden
+    }
+
+    .btn-pay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform .4s
+    }
+
+    .btn-pay:hover::before {
+      transform: translateX(100%)
+    }
+
+    .btn-pay:hover:not(:disabled) {
+      background: var(--red2);
+      box-shadow: 0 8px 32px rgba(200, 16, 46, 0.45);
+      transform: translateY(-1px)
+    }
+
+    .btn-pay:disabled {
+      opacity: .4;
+      cursor: not-allowed
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      opacity: .9
+    }
+
+    .badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 14px;
+      flex-wrap: wrap
+    }
+
+    .badge {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 10px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    /* ORDER SUMMARY */
+    .summary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px;
+      position: sticky;
+      top: 80px
+    }
+
+    .sum-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 22px
+    }
+
+    .sum-title em {
+      color: var(--red);
+      font-style: italic
+    }
+
+    .sum-items {
+      margin-bottom: 4px
+    }
+
+    .sum-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .sum-item:last-child {
+      border-bottom: none
+    }
+
+    .sum-emoji {
+      font-size: 28px;
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg3);
+      border-radius: 8px;
+      border: 1px solid var(--border)
+    }
+
+    .sum-detail {
+      flex: 1
+    }
+
+    .sum-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text)
+    }
+
+    .sum-meta {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 2px
+    }
+
+    .sum-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--red);
+      flex-shrink: 0
+    }
+
+    .sum-div {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 16px 0
+    }
+
+    .sum-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 8px
+    }
+
+    .sum-row.total-row {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border2)
+    }
+
+    .sum-row.disc-row {
+      color: #4CD47A;
+      display: none
+    }
+
+    .sum-ss-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: none
+    }
+
+    .sum-ss-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px
+    }
+
+    .sum-ss-row:last-child {
+      margin-bottom: 0
+    }
+
+    .ss-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .ss-label {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text3);
+      margin-bottom: 3px
+    }
+
+    .ss-val {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text)
+    }
+
+    .ss-val.green {
+      color: #4CD47A
+    }
+
+    /* PROMO */
+    .promo-wrap {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border)
+    }
+
+    .promo-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .promo-row {
+      display: flex;
+      gap: 8px
+    }
+
+    .promo-in {
+      flex: 1;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      color: var(--text);
+      text-transform: uppercase;
+      outline: none;
+      letter-spacing: .5px;
+      transition: border-color .2s
+    }
+
+    .promo-in:focus {
+      border-color: var(--red)
+    }
+
+    .promo-in::placeholder {
+      text-transform: none;
+      letter-spacing: 0;
+      color: var(--text3)
+    }
+
+    .btn-promo {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+      transition: all .2s;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      white-space: nowrap
+    }
+
+    .btn-promo:hover {
+      background: var(--red);
+      border-color: var(--red)
+    }
+
+    .promo-msg {
+      font-size: 11px;
+      margin-top: 8px;
+      font-weight: 500;
+      display: none;
+      padding: 6px 10px;
+      border-radius: 6px
+    }
+
+    .promo-msg.error {
+      background: rgba(200, 16, 46, .08);
+      color: var(--red);
+      border: 1px solid rgba(200, 16, 46, .2);
+      display: block
+    }
+
+    .promo-msg.success {
+      background: rgba(39, 174, 96, .08);
+      color: #4CD47A;
+      border: 1px solid rgba(39, 174, 96, .2);
+      display: block
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      border-radius: 50px;
+      padding: 12px 28px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+      z-index: 9998;
+      pointer-events: none;
+      transition: transform .4s cubic-bezier(.34, 1.56, .64, 1);
+      white-space: nowrap
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0)
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .card {
+      animation: fadeUp .5s ease both
+    }
+
+    .card:nth-child(1) {
+      animation-delay: .05s
+    }
+
+    .card:nth-child(2) {
+      animation-delay: .12s
+    }
+
+    .card:nth-child(3) {
+      animation-delay: .19s
+    }
+
+    .card:nth-child(4) {
+      animation-delay: .26s
+    }
+
+    .summary {
+      animation: fadeUp .5s .22s ease both
+    }
+
+    @media(max-width:920px) {
+      .wrap {
+        grid-template-columns: 1fr;
+        padding: 24px 20px 60px
+      }
+
+      .summary {
+        position: static
+      }
+
+      .steps {
+        display: none
+      }
+
+      #nav {
+        padding: 0 20px
+      }
+
+      .slots {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav id="nav">
+    <a href="javascript:history.back()" class="nav-logo">
+      <img src="images/logo2.png" alt="OFoods" style="height:40px;width:auto;display:block;"
+        onerror="this.outerHTML='<span style=&quot;font-family:Playfair Display,serif;font-size:22px;font-weight:900;color:#fff&quot;>O<span style=&quot;color:#C8102E&quot;>Foods</span></span>'">
+    </a>
+    <div class="steps">
+      <div class="step done">
+        <div class="step-num">✓</div><span>Cart</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step active">
+        <div class="step-num">2</div><span>Checkout</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-num">3</div><span>Confirmed</span>
+      </div>
+    </div>
+    <div class="nav-secure">
+      <div class="secure-dot"></div>Secure checkout
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div>
+      <!-- DELIVERY METHOD SELECTOR -->
+      <div class="card">
+        <div class="card-title">
+           Delivery Method<mark></mark>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="delivery-method-grid">
+  <div class="store-opt sel" id="method-home" onclick="selectDeliveryMethod('home')">
+    <div class="store-info">
+      <div class="store-name">Home Delivery</div>
+      <div class="store-addr">All India · 4–5 business days</div>
+    </div>
+    <div class="store-check" id="method-home-chk">✓</div>
+  </div>
+  <div class="store-opt" id="method-pickup" onclick="selectDeliveryMethod('pickup')">
+    <div class="store-info">
+      <div class="store-name">Store Pickup</div>
+      <div class="store-addr">Pick up Tomorrow by 4:00 PM</div>
+    </div>
+    <div class="store-check" id="method-pickup-chk"></div>
+  </div>
+</div>
+      </div>
+
+      <!-- HOME DELIVERY SECTION -->
+      <div id="section-home-delivery">
+        <!-- DELIVERY ADDRESS -->
+        <div class="card">
+          <div class="card-title">
+            Delivery Address
+          </div>
+          <div id="delivery-addr-list" class="store-grid">
+            <div style="font-size:13px;color:var(--text3);padding:12px 0">Loading addresses...</div>
+          </div>
+          <div id="add-addr-toggle" style="margin-top:12px">
+            <button onclick="toggleAddAddrForm()"
+              style="background:rgba(39,174,96,0.06);border:1.5px dashed rgba(39,174,96,0.3);border-radius:var(--r2);padding:12px 18px;width:100%;color:var(--green);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px"
+              onmouseover="this.style.borderColor='var(--green)';this.style.background='rgba(39,174,96,0.1)'"
+              onmouseout="this.style.borderColor='rgba(39,174,96,0.3)';this.style.background='rgba(39,174,96,0.06)'">
+              ➕ Add New Address</button>
+          </div>
+          <div id="add-addr-form"
+            style="display:none;margin-top:14px;padding:18px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2)">
+            <div
+              style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);margin-bottom:12px">
+               New Address</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div>
+                <label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">Label</label>
+                <select id="co-a-label"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text);cursor:pointer">
+                  <option value="Home"> Home</option>
+                  <option value="Work"> Work</option>
+                  <option value="Other"> Other</option>
+                </select>
+              </div>
+              <div><label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">House /
+                  Flat</label><input id="co-a-house"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="e.g. 12B"></div>
+              <div><label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">Street</label><input
+                  id="co-a-street"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="e.g. MG Road"></div>
+              <div><label style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">City
+                  *</label><input id="co-a-city"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="e.g. Guntur"></div>
+              <div><label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">State
+                  *</label><input id="co-a-state"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="e.g. Andhra Pradesh"></div>
+              <div><label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">Pincode
+                  *</label><input id="co-a-pincode"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="e.g. 522001" maxlength="6"></div>
+              <div><label
+                  style="font-size:10px;font-weight:600;color:var(--text3);display:block;margin-bottom:4px">Landmark</label><input
+                  id="co-a-landmark"
+                  style="width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--text)"
+                  placeholder="Optional"></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:14px">
+              <button onclick="saveCheckoutAddr()"
+                style="flex:1;background:var(--red);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s">✅
+                Save & Use</button>
+              <button onclick="toggleAddAddrForm()"
+                style="background:var(--bg2);border:1px solid var(--border);color:var(--text3);border-radius:8px;padding:10px 16px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESTIMATED DELIVERY -->
+        <div class="card">
+          <div class="card-title">
+            Estimated Delivery
+          </div>
+          <div
+            style="padding:14px 18px;border-radius:var(--r2);border:1.5px solid rgba(39,174,96,0.25);background:rgba(39,174,96,0.06)">
+            <div style="display:flex;align-items:center;gap:12px">
+              
+              <div style="flex:1">
+                <div style="font-size:14px;font-weight:700;color:var(--text)">All India · 4–5 Business Days</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:2px" id="est-delivery-date">Estimated delivery
+                  by loading...</div>
+              </div>
+              <div style="font-size:18px"></div>
+            </div>
+            <div
+              style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.05);font-size:11px;color:var(--text3)">
+              Your order will be freshly prepared and dispatched via courier. Tracking details will be sent to your
+              email.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STORE PICKUP SECTION -->
+      <div id="section-store-pickup" style="display:none">
+        <div class="card">
+          <div class="card-title">
+            Select Store
+          </div>
+          <div class="store-grid" id="pickup-store-list">
+            <!-- Rendered by JS -->
+          </div>
+          
+        </div>
+      </div>
+<div id="min-order-hint" style="display:none;margin-bottom:10px;padding:10px 14px;
+  background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.2);
+  border-radius:8px;font-size:12px;color:var(--red);font-weight:600;text-align:center">
+  ⚠️ Minimum order is ₹500
+</div>
+      <!-- PAYMENT -->
+       <!-- PAYMENT -->
+<div class="card" style="margin-top:28px">
+        <div class="card-title">
+          Payment Method
+        </div>
+        <div class="pay-opts" id="pay-opts-container">
+
+          <!-- RAZORPAY — UPI / Cards / Net Banking / Wallets -->
+          <div class="pay-opt sel" id="pay-opt-razorpay" onclick="selectPay('razorpay',this)">
+             
+            <div class="pay-info">
+              <div class="pay-name">Pay Online
+                <span style="font-size:10px;background:rgba(39,174,96,0.15);color:#4CD47A;border:1px solid rgba(39,174,96,0.3);border-radius:50px;padding:2px 8px;margin-left:6px;font-weight:700">RECOMMENDED</span>
+              </div>
+              <div class="pay-desc">UPI (GPay/PhonePe/Paytm) · Cards · Net Banking · Wallets — via Razorpay</div>
+            </div>
+            <div class="pay-radio"></div>
+          </div>
+
+          <!-- CASH ON PICKUP — store pickup only -->
+          <div class="pay-opt" id="pay-opt-cod" onclick="selectPay('cod',this)" style="display:none">
+             
+            <div class="pay-info">
+              <div class="pay-name" id="cod-label">Cash on Pickup</div>
+              <div class="pay-desc" id="cod-desc">Pay cash when you collect your order at the store</div>
+            </div>
+            <div class="pay-radio"></div>
+          </div>
+
+        </div>
+
+        <!-- Razorpay trust strip -->
+        
+
+        <button class="btn-pay" id="pay-btn" onclick="placeOrder()">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          Pay Now — ₹<span id="pay-amount">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary">
+      <div class="sum-title">Order Summary</div>
+      <div class="sum-items" id="sum-items"></div>
+      <hr class="sum-div">
+      <div class="sum-ss-box" id="sum-ss-box">
+        <div class="sum-ss-row">
+           
+          <div>
+            <div class="ss-label">Delivery address</div>
+            <div class="ss-val" id="ss-store-name">—</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:1px" id="ss-store-addr"></div>
+          </div>
+        </div>
+        <div class="sum-ss-row">
+           
+          <div>
+            <div class="ss-label" id="ss-method-label">Delivery method</div>
+            <div class="ss-val green" id="ss-date">🇮🇳 All India · 4–5 business days</div>
+          </div>
+        </div>
+      </div>
+      <div class="sum-row"><span>Subtotal</span><span id="s-sub">₹0</span></div>
+      <div class="sum-row disc-row" id="s-disc-row"><span>Discount</span><span id="s-disc">—</span></div>
+      <div class="sum-row"><span>Platform fee</span><span id="s-platform-fee">₹10</span></div>
+      <div class="sum-row" id="s-delivery-row"><span>Delivery charge</span><span id="s-delivery">₹0</span></div>
+      <div class="sum-row total-row"><span>Total</span><span id="s-total">₹5</span></div>
+
+      <!-- PROMO CODE -->
+      <div class="promo-wrap">
+        <div class="promo-title">Promo Code</em>
+        </div>
+
+        <div id="promo-applied-box"
+          style="display:none;background:rgba(39,174,96,0.08);border:1px solid rgba(39,174,96,0.25);border-radius:10px;padding:12px 14px;margin-bottom:10px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <div
+                style="font-size:10px;font-weight:700;color:#4CD47A;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px">
+                🎉 Promo Applied</div>
+              <div style="font-size:13px;font-weight:700;color:var(--text)" id="co-promo-label">—</div>
+            </div>
+            <button onclick="removePromo()"
+              style="background:rgba(200,16,46,.1);border:1px solid rgba(200,16,46,.25);color:var(--red);border-radius:8px;padding:5px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s"
+              onmouseover="this.style.background='var(--red)';this.style.color='#fff'"
+              onmouseout="this.style.background='rgba(200,16,46,.1)';this.style.color='var(--red)'">✕ Remove</button>
+          </div>
+        </div>
+
+        <div id="promo-input-box">
+          <div class="promo-row">
+            <input class="promo-in" type="text" id="promo-in" placeholder="Enter promo code"
+              oninput="this.value=this.value.toUpperCase()">
+            <button class="btn-promo" onclick="applyPromo()">Apply</button>
+          </div>
+          <div class="promo-msg" id="promo-msg"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const STORES = [
+      { id: '1', name: 'O Foods — Amaravathi', address: 'Beside Of Police Station, Amaravathi - 522426', hours: 'Mon–Sun: 10:00 AM – 9:00 PM', phone: '+91 7981250665' },
+    ];
+
+    // All slots with their start times in minutes for validation
+    const SLOTS = [
+      { label: '11:00 – 11:30 AM', startH: 11, startM: 0 },
+      { label: '11:30 – 12:00 PM', startH: 11, startM: 30 },
+      { label: '12:00 – 12:30 PM', startH: 12, startM: 0 },
+      { label: '12:30 – 1:00 PM', startH: 12, startM: 30 },
+      { label: '1:00 – 1:30 PM', startH: 13, startM: 0 },
+      { label: '1:30 – 2:00 PM', startH: 13, startM: 30 },
+      { label: '4:00 – 4:30 PM', startH: 16, startM: 0 },
+      { label: '4:30 – 5:00 PM', startH: 16, startM: 30 },
+      { label: '5:00 – 5:30 PM', startH: 17, startM: 0 },
+      { label: '6:00 – 6:30 PM', startH: 18, startM: 0 },
+      { label: '6:30 – 7:00 PM', startH: 18, startM: 30 },
+      { label: '7:00 – 7:30 PM', startH: 19, startM: 0 },
+    ];
+
+    // ── PROMO CODES ─────────────────────────────────────────────────
+    const PROMO_CODES = {
+      'WELCOME50': { type: 'flat', discount: 50, maxDiscount: 50, minOrder: 0, firstOrderOnly: true, label: 'WELCOME50 — ₹50 off (First order)' },
+      'OFOOD26': { type: 'percent', discount: 20, maxDiscount: 200, minOrder: 0, firstOrderOnly: true, label: 'OFOOD26 — 20% off up to ₹200 (First order)' },
+      'OFRESH20': { type: 'percent', discount: 20, maxDiscount: 200, minOrder: 0, firstOrderOnly: false, label: 'OFRESH20 — 20% off up to ₹200' },
+    };
+
+    let selStore = '', selSlot = '', selDate = '', selPay = 'razorpay', discount = 0, appliedPromoCode = '', orderData = null, deliveryAddress = '', deliveryCharge = 0, deliveryState = '';
+    let _tt = null;
+    let _checkoutAddresses = [];
+    let _selectedAddrId = null;
+    let _deliveryMethod = 'home'; // 'home' or 'pickup'
+    let _selectedPickupStore = null;
+
+    function selectDeliveryMethod(method) {
+      _deliveryMethod = method;
+      document.getElementById('method-home').classList.toggle('sel', method === 'home');
+      document.getElementById('method-pickup').classList.toggle('sel', method === 'pickup');
+      document.getElementById('method-home-chk').textContent = method === 'home' ? '✓' : '';
+      document.getElementById('method-pickup-chk').textContent = method === 'pickup' ? '✓' : '';
+      document.getElementById('section-home-delivery').style.display = method === 'home' ? '' : 'none';
+      document.getElementById('section-store-pickup').style.display = method === 'pickup' ? '' : 'none';
+
+      const codOpt = document.getElementById('pay-opt-cod');
+      if (method === 'pickup') {
+        codOpt.style.display = '';
+      } else {
+        codOpt.style.display = 'none';
+        if (selPay === 'cod') {
+          selPay = 'razorpay';
+          document.querySelectorAll('.pay-opt').forEach(e => e.classList.remove('sel'));
+          const rzpOpt = document.getElementById('pay-opt-razorpay');
+          if (rzpOpt) rzpOpt.classList.add('sel');
+        }
+      }
+      if (method === 'pickup') {
+        deliveryCharge = 0;
+        deliveryAddress = _selectedPickupStore ? _selectedPickupStore.name + ', ' + _selectedPickupStore.address : '';
+      } else {
+        recalcHomeDelivery();
+      }
+      updateSS(); updateTotals();
+    }
+
+    function recalcHomeDelivery() {
+      if (_selectedAddrId && _checkoutAddresses.length) {
+        const sel = _checkoutAddresses.find(a => a.id === _selectedAddrId);
+        if (sel) {
+          deliveryAddress = [sel.house, sel.street, sel.city, sel.state, sel.pincode].filter(Boolean).join(', ');
+          deliveryState = (sel.state || '').trim();
+          deliveryCharge = calcDeliveryCharge(deliveryState);
+          return;
+        }
+      }
+      deliveryCharge = 99;
+    }
+
+    /* ── DELIVERY CHARGE CALCULATOR ──────────────────────────────────
+       South India: ₹49
+       North India / rest: ₹99
+    ────────────────────────────────────────────────────────────────── */
+    const SOUTH_STATES = [
+      'andhra pradesh', 'telangana', 'karnataka', 'tamil nadu', 'kerala', 'puducherry', 'goa'
+    ];
+
+    function calcDeliveryCharge(state) {
+      if (!state) return 99;
+      const key = state.trim().toLowerCase();
+      if (SOUTH_STATES.includes(key)) return 49;
+      return 99;
+    }
+
+    function gp() { try { return JSON.parse(localStorage.getItem('of_prefs') || '{}') } catch { return {} } }
+    function sp(p) { localStorage.setItem('of_prefs', JSON.stringify(p)) }
+    function gu() { try { return JSON.parse(localStorage.getItem('of_user') || 'null') } catch { return null } }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.innerHTML = msg; t.classList.add('show');
+      clearTimeout(_tt); _tt = setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', async () => {
+      const user = gu();
+      if (!user) { location.href = 'login.html?next=Checkout.html'; return; }
+      const token = localStorage.getItem('of_token');
+      if (!token) { location.href = 'login.html?next=Checkout.html'; return; }
+
+      // Fetch all saved addresses from the API
+      try {
+        const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
+        const d = await r.json();
+        if (d.success) _checkoutAddresses = d.addresses || [];
+      } catch (e) { console.warn('Could not load addresses', e); }
+
+      renderDeliveryAddressList();
+      renderPickupStores();
+
+      // Pre-select delivery method from saved DeliveryMode preference
+      let savedMode = null;
+      try { savedMode = localStorage.getItem('of_delivery_mode'); } catch (e) { }
+      if (savedMode === 'pickup') {
+        selectDeliveryMethod('pickup');
+      } else {
+        // Default is home delivery — hide COD, pre-select Razorpay
+        document.getElementById('pay-opt-cod').style.display = 'none';
+        const rzpOpt = document.getElementById('pay-opt-razorpay');
+        if (rzpOpt) rzpOpt.classList.add('sel');
+      }
+      const estMin = new Date(); estMin.setDate(estMin.getDate() + 4);
+      const estMax = new Date(); estMax.setDate(estMax.getDate() + 5);
+      const fmtOpts = { day: 'numeric', month: 'short', year: 'numeric' };
+      const estStr = estMin.toLocaleDateString('en-IN', fmtOpts) + ' – ' + estMax.toLocaleDateString('en-IN', fmtOpts);
+      const estEl = document.getElementById('est-delivery-date');
+      if (estEl) estEl.textContent = 'Estimated delivery by ' + estStr;
+
+      try { orderData = JSON.parse(localStorage.getItem('of_buynow') || 'null'); } catch { }
+      if (!orderData) { location.href = 'cart.html'; return; }
+
+      renderSummary();
+    });
+
+    function renderDeliveryAddressList() {
+      const listEl = document.getElementById('delivery-addr-list');
+      if (!_checkoutAddresses.length) {
+        listEl.innerHTML = `<div style="padding:14px 18px;border-radius:var(--r2);border:1.5px solid rgba(200,16,46,0.3);background:rgba(200,16,46,0.04)">
+      <div style="font-size:13px;color:var(--red);font-weight:600">⚠️ No delivery addresses saved</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:4px">Add an address below to continue</div>
+    </div>`;
+        deliveryAddress = '';
+        deliveryState = '';
+        deliveryCharge = 99;
+        updateSS(); updateTotals();
+        return;
+      }
+
+      // Auto-select default or first
+      if (!_selectedAddrId) {
+        const def = _checkoutAddresses.find(a => a.is_default);
+        _selectedAddrId = def ? def.id : _checkoutAddresses[0].id;
+      }
+
+      const labelIcons = { 'Home': '🏠', 'Work': '🏢', 'Other': '📍' };
+      listEl.innerHTML = _checkoutAddresses.map(a => {
+        const addrStr = [a.house, a.street, a.city, a.state, a.pincode].filter(Boolean).join(', ');
+        const icon = labelIcons[a.label] || '📍';
+        const sel = a.id === _selectedAddrId;
+        const charge = calcDeliveryCharge(a.state);
+        const region = SOUTH_STATES.includes((a.state || '').toLowerCase()) ? 'South' : 'North';
+        return `<div class="store-opt${sel ? ' sel' : ''}" onclick="selectDeliveryAddr(${a.id})">
+       
+      <div class="store-info">
+        <div class="store-name">${a.label || 'Address'} ${a.is_default ? '<span style="color:var(--green);font-size:10px;font-weight:700;margin-left:6px">✓ DEFAULT</span>' : ''}</div>
+        <div class="store-addr">${addrStr}</div>
+        ${a.landmark ? '<div class="store-addr" style="color:var(--text3)">Near ' + a.landmark + '</div>' : ''}
+        <div style="font-size:10px;color:var(--green);margin-top:3px;font-weight:600">₹${charge} (${region} India)</div>
+      </div>
+      <div class="store-check">${sel ? '✓' : ''}</div>
+    </div>`;
+      }).join('');
+
+      // Update selected address data
+      const selected = _checkoutAddresses.find(a => a.id === _selectedAddrId);
+      if (selected) {
+        deliveryAddress = [selected.house, selected.street, selected.city, selected.state, selected.pincode].filter(Boolean).join(', ');
+        deliveryState = (selected.state || '').trim();
+        deliveryCharge = calcDeliveryCharge(deliveryState);
+      }
+      updateSS(); updateTotals();
+    }
+
+    function renderPickupStores() {
+      const el = document.getElementById('pickup-store-list');
+      if (!el) return;
+      // Default select first store
+      if (!_selectedPickupStore) _selectedPickupStore = STORES[0];
+      el.innerHTML = STORES.map((s, i) => {
+        const sel = _selectedPickupStore && _selectedPickupStore.id === s.id;
+        return `<div class="store-opt${sel ? ' sel' : ''}" onclick="selectPickupStore('${s.id}')">
+       
+      <div class="store-info">
+        <div class="store-name">${s.name}</div>
+        <div class="store-addr">${s.address}</div>
+        <div class="store-addr" style="margin-top:2px">📞 ${s.phone}</div>
+      </div>
+      <div class="store-check">${sel ? '✓' : ''}</div>
+    </div>`;
+      }).join('');
+    }
+
+    function selectPickupStore(id) {
+      _selectedPickupStore = STORES.find(s => s.id === id) || STORES[0];
+      if (_deliveryMethod === 'pickup') {
+        deliveryAddress = _selectedPickupStore.name + ', ' + _selectedPickupStore.address;
+        deliveryCharge = 0;
+        updateSS(); updateTotals();
+      }
+      renderPickupStores();
+      toast('🏪 Store selected: ' + _selectedPickupStore.name);
+    }
+
+    function selectDeliveryAddr(id) {
+      _selectedAddrId = id;
+      renderDeliveryAddressList();
+      toast('📦 Delivery address updated');
+    }
+
+    function toggleAddAddrForm() {
+      const form = document.getElementById('add-addr-form');
+      form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function saveCheckoutAddr() {
+      const token = localStorage.getItem('of_token'); if (!token) return;
+      const city = document.getElementById('co-a-city').value.trim();
+      const state = document.getElementById('co-a-state').value.trim();
+      const pincode = document.getElementById('co-a-pincode').value.trim();
+      if (!city && !state && !pincode) { toast('⚠️ Please fill in city, state, or pincode'); return; }
+      const body = {
+        label: document.getElementById('co-a-label').value,
+        house: document.getElementById('co-a-house').value.trim(),
+        street: document.getElementById('co-a-street').value.trim(),
+        city, state, pincode,
+        landmark: document.getElementById('co-a-landmark').value.trim(),
+        is_default: _checkoutAddresses.length === 0 // first one becomes default
+      };
+      try {
+        const r = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify(body)
+        });
+        const d = await r.json();
+        if (!d.success) { toast('❌ ' + (d.error || 'Failed to add address')); return; }
+        toast('Address added!');
+        // Reload addresses
+        const r2 = await fetch('https://ofoods26-ecommerce.vercel.app/api/addresses', { headers: { 'Authorization': 'Bearer ' + token } });
+        const d2 = await r2.json();
+        if (d2.success) _checkoutAddresses = d2.addresses || [];
+        _selectedAddrId = d.addressId; // auto-select the new address
+        renderDeliveryAddressList();
+        document.getElementById('add-addr-form').style.display = 'none';
+        // Clear form
+        ['co-a-house', 'co-a-street', 'co-a-city', 'co-a-state', 'co-a-pincode', 'co-a-landmark'].forEach(id => document.getElementById(id).value = '');
+      } catch (e) { toast('❌ Could not reach server'); }
+    }
+
+
+
+
+    function renderSummary() {
+      if (!orderData) return;
+      document.getElementById('sum-items').innerHTML = (orderData.items || []).map(it => `
+    <div class="sum-item">
+      <div class="sum-emoji">
+        ${it.img 
+  ? `<img src="${it.img}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">` 
+  : (it.emoji || '')}
+      </div>
+      <div class="sum-detail">
+        <div class="sum-name">${it.name}</div>
+        <div class="sum-meta">× ${it.qty}</div>
+      </div>
+      <span class="sum-price">₹${(it.price || 0) * it.qty}</span>
+    </div>`).join('');
+      updateSS(); updateTotals();
+    }
+
+    function updateSS() {
+      const box = document.getElementById('sum-ss-box');
+      if (deliveryAddress) {
+        box.style.display = 'block';
+        document.getElementById('ss-store-name').textContent = deliveryAddress || 'Not provided';
+        document.getElementById('ss-store-addr').textContent = '';
+        if (_deliveryMethod === 'pickup') {
+          document.getElementById('ss-method-label').textContent = 'Store Pickup';
+          document.getElementById('ss-date').textContent = 'Ready next day by 4:00 PM';
+        } else {
+          document.getElementById('ss-method-label').textContent = 'All India Delivery';
+          document.getElementById('ss-date').textContent = '4–5 business days';
+        }
+      } else box.style.display = 'none';
+    }
+
+    function calcPlatformFee(sub) {
+  if (sub <= 500) return 10;
+  if (sub <= 1000) return 30;
+  if (sub <= 1500) return 50;
+  return 50;
+}
+
+function updateTotals() {
+  if (!orderData) return;
+  const sub = orderData.subtotal || 0;
+  const platformFee = calcPlatformFee(sub);
+  const total = sub - discount + platformFee + deliveryCharge;
+  document.getElementById('s-sub').textContent = '₹' + sub;
+  document.getElementById('s-platform-fee').textContent = '₹' + platformFee;
+  const delivRow = document.getElementById('s-delivery-row');
+  if (_deliveryMethod === 'pickup') {
+    delivRow.style.display = 'none';
+  } else {
+    delivRow.style.display = '';
+    document.getElementById('s-delivery').textContent = '₹' + deliveryCharge;
+  }
+  document.getElementById('s-total').textContent = '₹' + total;
+  document.getElementById('pay-amount').textContent = total;
+  const dr = document.getElementById('s-disc-row');
+  if (discount > 0) { dr.style.display = 'flex'; document.getElementById('s-disc').textContent = '-₹' + discount; }
+  else dr.style.display = 'none';
+}
+
+    function selectPay(type, el) {
+      selPay = type;
+      document.querySelectorAll('.pay-opt').forEach(e => e.classList.remove('sel'));
+      el.classList.add('sel');
+    }
+
+    // ── PROMO SYSTEM ─────────────────────────────────────────────────
+    function hasPromoBeenUsed(code) {
+      const user = gu(); if (!user) return false;
+      return (JSON.parse(localStorage.getItem('of_used_promos_' + user.id) || '[]')).includes(code.toUpperCase());
+    }
+    function markPromoUsed(code) {
+      const user = gu(); if (!user) return;
+      const used = JSON.parse(localStorage.getItem('of_used_promos_' + user.id) || '[]');
+      if (!used.includes(code.toUpperCase())) { used.push(code.toUpperCase()); localStorage.setItem('of_used_promos_' + user.id, JSON.stringify(used)); }
+    }
+    async function hasUserPlacedOrder() {
+      const token = localStorage.getItem('of_token'); if (!token) return false;
+      try {
+        const res = await fetch('https://ofoods26-ecommerce.vercel.app/api/orders', { headers: { 'Authorization': 'Bearer ' + token } });
+        const data = await res.json();
+        return data.success && data.orders && data.orders.length > 0;
+      } catch (e) {
+        const user = gu(); if (!user) return false;
+        return (JSON.parse(localStorage.getItem('of_orders_' + user.id) || '[]')).length > 0;
+      }
+    }
+
+    async function applyPromo() {
+      const code = (document.getElementById('promo-in').value || '').trim().toUpperCase();
+      const msg = document.getElementById('promo-msg');
+      msg.className = 'promo-msg';
+      msg.style.display = 'none';
+
+      if (!code) { showPromoMsg('⚠️ Please enter a promo code.', 'error'); return; }
+      if (appliedPromoCode) { showPromoMsg('⚠️ Promo code already applied.', 'error'); return; }
+
+      const promo = PROMO_CODES[code];
+      if (!promo) { showPromoMsg('❌ Invalid or expired promo code.', 'error'); return; }
+
+      if (hasPromoBeenUsed(code)) { showPromoMsg('❌ You have already used this promo code.', 'error'); return; }
+
+      if (promo.firstOrderOnly) {
+        // Try server-side validation first
+        const token = localStorage.getItem('of_token');
+        try {
+          const vr = await fetch('https://ofoods26-ecommerce.vercel.app/api/promo/validate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({ code, subtotal: orderData ? (orderData.subtotal || 0) : 0 })
+          });
+          const vd = await vr.json();
+          if (!vd.valid) { showPromoMsg('❌ ' + (vd.error || 'Promo not valid'), 'error'); return; }
+          // Server returned validated discount — use it
+          discount = vd.discount;
+          appliedPromoCode = code;
+          document.getElementById('promo-input-box').style.display = 'none';
+          document.getElementById('promo-applied-box').style.display = 'block';
+          document.getElementById('co-promo-label').textContent = vd.label || promo.label;
+          toast('🎉 Promo applied! ₹' + discount + ' off.');
+          updateTotals();
+          return;
+        } catch (e) {
+          // Server unavailable — fall back to client-side check
+          const hasOrders = await hasUserPlacedOrder();
+          if (hasOrders) { showPromoMsg('❌ Promo valid only for first order.', 'error'); return; }
+        }
+      }
+
+      // Valid — calculate correct discount
+      const sub = orderData ? (orderData.subtotal || 0) : 0;
+      if (promo.type === 'percent') {
+        discount = Math.min(Math.round(sub * promo.discount / 100), promo.maxDiscount);
+      } else {
+        discount = promo.discount;
+      }
+      appliedPromoCode = code;
+      document.getElementById('promo-input-box').style.display = 'none';
+      document.getElementById('promo-applied-box').style.display = 'block';
+      document.getElementById('co-promo-label').textContent = promo.label;
+      toast('🎉 Promo applied! ₹' + discount + ' off.');
+      updateTotals();
+    }
+    const hint = document.getElementById('min-order-hint');
+if (hint) hint.style.display = sub < 500 ? 'block' : 'none';
+    
+    function showPromoMsg(text, type) {
+      const msg = document.getElementById('promo-msg');
+      msg.textContent = text;
+      msg.className = 'promo-msg ' + type;
+      msg.style.display = 'block';
+    }
+
+    function removePromo() {
+      discount = 0; appliedPromoCode = '';
+      document.getElementById('promo-applied-box').style.display = 'none';
+      document.getElementById('promo-input-box').style.display = 'block';
+      document.getElementById('promo-in').value = '';
+      document.getElementById('promo-msg').className = 'promo-msg';
+      document.getElementById('promo-msg').style.display = 'none';
+      toast('Promo code removed.');
+      updateTotals();
+    }
+
+    // ── PICKUP DATE HELPER (mirrors date-utils.js) ───────────────────
+    function getNextWorkingPickupDate(from) {
+      const date = new Date(from || new Date());
+      date.setHours(0, 0, 0, 0);
+      const day = date.getDay(); // 0=Sun,6=Sat
+      if (day === 6) date.setDate(date.getDate() + 2); // Sat→Mon
+      else if (day === 0) date.setDate(date.getDate() + 1); // Sun→Mon
+      else date.setDate(date.getDate() + 1); // Mon-Fri→next day
+      return date;
+    }
+
+    function formatLocalISODate(date) {
+      const d = new Date(date);
+      return [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, '0'),
+        String(d.getDate()).padStart(2, '0')
+      ].join('-');
+    }
+
+    // ── PLACE ORDER ──────────────────────────────────────────────────
+    async function placeOrder() {
+  if (_deliveryMethod === 'home' && (!deliveryAddress || !_selectedAddrId)) { 
+    toast('⚠️ Please add a delivery address to continue'); 
+    document.getElementById('delivery-addr-list').scrollIntoView({behavior:'smooth'});
+    return; 
+  }
+      if (_deliveryMethod === 'pickup' && !_selectedPickupStore) { toast('⚠️ Please select a pickup store'); return; }
+      if (!selPay) { toast('⚠️ Please select a payment method'); return; }
+
+      const user = gu();
+      if (!user) { location.href = 'login.html?next=Checkout.html'; return; }
+      const token = localStorage.getItem('of_token');
+      if (!token) { location.href = 'login.html?next=Checkout.html'; return; }
+
+      const platformFee = calcPlatformFee(orderData.subtotal || 0); const total = (orderData.subtotal || 0) - discount + platformFee + deliveryCharge;
+
+      // ── Compute pickup date correctly ─────────────────────────────
+      const pickupDate = getNextWorkingPickupDate(new Date());
+      const pickupDateDisplay = pickupDate.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM';
+      const pickupDateString = formatLocalISODate(pickupDate);
+  
+      // ── CASH ON PICKUP ────────────────────────────────────────────
+      if (selPay === 'cod') {
+        await completeCODOrder(user, token, total, pickupDateString, pickupDateDisplay);
+        return;
+      }
+      if ((orderData.subtotal || 0) < 500) {
+    toast(' Minimum order amount is ₹500. Please add more items to cart and continue.');
+    return;
+  }
+      // ── RAZORPAY ONLINE PAYMENT ───────────────────────────────────
+      const btn = document.getElementById('pay-btn');
+      btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Opening payment…';
+      btn.disabled = true;
+
+      try {
+        // Step 1: Create Razorpay order on server
+        const resp = await fetch('https://ofoods26-ecommerce.vercel.app/api/razorpay/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({ amount: total }),
+        });
+        const { success, order, key_id, error } = await resp.json();
+        if (!success) {
+          toast('❌ ' + (error || 'Could not initiate payment'));
+          btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
+          btn.disabled = false;
+          return;
+        }
+
+        // Step 2: Open Razorpay popup (supports UPI scan, UPI ID, Cards, Net Banking, Wallets)
+        const rzpOptions = {
+          key: key_id,
+          amount: order.amount,
+          currency: 'INR',
+          name: 'O Foods',
+          description: 'Pickles · Spices · Snacks',
+          image: 'images/logo2.png',
+          order_id: order.id,
+          prefill: {
+            name:    user.name    || '',
+            email:   user.email   || '',
+            contact: user.phone   || '',
+          },
+          theme: { color: '#C8102E' },
+          modal: {
+            ondismiss: () => {
+              toast('Payment cancelled. You can try again.');
+              btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
+              btn.disabled = false;
+            }
+          },
+          handler: async function (response) {
+            btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Verifying…';
+
+            // Step 3: Verify signature on server, save order to DB
+            const verifyResp = await fetch('https://ofoods26-ecommerce.vercel.app/api/razorpay/verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+              body: JSON.stringify({
+                razorpay_order_id:   response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature:  response.razorpay_signature,
+                items:           orderData.items || [],
+                total,
+                delivery_address: deliveryAddress,
+                slot: _deliveryMethod === 'pickup' ? 'Store Pickup' : '4–5 business days',
+                promoCode: appliedPromoCode || null,
+                deliveryMethod: _deliveryMethod,
+              }),
+            });
+            const verifyData = await verifyResp.json();
+
+            if (!verifyData.success) {
+              toast('Payment verification failed. Please contact support.');
+              btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
+              btn.disabled = false;
+              return;
+            }
+
+            if (appliedPromoCode) markPromoUsed(appliedPromoCode);
+
+            // Save to localStorage for confirmation page
+            const finalOrder = {
+              ...orderData,
+              subtotal: orderData.subtotal || 0,
+              id: verifyData.orderId,
+              razorpayPaymentId: verifyData.paymentId,
+              date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+              placedAt: new Date().toISOString(),
+              deliveryAddress,
+              deliveryMethod: _deliveryMethod,
+              pickupDate: pickupDateString,
+              pickupDateDisplay: _deliveryMethod === 'pickup' ? pickupDateDisplay : '',
+              slot: _deliveryMethod === 'pickup' ? 'Store Pickup' : '4–5 business days',
+              discount,
+              promoCode: appliedPromoCode || null,
+              total,
+              deliveryCharge,
+              status: 'preparing',
+              payMethod: 'razorpay',
+            };
+
+            const localKey = 'of_orders_' + user.id;
+            const orders = JSON.parse(localStorage.getItem(localKey) || '[]');
+            orders.unshift(finalOrder);
+            localStorage.setItem(localKey, JSON.stringify(orders));
+
+           localStorage.removeItem('of_cart_' + user.id);
+localStorage.removeItem('of_cart_guest');
+
+toast('Payment successful! Order confirmed.');
+setTimeout(() => {
+  localStorage.removeItem('of_buynow');
+  location.href = 'conformation.html';
+}, 1200);
+          }
+        };
+
+        const rzp = new Razorpay(rzpOptions);
+        rzp.open();
+
+      } catch (e) {
+        console.error('Razorpay error:', e);
+        toast('❌ Payment failed. Please try again.');
+        btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Pay Now — ₹<span id="pay-amount">' + total + '</span>';
+        btn.disabled = false;
+      }
+    }
+
+    // ── CASH ON PICKUP ────────────────────────────────────────────────
+    async function completeCODOrder(user, token, total, pickupDate, pickupDateDisplay) {
+      const btn = document.getElementById('pay-btn');
+      btn.innerHTML = '<svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg> Processing…';
+      btn.disabled = true;
+
+      const finalOrder = {
+        ...orderData,
+        subtotal: orderData.subtotal || 0,
+        id: 'OF' + Date.now().toString().slice(-6),
+        date: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+        placedAt: new Date().toISOString(),
+        deliveryAddress,
+        deliveryMethod: 'pickup',
+        pickupDate: pickupDate,
+        pickupDateDisplay,
+        slot: 'Store Pickup',
+        discount,
+        promoCode: appliedPromoCode || null,
+        total,
+        deliveryCharge: 0,
+        status: 'preparing',
+        payMethod: 'cod',
+      };
+
+      try {
+        const resp = await fetch('https://ofoods26-ecommerce.vercel.app/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({
+            items: finalOrder.items || [], total,
+            delivery_address: deliveryAddress,
+            slot: 'Store Pickup',
+            payment: 'cod',
+            deliveryMethod: 'pickup',
+          }),
+        });
+        const result = await resp.json();
+        if (result.success && result.orderId) finalOrder.id = result.orderId;
+        if (result.pickupDate) {
+          finalOrder.pickupDate = result.pickupDate;
+          finalOrder.pickupDateDisplay = new Date(result.pickupDate).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }) + ' by 4:00 PM';
+        }
+
+        // ── SEND EMAIL FOR COD/PICKUP ORDER ──────────────────────────
+        try {
+          await fetch('https://ofoods26-ecommerce.vercel.app/api/orders/send-confirmation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+            body: JSON.stringify({
+              orderId: finalOrder.id,
+              items: finalOrder.items || [],
+              total,
+              delivery_address: deliveryAddress,
+              deliveryMethod: 'pickup',
+              slot: 'Store Pickup',
+              pickupDate: finalOrder.pickupDate,
+              pickupDateDisplay: finalOrder.pickupDateDisplay,
+              payment: 'cod',
+              promoCode: appliedPromoCode || null,
+            }),
+          });
+        } catch (emailErr) { console.warn('COD email send failed:', emailErr); }
+
+      } catch (e) { console.warn('COD order save failed:', e); }
+
+      if (appliedPromoCode) markPromoUsed(appliedPromoCode);
+
+      const localKey = 'of_orders_' + user.id;
+      const orders = JSON.parse(localStorage.getItem(localKey) || '[]');
+      orders.unshift(finalOrder);
+      localStorage.setItem(localKey, JSON.stringify(orders));
+
+       
+      localStorage.removeItem('of_cart_' + user.id);
+localStorage.removeItem('of_cart_guest');
+
+setTimeout(() => {
+  localStorage.removeItem('of_buynow');
+  location.href = 'conformation.html';
+}, 100);
+    }
+  </script>
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="date-utils.js"></script>
+  <script src="delivery-mode.js"></script>
+</body>
+
+</html>
