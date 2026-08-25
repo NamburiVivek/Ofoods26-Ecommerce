@@ -200,31 +200,48 @@ npm start
 
 ## 📁 Project Structure
 
-```text
-Ofoods26-Ecommerce
+Ofoods26-Ecommerce/
 │
-├── server.js
-├── package.json
+├── backend/
+│   ├── .env.example
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+│
+├── frontend/
+│   ├── Admin login.html
+│   ├── Admin.html
+│   ├── all-items.html
+│   ├── cart.html
+│   ├── Checkout.html
+│   ├── conformation.html
+│   ├── date-utils.js
+│   ├── delivery-mode.js
+│   ├── index.html
+│   ├── login.html
+│   ├── menu.html
+│   ├── mobile.css
+│   ├── papad.html
+│   ├── pickles.html
+│   ├── price-sync.js
+│   ├── product.html
+│   ├── profile.html
+│   ├── review.html
+│   ├── snacks.html
+│   ├── spices.html
+│   └── images/
+│       ├── logo2.png
+│       ├── boneless.Webp
+│       ├── chicken boneless.Webp
+│       ├── tomato.Webp
+│       └── ...other product images
+│
+├── products-seed.json
+├── README.md
+├── robots.txt
+├── sitemap.xml
 ├── vercel.json
-│
-├── index.html
-├── menu.html
-├── product.html
-├── cart.html
-├── checkout.html
-├── reviews.html
-├── profile.html
-├── login.html
-│
-├── mobile.css
-├── delivery-mode.js
-├── date-utils.js
-│
-├── images/
-├── assets/
-│
-└── database/
-```
+└── .gitignore
 
 ---
 
